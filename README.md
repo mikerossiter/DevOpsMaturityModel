@@ -26,6 +26,8 @@ By modifying the `dimensions.json` file, users can:
 
 ## Getting Started
 1. Clone the repository to your local machine.
+2. Navigate to the folder with `cd <your-file-path>/devops-maturity-model` in order to run the model.
+3. Run `npm install` to install any dependencies required by the `package.json`.
 2. Run `npm start` to run the server locally.
 3. Visit `http://localhost:3131` to view the maturity model.
 
