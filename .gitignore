@@ -1,0 +1,25 @@
+# Node.js dependencies
+node_modules/
+
+# npm logs
+npm-debug.log*
+
+# yarn logs
+yarn-debug.log*
+yarn-error.log*
+
+# IDE settings
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Build and dist files
+build/
+dist/
+
+# Other ignore files
+.env
+coverage/
