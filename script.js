@@ -98,7 +98,7 @@ fetch('dimensions.json')
 
       const averageLevelPane = document.getElementById('average-level');
       if (averageLevelPane) {
-        averageLevelPane.textContent = `Average Level: ${Math.round(averageLevel.toFixed(1))} (${completionPercentage.toFixed(1)}% completed)`;
+        averageLevelPane.textContent = `Average Level: ${Math.round(averageLevel)} (${completionPercentage.toFixed(1)}% completed)`;
       } else {
         console.error("Average level pane not found");
       }
@@ -142,6 +142,7 @@ fetch('dimensions.json')
           return response.json();
         })
         .then(state => {
+          console.log('Loaded state:', state); // Debugging step to log the state
           checkboxStates = state.checkboxStates || {};
           currentLevels = state.currentLevels || new Array(dimensions.length).fill(0);
 
@@ -162,12 +163,15 @@ fetch('dimensions.json')
 
           // Recalculate and update the average level
           calculateAverageLevel();
+          alert("State loaded successfully!");
         })
         .catch(error => console.error('Error loading state:', error));
     }
 
-    // Add save and load buttons
+
+        // Add save and load buttons
     const buttonsContainer = document.createElement('div');
+    buttonsContainer.id = 'buttons-container';
     buttonsContainer.style.position = 'fixed';
     buttonsContainer.style.bottom = '10px';
     buttonsContainer.style.left = '10px';
@@ -186,5 +190,5 @@ fetch('dimensions.json')
 
     // Initial calculations
     calculateAverageLevel();
-    loadState();
+    // loadState();
   });
