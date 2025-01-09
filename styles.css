@@ -5,6 +5,7 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+/*    background-color: #fefab7;*/
 }
 
 .container {
@@ -34,6 +35,7 @@ body {
 
 table {
     border-collapse: collapse;
+    table-layout: fixed;
     width: 100%;
     height: auto; /* Prevent table from stretching vertically */
     margin: 0;
@@ -44,10 +46,15 @@ table {
 
 th, td {
     border: 2px solid black;
-    padding: 10px;
+    padding: 0; /* Remove padding to control exact size */
     text-align: center;
+    vertical-align: middle;
     cursor: pointer;
-    font-size: 1.5vw;
+    font-size: calc(1 * 100%); /* Adjust font size relative to cell size */
+    width: 100px; /* Fixed width */
+    height: 100px; /* Fixed height */
+    overflow: hidden; /* Prevent content overflow */
+    word-wrap: break-word;
 }
 
 
@@ -57,9 +64,9 @@ th, td {
     overflow-y: auto;
 }
 
-.green1 { background-color: #c8f9bd; }
-.green2 { background-color: #85fb69; }
-.green3 { background-color: #2fff00; }
+.green1 { background-color: #d4b9da; }
+.green2 { background-color: #c994c7; }
+.green3 { background-color: #7a0177; }
 
 @media (max-width: 768px) {
     .container {
