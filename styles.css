@@ -91,3 +91,14 @@ th, td {
     display: flex;
     gap: 10px;
 }
+
+/* Define the flash animation */
+@keyframes flash-yellow {
+    0% { background-color: yellow; }
+    100% { background-color: inherit; } /* Restore the original background color */
+}
+
+/* Apply the animation on hover */
+td:not(:first-child):hover {
+    animation: flash-yellow 0.5s ease-out; /* Adjust duration as needed */
+}
