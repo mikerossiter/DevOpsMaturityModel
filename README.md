@@ -9,7 +9,9 @@ This project is designed to help organisations/projects/teams assess and track t
 * Real-time updates for multiple users
 * Simple and intuitive design
 * Highly customisable dimensions and levels through the `dimensions.json` 
-* Includes `Average Level` gauge to view level of DevOps maturity as the model is completed.
+* Includes `Average Level` gauge to view average level of DevOps maturity as the model is completed.
+* **Save State** button to automatically save state to local `state.json`.
+* **Load State** from `state.json` locally automatically.
 
 ## Customisation
 The application uses a `dimensions.json` file to define the dimensions and levels of the DevOps Maturity Model. This file can be easily modified to add or remove dimensions, levels, and descriptions, allowing users to tailor the model to their specific needs.
