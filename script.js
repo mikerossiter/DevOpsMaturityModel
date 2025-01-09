@@ -41,6 +41,7 @@ fetch('dimensions.json')
         checkbox.onchange = () => {
           checkboxStates[checkboxId] = checkbox.checked;
           updateCellColor(dimensionIndex, levelIndex);
+          calculateAverageLevel(); // Update the average level dynamically
         };
 
         const label = document.createElement('label');
@@ -80,24 +81,48 @@ fetch('dimensions.json')
 
     // Calculate and display the average level
     function calculateAverageLevel() {
-      let totalCompletedLevels = 0;
+      let totalChecked = 0;
+      let totalCheckboxes = 0;
 
-      currentLevels.forEach(level => {
-        totalCompletedLevels += level;
+      dimensions.forEach((dimension, dimensionIndex) => {
+        dimension.levels.forEach((level, levelIndex) => {
+          const { checkedBoxes, totalBoxes } = countCheckboxStates(dimensionIndex, levelIndex);
+          totalChecked += checkedBoxes;
+          totalCheckboxes += totalBoxes;
+        });
       });
 
-      const averageLevel = Math.floor(totalCompletedLevels / dimensions.length);
+      const completionPercentage = (totalChecked / totalCheckboxes) * 100;
+      const averageLevel = (completionPercentage / 100) * dimensions.length;
+      // averageLevel = Math.round(averageLevel);      
+
       const averageLevelPane = document.getElementById('average-level');
-      averageLevelPane.textContent = `Average Level: ${averageLevel}`;
+      if (averageLevelPane) {
+        averageLevelPane.textContent = `Average Level: ${Math.round(averageLevel.toFixed(1))} (${completionPercentage.toFixed(1)}% completed)`;
+      } else {
+        console.error("Average level pane not found");
+      }
+    }
+
+    // Count checkbox states for a specific dimension level
+    function countCheckboxStates(dimensionIndex, levelIndex) {
+      const levelDetails = dimensions[dimensionIndex].levels[levelIndex].split('. ');
+      const totalBoxes = levelDetails.length;
+
+      let checkedBoxes = 0;
+      for (let i = 0; i < totalBoxes; i++) {
+        const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${i}`;
+        if (checkboxStates[checkboxId]) {
+          checkedBoxes++;
+        }
+      }
+
+      return { checkedBoxes, totalBoxes };
     }
 
     // Save state to state.json
     function saveState() {
-      const state = {
-        currentLevels,
-        checkboxStates,
-      };
-
+      const state = { currentLevels, checkboxStates };
       fetch('/save-state', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -131,7 +156,6 @@ fetch('dimensions.json')
           // Update cell colors based on loaded states
           dimensions.forEach((dimension, dimensionIndex) => {
             dimension.levels.forEach((_, levelIndex) => {
-              // Update cell colors directly without relying on visible detail view
               updateCellColor(dimensionIndex, levelIndex);
             });
           });
@@ -141,24 +165,6 @@ fetch('dimensions.json')
         })
         .catch(error => console.error('Error loading state:', error));
     }
-
-
-    function countCheckboxStates(dimensionIndex, levelIndex) {
-      const levelDetails = dimensions[dimensionIndex].levels[levelIndex].split('. ');
-      const totalBoxes = levelDetails.length;
-
-      let checkedBoxes = 0;
-      for (let i = 0; i < totalBoxes; i++) {
-        const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${i}`;
-        if (checkboxStates[checkboxId]) {
-          checkedBoxes++;
-        }
-      }
-
-      return { checkedBoxes, totalBoxes };
-    }
-
-
 
     // Add save and load buttons
     const buttonsContainer = document.createElement('div');
