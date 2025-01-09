@@ -109,3 +109,34 @@ th, td {
 td:not(:first-child):hover {
     animation: flash-yellow 0.5s ease-out; /* Adjust duration as needed */
 }
+
+#detail-content {
+    background-color: #f9f9f9; /* Light background color */
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-top: 10px;
+    max-height: 400px; /* Optional: to limit the height */
+    overflow-y: auto; /* Add scrolling if content overflows */
+    display: none; /* Initially hidden */
+}
+
+#detail-content.visible {
+    display: block; /* Show when content is populated */
+}
+
+#detail-content .detail-item {
+    display: flex; /* Align checkbox and text horizontally */
+    align-items: center; /* Vertically center the items */
+    margin: 5px 0; /* Add spacing between each item */
+}
+
+#detail-content label {
+    margin-left: 10px; /* Space between checkbox and label */
+    font-size: 1.1em;
+    color: #333;
+}
+
+#detail-content input[type="checkbox"] {
+    margin: 0; /* Remove margin to make it align properly */
+}

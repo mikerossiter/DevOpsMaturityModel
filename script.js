@@ -23,36 +23,55 @@ fetch('dimensions.json')
 
     // Show details for a dimension level
     function showDetails(dimensionIndex, levelIndex) {
-      const detailTitle = document.getElementById('detail-title');
-      const detailContent = document.getElementById('detail-content');
-      const dimension = dimensions[dimensionIndex];
-      const level = dimension.levels[levelIndex];
+        const detailTitle = document.getElementById('detail-title');
+        const detailContent = document.getElementById('detail-content');
+        const dimension = dimensions[dimensionIndex];
+        const level = dimension.levels[levelIndex];
 
-      detailTitle.textContent = `${dimension.name} - Level ${levelIndex + 1}`;
-      detailContent.innerHTML = '';
+        // Update the title
+        detailTitle.textContent = `${dimension.name} - Level ${levelIndex + 1}`;
 
-      const details = level.split('. ');
-      details.forEach((detail, index) => {
-        const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${index}`;
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = checkboxId;
-        checkbox.checked = checkboxStates[checkboxId] || false;
-        checkbox.onchange = () => {
-          checkboxStates[checkboxId] = checkbox.checked;
-          updateCellColor(dimensionIndex, levelIndex);
-          calculateAverageLevel(); // Update the average level dynamically
-        };
+        // Clear previous content
+        detailContent.innerHTML = '';
 
-        const label = document.createElement('label');
-        label.htmlFor = checkboxId;
-        label.textContent = detail;
+        // If there are no details, hide the detail box
+        if (!level) {
+            detailContent.classList.remove('visible');
+            return;
+        }
 
-        detailContent.appendChild(checkbox);
-        detailContent.appendChild(label);
-        detailContent.appendChild(document.createElement('br'));
-      });
+        // Show the detail box by adding the 'visible' class
+        detailContent.classList.add('visible');
+
+        // Split details by ". " (assuming each detail is separated by a period and space)
+        const details = level.split('. ');
+
+        // Create checkbox and label elements for each detail
+        details.forEach((detail, index) => {
+            const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${index}`;
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = checkboxId;
+            checkbox.checked = checkboxStates[checkboxId] || false;
+            
+            // Update the state on change
+            checkbox.onchange = () => {
+                checkboxStates[checkboxId] = checkbox.checked;
+                updateCellColor(dimensionIndex, levelIndex);
+                calculateAverageLevel(); // Update the average level dynamically
+            };
+
+            const label = document.createElement('label');
+            label.htmlFor = checkboxId;
+            label.textContent = detail;
+
+            // Append the checkbox and label to the detail content
+            detailContent.appendChild(checkbox);
+            detailContent.appendChild(label);
+            detailContent.appendChild(document.createElement('br'));
+        });
     }
+
 
     // Update cell colors based on checkbox states
     function updateCellColor(dimensionIndex, levelIndex) {
