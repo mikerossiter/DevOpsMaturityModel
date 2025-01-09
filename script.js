@@ -4,6 +4,7 @@ fetch('dimensions.json')
     const dimensions = data;
     let currentLevels = new Array(dimensions.length).fill(0);
     let totalPossibleLevels = 0;
+    let checkboxStates = {};
 
     dimensions.forEach((dimension) => {
       totalPossibleLevels += dimension.levels.length;
@@ -36,13 +37,18 @@ fetch('dimensions.json')
 
       const details = level.split('. ');
       details.forEach((detail, index) => {
+        const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${index}`;
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
-        checkbox.id = `detail-${index}`;
-        checkbox.onchange = () => updateCellColor(dimensionIndex, levelIndex);
+        checkbox.id = checkboxId;
+        checkbox.checked = checkboxStates[checkboxId] || false;
+        checkbox.onchange = () => {
+          checkboxStates[checkboxId] = checkbox.checked;
+          updateCellColor(dimensionIndex, levelIndex);
+        };
 
         const label = document.createElement('label');
-        label.htmlFor = `detail-${index}`;
+        label.htmlFor = checkboxId;
         label.textContent = detail;
 
         detailContent.appendChild(checkbox);
@@ -52,8 +58,9 @@ fetch('dimensions.json')
     }
 
     function updateCellColor(dimensionIndex, levelIndex) {
-      const checkedBoxes = document.querySelectorAll('#detail-content input:checked').length;
-      const totalBoxes = document.querySelectorAll('#detail-content input[type="checkbox"]').length;
+      const checkboxes = document.querySelectorAll('#detail-content input[type="checkbox"]');
+      const checkedBoxes = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+      const totalBoxes = checkboxes.length;
       const cell = cells.find((c) => c.dimensionIndex === dimensionIndex && c.levelIndex === levelIndex).cell;
       if (cell) {
         const threshold1 = Math.floor((totalBoxes - 1) / 2);
