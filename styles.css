@@ -64,9 +64,9 @@ th, td {
     overflow-y: auto;
 }
 
-.green1 { background-color: #d4b9da; }
-.green2 { background-color: #c994c7; }
-.green3 { background-color: #7a0177; }
+.colour1 { background-color: #d4b9da; }
+.colour2 { background-color: #c994c7; }
+.colour3 { background-color: #7a0177; }
 
 @media (max-width: 768px) {
     .container {

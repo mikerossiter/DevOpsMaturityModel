@@ -83,13 +83,13 @@ fetch('dimensions.json')
         const threshold2 = totalBoxes - 1;
 
         if (checkedBoxes === threshold2 + 1) {
-          cell.className = 'green3';
+          cell.className = 'colour3';
           currentLevels[dimensionIndex] = levelIndex + 1;
         } else if (checkedBoxes > threshold1) {
-          cell.className = 'green2';
+          cell.className = 'colour2';
           currentLevels[dimensionIndex] = levelIndex + 1;
         } else if (checkedBoxes > 0) {
-          cell.className = 'green1';
+          cell.className = 'colour1';
           currentLevels[dimensionIndex] = levelIndex + 1;
         } else {
           cell.className = '';
