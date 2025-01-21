@@ -5,13 +5,14 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden
 /*    background-color: #fefab7;*/
 }
 
 .container {
     display: flex;
     flex: 1;
-    overflow: hidden;
+    overflow-y: auto;
     margin-bottom: 60px;  /* Space for the buttons at the bottom */
     padding-left: 10px;
     padding-top: 10px;
@@ -24,8 +25,8 @@ body {
     margin-right: 20px;  /* Adjust space to the right for the text */
     margin-left: 20px;  /* Add space from the left */
     box-sizing: border-box;  /* Ensures padding doesn't affect overall width */
-    height: calc(100vh - 60px); /* Makes room for the buttons */
-    overflow: hidden;  /* Clipping content that exceeds the container */
+    height: calc(100vh - 100px); /* Makes room for the buttons */
+    overflow: auto;  /* Clipping content that exceeds the container */
     border-radius: 15px;  /* Apply rounded corners */
     background-color: #ffffff; /* Optional: Add a background color for clarity */
     display: flex;  /* Ensure content aligns properly */
@@ -45,12 +46,13 @@ table {
 
 
 th, td {
+    font-size: 1rem;
     border: 2px solid black;
     padding: 0; /* Remove padding to control exact size */
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    font-size: calc(1 * 100%); /* Adjust font size relative to cell size */
+    font-size: calc(1vw + 1vh);
     width: 100px; /* Fixed width */
     height: 100px; /* Fixed height */
     overflow: hidden; /* Prevent content overflow */
