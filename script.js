@@ -79,6 +79,12 @@ fetch('dimensions.json')
       const cell = cells.find(c => c.dimensionIndex === dimensionIndex && c.levelIndex === levelIndex)?.cell;
 
       if (cell) {
+        const percentage = totalBoxes > 0 ? (checkedBoxes / totalBoxes) * 100 : 0;
+
+        // Update cell text with percentage if greater than 0
+        cell.textContent = checkedBoxes > 0 ? `${percentage.toFixed(1)}%` : '';
+
+        // Update cell class for color
         const threshold1 = Math.floor((totalBoxes - 1) / 2);
         const threshold2 = totalBoxes - 1;
 
@@ -97,6 +103,7 @@ fetch('dimensions.json')
         }
       }
     }
+
 
     // Calculate and display the average level
     function calculateAverageLevel() {
