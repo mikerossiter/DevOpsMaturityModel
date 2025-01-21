@@ -10,7 +10,7 @@ This project is designed to help organisations/projects/teams assess and track t
 * Highly customisable dimensions and levels through the `dimensions.json` 
 * Includes `Average Level` gauge to view average level of DevOps maturity as the model is completed.
 * **Save State** to automatically save state to local `state.json`.
-* **Load State** from `state.json` locally automatically.
+* **Load State** from `state.json` in the local folder.
 * Refresh the page to reset the model.
 
 ## Customisation
@@ -31,7 +31,7 @@ By modifying the `dimensions.json` file, users can:
 2. Navigate to the folder with `cd <your-file-path>/devops-maturity-model` in order to run the model.
 3. Run `npm install` to install any dependencies required by the `package.json`.
 2. Run `npm start` to run the server locally.
-3. Visit `http://localhost:3131` to view the maturity model.
+3. Visit `http://127.0.0.1:3131` to view the maturity model.
 
 ## Requirements
 * Node.js (for running the server)
