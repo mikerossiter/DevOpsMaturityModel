@@ -2,7 +2,6 @@
 fetch('dimensions.json')
   .then(response => response.json())
   .then(dimensions => {
-    // Initialize state arrays/objects
     currentLevels = new Array(dimensions.length).fill(0);
     checkboxStates = {};
 
@@ -23,15 +22,15 @@ fetch('dimensions.json')
       });
     });
 
-    // Global object to track which levels are expanded
+    // Global object to track expansion states (if needed)
     let expansionStates = {};
 
-    // Updated showDetails function that works with the new JSON structure
+    // Updated showDetails function – now using subDimensions
     function showDetails(dimensionIndex, levelIndex) {
       const detailTitle = document.getElementById('detail-title');
       const detailContent = document.getElementById('detail-content');
       const dimension = dimensions[dimensionIndex];
-      const levelObj = dimension.levels[levelIndex]; // object with 'text' and 'details'
+      const levelObj = dimension.levels[levelIndex]; // now an object with subDimensions
 
       // Update the title
       detailTitle.textContent = `${dimension.name} - Level ${levelIndex + 1}`;
@@ -39,27 +38,23 @@ fetch('dimensions.json')
       // Clear previous content
       detailContent.innerHTML = '';
 
-      if (!levelObj) {
+      if (!levelObj || !levelObj.subDimensions) {
         detailContent.classList.remove('visible');
         return;
       }
 
-      // Show the detail box
       detailContent.classList.add('visible');
 
-      // Split the summary text into individual sub-dimensions
-      const sentences = levelObj.text.split('. ').filter(s => s.trim() !== '');
-      sentences.forEach((sentence, index) => {
-        // Create a container for this sentence
-        const sentenceContainer = document.createElement('div');
-        sentenceContainer.className = 'sentence-container';
-        sentenceContainer.style.marginBottom = '10px';
+      // Iterate over each sub-dimension in the level
+      levelObj.subDimensions.forEach((subDim, index) => {
+        // Create a container for this sub-dimension
+        const subDimContainer = document.createElement('div');
+        subDimContainer.className = 'sub-dimension-container';
+        subDimContainer.style.marginBottom = '10px';
 
-        // Ensure the sentence ends with a period
-        const sentenceText = sentence.trim().endsWith('.') ? sentence.trim() : sentence.trim() + '.';
         const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${index}`;
 
-        // Create the checkbox and label
+        // Create checkbox and label using subDim.text
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = checkboxId;
@@ -72,22 +67,21 @@ fetch('dimensions.json')
 
         const label = document.createElement('label');
         label.htmlFor = checkboxId;
-        label.textContent = sentenceText;
+        label.textContent = subDim.text;
 
-        // Append checkbox and label to the sentence container
-        sentenceContainer.appendChild(checkbox);
-        sentenceContainer.appendChild(label);
+        subDimContainer.appendChild(checkbox);
+        subDimContainer.appendChild(label);
 
-        // Create an individual expand/collapse button for this sub-dimension
+        // Create an individual expand/collapse button for this sub-dimension's details
         const expandBtn = document.createElement('button');
         expandBtn.textContent = 'Show More';
         expandBtn.style.marginLeft = '10px';
 
-        // Create a details container specific to this sentence
+        // Create a details container specific to this sub-dimension
         const detailsContainer = document.createElement('div');
         detailsContainer.style.display = 'none';
         detailsContainer.style.marginTop = '5px';
-        detailsContainer.textContent = levelObj.details || 'No additional details available.';
+        detailsContainer.textContent = subDim.details || 'No additional details available.';
 
         // Toggle expansion on button click
         expandBtn.onclick = () => {
@@ -100,15 +94,13 @@ fetch('dimensions.json')
           }
         };
 
-        // Append the expand button and details container to the sentence container
-        sentenceContainer.appendChild(expandBtn);
-        sentenceContainer.appendChild(detailsContainer);
+        subDimContainer.appendChild(expandBtn);
+        subDimContainer.appendChild(detailsContainer);
 
-        // Append the sentence container to the main detailContent
-        detailContent.appendChild(sentenceContainer);
+        // Append the container for this sub-dimension to the overall detail content
+        detailContent.appendChild(subDimContainer);
       });
     }
-
 
     // Update cell colors based on checkbox states
     function updateCellColor(dimensionIndex, levelIndex) {
@@ -117,11 +109,8 @@ fetch('dimensions.json')
 
       if (cell) {
         const percentage = totalBoxes > 0 ? (checkedBoxes / totalBoxes) * 100 : 0;
-
-        // Update cell text with percentage if greater than 0
         cell.textContent = checkedBoxes > 0 ? `${percentage.toFixed(1)}%` : '';
 
-        // Update cell class for color
         const threshold1 = Math.floor((totalBoxes - 1) / 2);
         const threshold2 = totalBoxes - 1;
 
@@ -143,14 +132,11 @@ fetch('dimensions.json')
 
     // Calculate and display the average level
     function calculateAverageLevel() {
-      // Compute the average level from currentLevels
       const sumLevels = currentLevels.reduce((sum, level) => sum + level, 0);
       const avgLevel = sumLevels / currentLevels.length;
-      const avgLevelInt = Math.round(avgLevel); // average level as whole number
-      
-      // Compute percentage based on the unrounded average (two decimals)
+      const avgLevelInt = Math.round(avgLevel);
       const percentage = (avgLevel / 5) * 100;
-      
+
       const averageLevelPane = document.getElementById('average-level');
       if (averageLevelPane) {
         averageLevelPane.textContent = `Average Level: ${avgLevelInt} (${percentage.toFixed(2)}% completed)`;
@@ -159,12 +145,10 @@ fetch('dimensions.json')
       }
     }
 
-    // Count checkbox states for a specific dimension level (using level.text)
+    // Updated countCheckboxStates: now using subDimensions array
     function countCheckboxStates(dimensionIndex, levelIndex) {
-      const levelText = dimensions[dimensionIndex].levels[levelIndex].text;
-      const sentences = levelText.split('. ').filter(s => s.trim() !== "");
-      const totalBoxes = sentences.length;
-
+      const subDimensions = dimensions[dimensionIndex].levels[levelIndex].subDimensions;
+      const totalBoxes = subDimensions.length;
       let checkedBoxes = 0;
       for (let i = 0; i < totalBoxes; i++) {
         const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${i}`;
@@ -193,12 +177,8 @@ fetch('dimensions.json')
     function saveState() {
       const now = new Date();
       const timestamp = now.toISOString();
-      // Create a filename timestamp that's safe and sortable
       const filenameTimestamp = now.toISOString().replace(/[-:.TZ]/g, '');
-      
-      // Use the same calculation as on the main page:
       const computedCompletionPercentage = computeAverageCompletionPercentage();
-      
       const state = { 
         timestamp, 
         currentLevels, 
@@ -227,60 +207,50 @@ fetch('dimensions.json')
         })
         .then(state => {
           console.log('Loaded state:', state);
-          
-          // Update the state from the loaded data
           checkboxStates = state.checkboxStates || {};
           currentLevels = state.currentLevels || new Array(dimensions.length).fill(0);
-          
-          // Clear previous detail content
           const detailContent = document.getElementById('detail-content');
           detailContent.innerHTML = '';
-          
-          // Recreate checkboxes for each dimension level using level.text
+
+          // Recreate checkboxes for each dimension level (using subDimensions)
           dimensions.forEach((dimension, dimensionIndex) => {
             dimension.levels.forEach((level, levelIndex) => {
-              const details = level.text.split('. ');
-              details.forEach((detail, index) => {
+              level.subDimensions.forEach((subDim, index) => {
                 const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${index}`;
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.id = checkboxId;
                 checkbox.checked = checkboxStates[checkboxId] || false;
-      
-                // Update state on change
                 checkbox.onchange = () => {
                   checkboxStates[checkboxId] = checkbox.checked;
                   updateCellColor(dimensionIndex, levelIndex);
                   calculateAverageLevel();
                 };
-      
+
                 const label = document.createElement('label');
                 label.htmlFor = checkboxId;
-                label.textContent = detail;
-      
-                // Append checkbox and label to detail content
+                label.textContent = subDim.text;
+
                 detailContent.appendChild(checkbox);
                 detailContent.appendChild(label);
                 detailContent.appendChild(document.createElement('br'));
               });
             });
           });
-      
-          // Update cell colors based on loaded states
+
           dimensions.forEach((dimension, dimensionIndex) => {
             dimension.levels.forEach((_, levelIndex) => {
               updateCellColor(dimensionIndex, levelIndex);
             });
           });
-      
-          // Recalculate and update the average level
+
           calculateAverageLevel();
           alert("State loaded successfully!");
         })
         .catch(error => console.error('Error loading state:', error));
     }
 
-    // Add save, load, and generate graph buttons
+    // Add buttons (save, load, generate graph)
     const buttonsContainer = document.createElement('div');
     buttonsContainer.id = 'buttons-container';
     buttonsContainer.style.position = 'fixed';
@@ -295,7 +265,6 @@ fetch('dimensions.json')
     loadButton.textContent = 'Load State';
     loadButton.onclick = loadState;
 
-    // New "Generate Graph" button
     const graphButton = document.createElement('button');
     graphButton.textContent = 'Generate Graph';
     graphButton.onclick = () => window.open('graph.html', '_blank');
@@ -306,6 +275,6 @@ fetch('dimensions.json')
 
     document.body.appendChild(buttonsContainer);
 
-    // Initial calculations
+    // Initial calculation
     calculateAverageLevel();
   });

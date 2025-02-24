@@ -3,24 +3,84 @@
     "name": "Collaboration and Culture",
     "levels": [
       {
-        "text": "Teams use a shared communication platform (e.g., email, chat). Periodic meetings for major milestones or incidents. Documentation is shared between teams.",
-        "details": "More details here... (Contact: Communications Manager)"
+        "subDimensions": [
+          {
+            "text": "Teams use a shared communication platform (e.g., email, chat).",
+            "details": "Using tools such as Slack or Teams can help streamline communication. (Contact: Communications Manager)"
+          },
+          {
+            "text": "Periodic meetings for major milestones or incidents.",
+            "details": "Schedule meetings at key points to review progress and handle incidents. (Contact: Project Manager)"
+          },
+          {
+            "text": "Documentation is shared between teams.",
+            "details": "Maintain a central repository for all team documents. (Contact: Documentation Lead)"
+          }
+        ]
       },
       {
-        "text": "Regularly scheduled cross-team check-ins (e.g., weekly standups). Use of task-tracking tools to share updates (e.g., Jira, Trello). Basic feedback mechanisms after deployments or incidents.",
-        "details": "More details here... (Contact: Project Manager)"
+        "subDimensions": [
+          {
+            "text": "Regularly scheduled cross-team check-ins (e.g., weekly standups).",
+            "details": "Regular standups promote alignment and transparency. (Contact: Team Coordinator)"
+          },
+          {
+            "text": "Use of task-tracking tools to share updates (e.g., Jira, Trello).",
+            "details": "Task trackers help monitor progress and assignments. (Contact: IT Manager)"
+          },
+          {
+            "text": "Basic feedback mechanisms after deployments or incidents.",
+            "details": "Collect feedback to improve processes continuously. (Contact: QA Lead)"
+          }
+        ]
       },
       {
-        "text": "Defined communication channels for all teams (e.g., Slack channels). Regular retrospectives with actionable outcomes. Joint team planning sessions to align goals and timelines.",
-        "details": "More details here... (Contact: Team Lead)"
+        "subDimensions": [
+          {
+            "text": "Defined communication channels for all teams (e.g., Slack channels).",
+            "details": "Set up dedicated channels for different teams to ensure clear communication. (Contact: Communications Manager)"
+          },
+          {
+            "text": "Regular retrospectives with actionable outcomes.",
+            "details": "Conduct retrospectives to identify improvements and assign action items. (Contact: Agile Coach)"
+          },
+          {
+            "text": "Joint team planning sessions to align goals and timelines.",
+            "details": "Plan collaboratively to ensure all teams are aligned. (Contact: Project Manager)"
+          }
+        ]
       },
       {
-        "text": "Fully integrated workflows with shared ownership of tasks. Teams co-develop goals and KPIs, reflecting mutual accountability. Continuous feedback loops drive iterative process improvement.",
-        "details": "More details here... (Contact: Operations Manager)"
+        "subDimensions": [
+          {
+            "text": "Fully integrated workflows with shared ownership of tasks.",
+            "details": "Integrated workflows help eliminate silos and foster collaboration. (Contact: Operations Manager)"
+          },
+          {
+            "text": "Teams co-develop goals and KPIs, reflecting mutual accountability.",
+            "details": "Collaborative goal setting builds mutual accountability. (Contact: Department Head)"
+          },
+          {
+            "text": "Continuous feedback loops drive iterative process improvement.",
+            "details": "Feedback loops help in continuously refining processes. (Contact: Process Improvement Lead)"
+          }
+        ]
       },
       {
-        "text": "Automated tools provide real-time updates across teams (e.g., CI/CD alerts). Cross-functional team members are embedded in each other's teams. Mentorship programs sustain collaboration and knowledge sharing.",
-        "details": "More details here... (Contact: DevOps Manager)"
+        "subDimensions": [
+          {
+            "text": "Automated tools provide real-time updates across teams (e.g., CI/CD alerts).",
+            "details": "Automation tools can alert teams to issues in real time. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Cross-functional team members are embedded in each other's teams.",
+            "details": "Embedding members across teams increases knowledge sharing. (Contact: HR Manager)"
+          },
+          {
+            "text": "Mentorship programs sustain collaboration and knowledge sharing.",
+            "details": "Structured mentorship helps transfer critical skills. (Contact: HR Manager)"
+          }
+        ]
       }
     ]
   },
@@ -28,24 +88,84 @@
     "name": "Processes and Practices",
     "levels": [
       {
-        "text": "Deployments occur manually with documented steps. Releases follow a predictable schedule (e.g., monthly). A rollback plan exists for each release.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Deployments occur manually with documented steps.",
+            "details": "Ensure manual deployments are well documented. (Contact: Release Manager)"
+          },
+          {
+            "text": "Releases follow a predictable schedule (e.g., monthly).",
+            "details": "A regular release schedule sets clear expectations. (Contact: Operations Manager)"
+          },
+          {
+            "text": "A rollback plan exists for each release.",
+            "details": "Plan for rollbacks to mitigate risks during release. (Contact: QA Lead)"
+          }
+        ]
       },
       {
-        "text": "Basic scripting tools semi-automate deployments. Deployment frequency increases to bi-weekly or weekly. Post-deployment reviews capture learnings.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Basic scripting tools semi-automate deployments.",
+            "details": "Scripting can reduce manual effort. (Contact: DevOps Engineer)"
+          },
+          {
+            "text": "Deployment frequency increases to bi-weekly or weekly.",
+            "details": "More frequent deployments can lead to faster iteration. (Contact: Project Manager)"
+          },
+          {
+            "text": "Post-deployment reviews capture learnings.",
+            "details": "Review deployments to continuously improve the process. (Contact: QA Lead)"
+          }
+        ]
       },
       {
-        "text": "Deployment processes are fully scripted and consistent. Weekly or more frequent releases are achieved. Rollback processes are tested and reliable.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Deployment processes are fully scripted and consistent.",
+            "details": "Scripted processes reduce human error. (Contact: Automation Lead)"
+          },
+          {
+            "text": "Weekly or more frequent releases are achieved.",
+            "details": "High release frequency can be a competitive advantage. (Contact: Release Manager)"
+          },
+          {
+            "text": "Rollback processes are tested and reliable.",
+            "details": "Regular testing ensures that rollbacks work when needed. (Contact: QA Lead)"
+          }
+        ]
       },
       {
-        "text": "Continuous deployment pipelines are established and regularly used. Teams deploy multiple times a week with high confidence. Feature flags enable safe releases and quick rollbacks.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Continuous deployment pipelines are established and regularly used.",
+            "details": "Continuous deployment ensures faster time-to-market. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Teams deploy multiple times a week with high confidence.",
+            "details": "Frequent deployments require robust processes. (Contact: Release Manager)"
+          },
+          {
+            "text": "Feature flags enable safe releases and quick rollbacks.",
+            "details": "Feature flags help minimize risk during deployments. (Contact: Product Manager)"
+          }
+        ]
       },
       {
-        "text": "Deployment frequency is daily or more frequent without downtime. Canary deployments and A/B testing are standard practices. Teams achieve zero-touch, automated deployments with metrics-driven validation.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Deployment frequency is daily or more frequent without downtime.",
+            "details": "Aiming for daily deployments sets a high standard. (Contact: Operations Manager)"
+          },
+          {
+            "text": "Canary deployments and A/B testing are standard practices.",
+            "details": "These strategies reduce the risk of widespread issues. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Teams achieve zero-touch, automated deployments with metrics-driven validation.",
+            "details": "Automation and metrics ensure deployments are reliable. (Contact: Automation Lead)"
+          }
+        ]
       }
     ]
   },
@@ -53,24 +173,84 @@
     "name": "Automation",
     "levels": [
       {
-        "text": "Builds are initiated manually by developers. Basic scripts ensure consistent build processes. Documentation for build processes is maintained.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Builds are initiated manually by developers.",
+            "details": "Manual initiation can be useful for controlled builds. (Contact: Build Engineer)"
+          },
+          {
+            "text": "Basic scripts ensure consistent build processes.",
+            "details": "Scripts standardize the build process. (Contact: Developer)"
+          },
+          {
+            "text": "Documentation for build processes is maintained.",
+            "details": "Good documentation helps in reproducing builds. (Contact: Documentation Lead)"
+          }
+        ]
       },
       {
-        "text": "Builds are triggered automatically upon commit to version control. Build scripts enforce consistency across environments. Notifications alert developers of build successes or failures.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Builds are triggered automatically upon commit to version control.",
+            "details": "Automatic triggers help catch issues early. (Contact: DevOps Engineer)"
+          },
+          {
+            "text": "Build scripts enforce consistency across environments.",
+            "details": "Consistency is key for reliable builds. (Contact: Build Engineer)"
+          },
+          {
+            "text": "Notifications alert developers of build successes or failures.",
+            "details": "Timely notifications can prevent delays. (Contact: IT Support)"
+          }
+        ]
       },
       {
-        "text": "Builds are fully automated and include basic validation checks. Developers receive detailed feedback on build status. Build times are optimised for efficiency.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Builds are fully automated and include basic validation checks.",
+            "details": "Automation reduces manual intervention. (Contact: Automation Lead)"
+          },
+          {
+            "text": "Developers receive detailed feedback on build status.",
+            "details": "Detailed feedback helps in troubleshooting. (Contact: Build Engineer)"
+          },
+          {
+            "text": "Build times are optimised for efficiency.",
+            "details": "Optimised builds improve developer productivity. (Contact: Performance Engineer)"
+          }
+        ]
       },
       {
-        "text": "Builds include advanced validation steps like linting, security scans, and unit tests. Parallelised build processes reduce time-to-delivery. Builds are integrated into CI pipelines and trigger other automated steps.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Builds include advanced validation steps like linting, security scans, and unit tests.",
+            "details": "Advanced checks help maintain code quality. (Contact: QA Lead)"
+          },
+          {
+            "text": "Parallelised build processes reduce time-to-delivery.",
+            "details": "Parallelisation speeds up the build process. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Builds are integrated into CI pipelines and trigger other automated steps.",
+            "details": "Integration into CI pipelines is crucial for continuous delivery. (Contact: Automation Lead)"
+          }
+        ]
       },
       {
-        "text": "Fully automated, self-healing build systems with minimal manual intervention. Multi-platform builds for diverse environments are supported. Metrics and analytics provide visibility into build performance and success rates.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Fully automated, self-healing build systems with minimal manual intervention.",
+            "details": "Self-healing builds minimize downtime. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Multi-platform builds for diverse environments are supported.",
+            "details": "Support for multiple platforms ensures broad compatibility. (Contact: Build Engineer)"
+          },
+          {
+            "text": "Metrics and analytics provide visibility into build performance and success rates.",
+            "details": "Data-driven insights help improve the build process. (Contact: Data Analyst)"
+          }
+        ]
       }
     ]
   },
@@ -78,24 +258,84 @@
     "name": "Continuous Integration and Delivery (CI/CD)",
     "levels": [
       {
-        "text": "Source code is stored in a version control system. Developers manually merge and test code changes. Basic build pipelines exist but require manual initiation.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Source code is stored in a version control system.",
+            "details": "Version control is essential for collaboration. (Contact: SCM Manager)"
+          },
+          {
+            "text": "Developers manually merge and test code changes.",
+            "details": "Manual merging can help catch issues early. (Contact: Development Lead)"
+          },
+          {
+            "text": "Basic build pipelines exist but require manual initiation.",
+            "details": "Manual initiation of pipelines is less efficient. (Contact: Release Manager)"
+          }
+        ]
       },
       {
-        "text": "Automated build pipelines run on each commit. Unit tests are automatically triggered during builds. Artifacts are stored in a repository for reuse.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Automated build pipelines run on each commit.",
+            "details": "Automation speeds up integration. (Contact: DevOps Engineer)"
+          },
+          {
+            "text": "Unit tests are automatically triggered during builds.",
+            "details": "Automated tests help maintain code quality. (Contact: QA Lead)"
+          },
+          {
+            "text": "Artifacts are stored in a repository for reuse.",
+            "details": "Repositories facilitate artifact management. (Contact: SCM Manager)"
+          }
+        ]
       },
       {
-        "text": "CI pipelines integrate code changes automatically. Test automation ensures code quality before merging. Basic CD pipelines deploy to staging environments.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "CI pipelines integrate code changes automatically.",
+            "details": "Automated integration reduces manual effort. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Test automation ensures code quality before merging.",
+            "details": "Automated tests verify code integrity. (Contact: QA Lead)"
+          },
+          {
+            "text": "Basic CD pipelines deploy to staging environments.",
+            "details": "Staging deployments are a safety net. (Contact: Release Manager)"
+          }
+        ]
       },
       {
-        "text": "Fully automated CI/CD pipelines deploy to production environments. Integration with infrastructure as code (IaC) tools for provisioning environments. Performance tests are part of the pipeline.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Fully automated CI/CD pipelines deploy to production environments.",
+            "details": "Automation in production deployments reduces risk. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Integration with infrastructure as code (IaC) tools for provisioning environments.",
+            "details": "IaC tools ensure consistent environment setup. (Contact: Infrastructure Manager)"
+          },
+          {
+            "text": "Performance tests are part of the pipeline.",
+            "details": "Performance testing is crucial for production readiness. (Contact: QA Lead)"
+          }
+        ]
       },
       {
-        "text": "CI/CD pipelines include automated security scans and compliance checks. Pipelines enable multi-region, zero-downtime deployments. Real-time monitoring metrics feed back into CI/CD pipelines for optimisation.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "CI/CD pipelines include automated security scans and compliance checks.",
+            "details": "Security scans protect against vulnerabilities. (Contact: Security Manager)"
+          },
+          {
+            "text": "Pipelines enable multi-region, zero-downtime deployments.",
+            "details": "Zero-downtime deployments are key for modern systems. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Real-time monitoring metrics feed back into CI/CD pipelines for optimisation.",
+            "details": "Feedback loops improve pipeline performance. (Contact: Operations Manager)"
+          }
+        ]
       }
     ]
   },
@@ -103,24 +343,84 @@
     "name": "Monitoring and Observability",
     "levels": [
       {
-        "text": "Basic system metrics are collected (e.g., CPU, memory). Logs are stored manually for troubleshooting. Issues are identified reactively.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Basic system metrics are collected (e.g., CPU, memory).",
+            "details": "Collecting metrics is the first step to monitoring. (Contact: IT Support)"
+          },
+          {
+            "text": "Logs are stored manually for troubleshooting.",
+            "details": "Manual log storage can be a short-term solution. (Contact: Operations Manager)"
+          },
+          {
+            "text": "Issues are identified reactively.",
+            "details": "Reactive identification may indicate a need for better monitoring. (Contact: Incident Manager)"
+          }
+        ]
       },
       {
-        "text": "Application logs are centralised in a logging system. Alerts are configured for critical system failures. Monitoring dashboards visualise key metrics.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Application logs are centralised in a logging system.",
+            "details": "Centralised logs simplify troubleshooting. (Contact: Logging Admin)"
+          },
+          {
+            "text": "Alerts are configured for critical system failures.",
+            "details": "Timely alerts help in quick resolution. (Contact: Operations Manager)"
+          },
+          {
+            "text": "Monitoring dashboards visualise key metrics.",
+            "details": "Dashboards provide a real-time view of system health. (Contact: Data Analyst)"
+          }
+        ]
       },
       {
-        "text": "Monitoring tools track application performance (e.g., latency, throughput). Alerts include contextual information for faster resolution. Teams analyse trends to predict potential issues.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Monitoring tools track application performance (e.g., latency, throughput).",
+            "details": "Performance metrics are vital for maintaining quality. (Contact: Performance Analyst)"
+          },
+          {
+            "text": "Alerts include contextual information for faster resolution.",
+            "details": "Contextual alerts help pinpoint issues. (Contact: Incident Manager)"
+          },
+          {
+            "text": "Teams analyse trends to predict potential issues.",
+            "details": "Trend analysis supports proactive management. (Contact: Operations Manager)"
+          }
+        ]
       },
       {
-        "text": "Distributed tracing tracks end-to-end system performance. Synthetic monitoring simulates user interactions. Teams use real-time dashboards for proactive management.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Distributed tracing tracks end-to-end system performance.",
+            "details": "Tracing helps identify bottlenecks. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Synthetic monitoring simulates user interactions.",
+            "details": "Synthetic tests can preempt real user issues. (Contact: QA Lead)"
+          },
+          {
+            "text": "Teams use real-time dashboards for proactive management.",
+            "details": "Real-time views help in rapid response. (Contact: Data Analyst)"
+          }
+        ]
       },
       {
-        "text": "Automated anomaly detection identifies and addresses issues preemptively. Metrics from monitoring tools inform automated scaling decisions. Observability data is integrated into development workflows for continuous improvement.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Automated anomaly detection identifies and addresses issues preemptively.",
+            "details": "Anomaly detection can flag unusual behavior early. (Contact: Security Manager)"
+          },
+          {
+            "text": "Metrics from monitoring tools inform automated scaling decisions.",
+            "details": "Scaling decisions based on metrics can optimize resources. (Contact: Operations Manager)"
+          },
+          {
+            "text": "Observability data is integrated into development workflows for continuous improvement.",
+            "details": "Integration of observability drives ongoing improvement. (Contact: DevOps Manager)"
+          }
+        ]
       }
     ]
   },
@@ -128,24 +428,84 @@
     "name": "Infrastructure and Operations",
     "levels": [
       {
-        "text": "Infrastructure is provisioned manually. Basic documentation exists for infrastructure configurations. Servers are maintained using standard operating procedures.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Infrastructure is provisioned manually.",
+            "details": "Manual provisioning can be a starting point for smaller setups. (Contact: IT Support)"
+          },
+          {
+            "text": "Basic documentation exists for infrastructure configurations.",
+            "details": "Documenting configurations aids maintenance. (Contact: Documentation Lead)"
+          },
+          {
+            "text": "Servers are maintained using standard operating procedures.",
+            "details": "SOPs ensure consistent server management. (Contact: Operations Manager)"
+          }
+        ]
       },
       {
-        "text": "Basic configuration management tools (e.g., Ansible, Chef) are used. Environments are standardised for development and production. Automated provisioning is implemented for repeatable tasks.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Basic configuration management tools (e.g., Ansible, Chef) are used.",
+            "details": "Configuration management tools help automate setup. (Contact: DevOps Engineer)"
+          },
+          {
+            "text": "Environments are standardised for development and production.",
+            "details": "Standardisation minimizes discrepancies. (Contact: Operations Manager)"
+          },
+          {
+            "text": "Automated provisioning is implemented for repeatable tasks.",
+            "details": "Automation reduces manual errors. (Contact: IT Manager)"
+          }
+        ]
       },
       {
-        "text": "Infrastructure is managed using infrastructure as code (IaC). Environments are reproducible across teams. Automation is used for scaling and disaster recovery.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Infrastructure is managed using infrastructure as code (IaC).",
+            "details": "IaC ensures environments can be reproduced reliably. (Contact: Infrastructure Manager)"
+          },
+          {
+            "text": "Environments are reproducible across teams.",
+            "details": "Reproducibility supports scalability. (Contact: DevOps Engineer)"
+          },
+          {
+            "text": "Automation is used for scaling and disaster recovery.",
+            "details": "Automation improves responsiveness during crises. (Contact: Operations Manager)"
+          }
+        ]
       },
       {
-        "text": "Infrastructure changes are deployed via CI/CD pipelines. Monitoring ensures infrastructure health and performance. Multi-cloud or hybrid cloud infrastructure is supported.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Infrastructure changes are deployed via CI/CD pipelines.",
+            "details": "CI/CD pipelines reduce deployment risks. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Monitoring ensures infrastructure health and performance.",
+            "details": "Proactive monitoring helps maintain uptime. (Contact: IT Operations)"
+          },
+          {
+            "text": "Multi-cloud or hybrid cloud infrastructure is supported.",
+            "details": "Support for multiple clouds offers flexibility. (Contact: Cloud Architect)"
+          }
+        ]
       },
       {
-        "text": "Fully automated, self-healing infrastructure. Infrastructure is dynamically provisioned based on workload. Continuous optimisation reduces costs and enhances performance.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Fully automated, self-healing infrastructure.",
+            "details": "Self-healing systems reduce manual intervention. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Infrastructure is dynamically provisioned based on workload.",
+            "details": "Dynamic provisioning optimises resource use. (Contact: Cloud Architect)"
+          },
+          {
+            "text": "Continuous optimisation reduces costs and enhances performance.",
+            "details": "Optimisation strategies drive efficiency. (Contact: Finance/Operations Manager)"
+          }
+        ]
       }
     ]
   },
@@ -153,24 +513,84 @@
     "name": "Security and Compliance",
     "levels": [
       {
-        "text": "Security policies are documented and shared with teams. Manual reviews ensure compliance before deployments. Basic authentication controls protect systems.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Security policies are documented and shared with teams.",
+            "details": "Clear policies help teams understand expectations. (Contact: Security Manager)"
+          },
+          {
+            "text": "Manual reviews ensure compliance before deployments.",
+            "details": "Regular reviews help catch compliance issues early. (Contact: Compliance Officer)"
+          },
+          {
+            "text": "Basic authentication controls protect systems.",
+            "details": "Strong authentication is the first line of defense. (Contact: IT Security)"
+          }
+        ]
       },
       {
-        "text": "Static analysis tools scan code for vulnerabilities. Developers complete basic security training. Compliance checklists are followed for releases.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Static analysis tools scan code for vulnerabilities.",
+            "details": "Static analysis can detect potential flaws early. (Contact: Security Engineer)"
+          },
+          {
+            "text": "Developers complete basic security training.",
+            "details": "Training ensures that developers follow best practices. (Contact: HR or Training Manager)"
+          },
+          {
+            "text": "Compliance checklists are followed for releases.",
+            "details": "Checklists help ensure all standards are met. (Contact: Compliance Officer)"
+          }
+        ]
       },
       {
-        "text": "Security scans are integrated into CI pipelines. Role-based access controls (RBAC) protect environments. Automated testing ensures adherence to compliance standards.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Security scans are integrated into CI pipelines.",
+            "details": "Integrating scans into pipelines automates vulnerability checks. (Contact: DevOps Manager)"
+          },
+          {
+            "text": "Role-based access controls (RBAC) protect environments.",
+            "details": "RBAC limits access to sensitive areas. (Contact: IT Security)"
+          },
+          {
+            "text": "Automated testing ensures adherence to compliance standards.",
+            "details": "Automation helps maintain consistent compliance. (Contact: QA Lead)"
+          }
+        ]
       },
       {
-        "text": "Dynamic analysis tools identify runtime vulnerabilities. Automated policy enforcement is implemented for compliance. Security events are monitored in real-time.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Dynamic analysis tools identify runtime vulnerabilities.",
+            "details": "Dynamic tests can uncover issues that static tests miss. (Contact: Security Engineer)"
+          },
+          {
+            "text": "Automated policy enforcement is implemented for compliance.",
+            "details": "Automation can help enforce policies consistently. (Contact: Compliance Officer)"
+          },
+          {
+            "text": "Security events are monitored in real-time.",
+            "details": "Real-time monitoring helps in quick response. (Contact: IT Security)"
+          }
+        ]
       },
       {
-        "text": "Security and compliance are embedded throughout the DevOps lifecycle. Teams use AI/ML for predictive security threat analysis. Compliance reports are generated automatically.",
-        "details": "More details here..."
+        "subDimensions": [
+          {
+            "text": "Security and compliance are embedded throughout the DevOps lifecycle.",
+            "details": "Embedding security ensures it is part of every process. (Contact: Security Manager)"
+          },
+          {
+            "text": "Teams use AI/ML for predictive security threat analysis.",
+            "details": "Advanced analytics can predict potential threats. (Contact: Data Scientist)"
+          },
+          {
+            "text": "Compliance reports are generated automatically.",
+            "details": "Automated reporting improves transparency. (Contact: Compliance Officer)"
+          }
+        ]
       }
     ]
   }
