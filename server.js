@@ -38,12 +38,8 @@ app.get('/load-state', (req, res) => {
     return;
   }
 
-  const latestStateFile = stateFiles.sort((a, b) => {
-    const timestampA = a.replace('state-', '').replace('.json', '');
-    const timestampB = b.replace('state-', '').replace('.json', '');
-    return new Date(timestampB) - new Date(timestampA);
-  })[0];
-
+  // Sort the filenames in descending order (newest first)
+  const latestStateFile = stateFiles.sort((a, b) => b.localeCompare(a))[0];
   const filePath = path.join(saveStateDir, latestStateFile);
 
   fs.readFile(filePath, (err, data) => {
@@ -55,6 +51,26 @@ app.get('/load-state', (req, res) => {
     }
   });
 });
+
+app.get('/state-files', (req, res) => {
+  const saveStateDir = './save-state';
+  if (!fs.existsSync(saveStateDir)) {
+    return res.json([]);
+  }
+  const files = fs.readdirSync(saveStateDir);
+  const stateFiles = files.filter(file => file.startsWith('state-') && file.endsWith('.json'));
+  
+  // Read each file's content (as text)
+  const states = stateFiles.map(file => {
+    const filePath = path.join(saveStateDir, file);
+    const data = fs.readFileSync(filePath, 'utf8');
+    return data;
+  });
+  
+  res.json(states);
+});
+
+
 
 app.listen(port, '127.0.0.1', () => {
   console.log(`Server running at http://127.0.0.1:${port}/`);

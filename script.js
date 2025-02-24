@@ -144,21 +144,47 @@ fetch('dimensions.json')
       return { checkedBoxes, totalBoxes };
     }
 
-    // Save state to a new file with a timestamp
+    // Compute the average completion percentage across all dimensions
+    function computeAverageCompletionPercentage() {
+      let totalChecked = 0;
+      let totalBoxes = 0;
+
+      dimensions.forEach((dimension, dimensionIndex) => {
+        dimension.levels.forEach((level, levelIndex) => {
+          const { checkedBoxes, totalBoxes: boxes } = countCheckboxStates(dimensionIndex, levelIndex);
+          totalChecked += checkedBoxes;
+          totalBoxes += boxes;
+        });
+      });
+      return totalBoxes ? (totalChecked / totalBoxes) * 100 : 0;
+    }
+
     function saveState() {
-      const timestamp = new Date().toISOString().replace(/:/g, '-').replace('.', '-');
-      const state = { currentLevels, checkboxStates };
-      const filename = `state-${timestamp}.json`;
+      const now = new Date();
+      const timestamp = now.toISOString();
+      // Create a filename timestamp that's safe and sortable
+      const filenameTimestamp = now.toISOString().replace(/[-:.TZ]/g, '');
+      
+      // Use the same calculation as on the main page:
+      const computedCompletionPercentage = computeAverageCompletionPercentage();
+      
+      const state = { 
+        timestamp, 
+        currentLevels, 
+        checkboxStates, 
+        completionPercentage: computedCompletionPercentage 
+      };
+      const filename = `state-${filenameTimestamp}.json`;
 
       fetch('/save-state', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ filename, state: JSON.stringify(state) }),
       })
-    .then(response => {
-        if (response.ok) alert('State saved successfully!');
-      })
-    .catch(error => console.error('Error saving state:', error));
+        .then(response => {
+          if (response.ok) alert('State saved successfully!');
+        })
+        .catch(error => console.error('Error saving state:', error));
     }
 
     // Load state from the latest state file in /save-state
@@ -239,8 +265,15 @@ fetch('dimensions.json')
     loadButton.textContent = 'Load State';
     loadButton.onclick = loadState;
 
+    // New "Generate Graph" button
+    const graphButton = document.createElement('button');
+    graphButton.textContent = 'Generate Graph';
+    graphButton.onclick = () => window.open('graph.html', '_blank');
+
     buttonsContainer.appendChild(saveButton);
     buttonsContainer.appendChild(loadButton);
+    buttonsContainer.appendChild(graphButton);
+
     document.body.appendChild(buttonsContainer);
 
     // Initial calculations
