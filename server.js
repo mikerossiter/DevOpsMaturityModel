@@ -9,64 +9,49 @@ app.use(express.static('./'));
 app.use(bodyParser.json());
 
 app.post('/save-state', (req, res) => {
-  const { filename, currentLevels, checkboxStates, timestamp } = req.body;
-
   const saveStateDir = './save-state';
+  const { filename, state } = req.body;
+
   if (!fs.existsSync(saveStateDir)) {
     fs.mkdirSync(saveStateDir);
   }
 
-  const filePath = `${saveStateDir}/${filename}`;
+  const filePath = path.join(saveStateDir, filename);
 
-  const state = { currentLevels, checkboxStates, timestamp };
-
-  fs.writeFile(filePath, JSON.stringify(state, null, 2), (err) => {
+  fs.writeFile(filePath, state, (err) => {
     if (err) {
-      console.error('Error saving state:', err);
-      res.status(500).send('Failed to save state');
+      console.error('Error writing state file:', err);
+      res.status(500).send('Error writing state file');
     } else {
       res.send('State saved successfully');
     }
   });
 });
 
-app.get('/state-files', (req, res) => {
-  const stateFiles = [];
-  const stateFilesDir = path.join(__dirname, './');
+app.get('/load-state', (req, res) => {
+  const saveStateDir = './save-state';
+  const files = fs.readdirSync(saveStateDir);
+  const stateFiles = files.filter(file => file.startsWith('state-') && file.endsWith('.json'));
 
-  fs.readdir(stateFilesDir, (err, files) => {
-    if (err) {
-      console.error('Error reading state files:', err);
-      res.status(500).send('Error reading state files');
-    } else {
-      files.forEach(file => {
-        if (file.startsWith('state-') && file.endsWith('.json')) {
-          const filePath = path.join(stateFilesDir, file);
-          fs.readFile(filePath, (err, data) => {
-            if (err) {
-              console.error('Error reading state file:', err);
-            } else {
-              stateFiles.push(data.toString());
-              if (stateFiles.length === files.filter(f => f.startsWith('state-') && f.endsWith('.json')).length) {
-                res.json(stateFiles);
-              }
-            }
-          });
-        }
-      });
-    }
-  });
-});
+  if (stateFiles.length === 0) {
+    res.status(404).send('No state files found');
+    return;
+  }
 
-app.get('/dimensions.json', (req, res) => {
-  const filePath = path.join(__dirname, 'dimensions.json');
+  const latestStateFile = stateFiles.sort((a, b) => {
+    const timestampA = a.replace('state-', '').replace('.json', '');
+    const timestampB = b.replace('state-', '').replace('.json', '');
+    return new Date(timestampB) - new Date(timestampA);
+  })[0];
+
+  const filePath = path.join(saveStateDir, latestStateFile);
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      console.error('Error reading dimensions file:', err);
-      res.status(500).send('Error reading dimensions file');
+      console.error('Error reading state file:', err);
+      res.status(500).send('Error reading state file');
     } else {
-      res.json(JSON.parse(data.toString()));
+      res.json(JSON.parse(data));
     }
   });
 });
