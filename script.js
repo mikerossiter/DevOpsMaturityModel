@@ -146,28 +146,25 @@ fetch('dimensions.json')
       return { checkedBoxes, totalBoxes };
     }
 
-    // Save state to state.json
-    function saveState() {
-      const state = { currentLevels, checkboxStates };
-      fetch('/save-state', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(state),
-      })
-        .then(response => {
-          if (response.ok) alert('State saved successfully!');
-        })
-        .catch(error => console.error('Error saving state:', error));
-    }
+    fetch('/save-state', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        filename: `state-${timestamp}.json`,
+        currentLevels,
+        checkboxStates,
+        timestamp,
+      }),
+    })
 
-    // Load state from state.json
+    // Load state from the latest state file in /save-state
     function loadState() {
-      fetch('/state.json')
-        .then(response => {
+      fetch('/load-state')
+       .then(response => {
           if (!response.ok) throw new Error('State file not found');
           return response.json();
         })
-        .then(state => {
+       .then(state => {
           console.log('Loaded state:', state); // Debugging step to log the state
           checkboxStates = state.checkboxStates || {};
           currentLevels = state.currentLevels || new Array(dimensions.length).fill(0);
@@ -191,7 +188,7 @@ fetch('dimensions.json')
           calculateAverageLevel();
           alert("State loaded successfully!");
         })
-        .catch(error => console.error('Error loading state:', error));
+       .catch(error => console.error('Error loading state:', error));
     }
 
 
