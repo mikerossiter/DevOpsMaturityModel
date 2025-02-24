@@ -103,22 +103,22 @@ fetch('dimensions.json')
       }
     }
 
-    // Calculate and display the average level
     function calculateAverageLevel() {
       // Compute the average level from currentLevels
       const sumLevels = currentLevels.reduce((sum, level) => sum + level, 0);
       const avgLevel = sumLevels / currentLevels.length;
-      // Compute the percentage based on a maximum level of 5
+      const avgLevelInt = Math.round(avgLevel); // round average level to whole number
+      
+      // Compute the percentage based on a maximum level of 5 using the unrounded average
       const percentage = (avgLevel / 5) * 100;
       
       const averageLevelPane = document.getElementById('average-level');
       if (averageLevelPane) {
-        averageLevelPane.textContent = `Average Level: ${avgLevel.toFixed(1)} (${percentage.toFixed(1)}% completed)`;
+        averageLevelPane.textContent = `Average Level: ${avgLevelInt} (${percentage.toFixed(2)}% completed)`;
       } else {
         console.error("Average level pane not found");
       }
     }
-
 
     // Count checkbox states for a specific dimension level
     function countCheckboxStates(dimensionIndex, levelIndex) {
