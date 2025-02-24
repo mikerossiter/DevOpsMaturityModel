@@ -2,71 +2,176 @@
   {
     "name": "Collaboration and Culture",
     "levels": [
-      "Teams use a shared communication platform (e.g., email, chat). Periodic meetings for major milestones or incidents. Documentation is shared between teams.",
-      "Regularly scheduled cross-team check-ins (e.g., weekly standups). Use of task-tracking tools to share updates (e.g., Jira, Trello). Basic feedback mechanisms after deployments or incidents.",
-      "Defined communication channels for all teams (e.g., Slack channels). Regular retrospectives with actionable outcomes. Joint team planning sessions to align goals and timelines.",
-      "Fully integrated workflows with shared ownership of tasks. Teams co-develop goals and KPIs, reflecting mutual accountability. Continuous feedback loops drive iterative process improvement.",
-      "Automated tools provide real-time updates across teams (e.g., CI/CD alerts). Cross-functional team members are embedded in each other's teams. Mentorship programs sustain collaboration and knowledge sharing."
+      {
+        "text": "Teams use a shared communication platform (e.g., email, chat). Periodic meetings for major milestones or incidents. Documentation is shared between teams.",
+        "details": "More details here... (Contact: Communications Manager)"
+      },
+      {
+        "text": "Regularly scheduled cross-team check-ins (e.g., weekly standups). Use of task-tracking tools to share updates (e.g., Jira, Trello). Basic feedback mechanisms after deployments or incidents.",
+        "details": "More details here... (Contact: Project Manager)"
+      },
+      {
+        "text": "Defined communication channels for all teams (e.g., Slack channels). Regular retrospectives with actionable outcomes. Joint team planning sessions to align goals and timelines.",
+        "details": "More details here... (Contact: Team Lead)"
+      },
+      {
+        "text": "Fully integrated workflows with shared ownership of tasks. Teams co-develop goals and KPIs, reflecting mutual accountability. Continuous feedback loops drive iterative process improvement.",
+        "details": "More details here... (Contact: Operations Manager)"
+      },
+      {
+        "text": "Automated tools provide real-time updates across teams (e.g., CI/CD alerts). Cross-functional team members are embedded in each other's teams. Mentorship programs sustain collaboration and knowledge sharing.",
+        "details": "More details here... (Contact: DevOps Manager)"
+      }
     ]
   },
   {
     "name": "Processes and Practices",
     "levels": [
-      "Deployments occur manually with documented steps. Releases follow a predictable schedule (e.g., monthly). A rollback plan exists for each release.",
-      "Basic scripting tools semi-automate deployments. Deployment frequency increases to bi-weekly or weekly. Post-deployment reviews capture learnings.",
-      "Deployment processes are fully scripted and consistent. Weekly or more frequent releases are achieved. Rollback processes are tested and reliable.",
-      "Continuous deployment pipelines are established and regularly used. Teams deploy multiple times a week with high confidence. Feature flags enable safe releases and quick rollbacks.",
-      "Deployment frequency is daily or more frequent without downtime. Canary deployments and A/B testing are standard practices. Teams achieve zero-touch, automated deployments with metrics-driven validation."
+      {
+        "text": "Deployments occur manually with documented steps. Releases follow a predictable schedule (e.g., monthly). A rollback plan exists for each release.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Basic scripting tools semi-automate deployments. Deployment frequency increases to bi-weekly or weekly. Post-deployment reviews capture learnings.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Deployment processes are fully scripted and consistent. Weekly or more frequent releases are achieved. Rollback processes are tested and reliable.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Continuous deployment pipelines are established and regularly used. Teams deploy multiple times a week with high confidence. Feature flags enable safe releases and quick rollbacks.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Deployment frequency is daily or more frequent without downtime. Canary deployments and A/B testing are standard practices. Teams achieve zero-touch, automated deployments with metrics-driven validation.",
+        "details": "More details here..."
+      }
     ]
   },
   {
     "name": "Automation",
     "levels": [
-      "Builds are initiated manually by developers. Basic scripts ensure consistent build processes. Documentation for build processes is maintained.",
-      "Builds are triggered automatically upon commit to version control. Build scripts enforce consistency across environments. Notifications alert developers of build successes or failures.",
-      "Builds are fully automated and include basic validation checks. Developers receive detailed feedback on build status. Build times are optimised for efficiency.",
-      "Builds include advanced validation steps like linting, security scans, and unit tests. Parallelised build processes reduce time-to-delivery. Builds are integrated into CI pipelines and trigger other automated steps.",
-      "Fully automated, self-healing build systems with minimal manual intervention. Multi-platform builds for diverse environments are supported. Metrics and analytics provide visibility into build performance and success rates."
+      {
+        "text": "Builds are initiated manually by developers. Basic scripts ensure consistent build processes. Documentation for build processes is maintained.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Builds are triggered automatically upon commit to version control. Build scripts enforce consistency across environments. Notifications alert developers of build successes or failures.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Builds are fully automated and include basic validation checks. Developers receive detailed feedback on build status. Build times are optimised for efficiency.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Builds include advanced validation steps like linting, security scans, and unit tests. Parallelised build processes reduce time-to-delivery. Builds are integrated into CI pipelines and trigger other automated steps.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Fully automated, self-healing build systems with minimal manual intervention. Multi-platform builds for diverse environments are supported. Metrics and analytics provide visibility into build performance and success rates.",
+        "details": "More details here..."
+      }
     ]
   },
   {
     "name": "Continuous Integration and Delivery (CI/CD)",
     "levels": [
-      "Source code is stored in a version control system. Developers manually merge and test code changes. Basic build pipelines exist but require manual initiation.",
-      "Automated build pipelines run on each commit. Unit tests are automatically triggered during builds. Artifacts are stored in a repository for reuse.",
-      "CI pipelines integrate code changes automatically. Test automation ensures code quality before merging. Basic CD pipelines deploy to staging environments.",
-      "Fully automated CI/CD pipelines deploy to production environments. Integration with infrastructure as code (IaC) tools for provisioning environments. Performance tests are part of the pipeline.",
-      "CI/CD pipelines include automated security scans and compliance checks. Pipelines enable multi-region, zero-downtime deployments. Real-time monitoring metrics feed back into CI/CD pipelines for optimisation."
+      {
+        "text": "Source code is stored in a version control system. Developers manually merge and test code changes. Basic build pipelines exist but require manual initiation.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Automated build pipelines run on each commit. Unit tests are automatically triggered during builds. Artifacts are stored in a repository for reuse.",
+        "details": "More details here..."
+      },
+      {
+        "text": "CI pipelines integrate code changes automatically. Test automation ensures code quality before merging. Basic CD pipelines deploy to staging environments.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Fully automated CI/CD pipelines deploy to production environments. Integration with infrastructure as code (IaC) tools for provisioning environments. Performance tests are part of the pipeline.",
+        "details": "More details here..."
+      },
+      {
+        "text": "CI/CD pipelines include automated security scans and compliance checks. Pipelines enable multi-region, zero-downtime deployments. Real-time monitoring metrics feed back into CI/CD pipelines for optimisation.",
+        "details": "More details here..."
+      }
     ]
   },
   {
     "name": "Monitoring and Observability",
     "levels": [
-      "Basic system metrics are collected (e.g., CPU, memory). Logs are stored manually for troubleshooting. Issues are identified reactively.",
-      "Application logs are centralised in a logging system. Alerts are configured for critical system failures. Monitoring dashboards visualise key metrics.",
-      "Monitoring tools track application performance (e.g., latency, throughput). Alerts include contextual information for faster resolution. Teams analyse trends to predict potential issues.",
-      "Distributed tracing tracks end-to-end system performance. Synthetic monitoring simulates user interactions. Teams use real-time dashboards for proactive management.",
-      "Automated anomaly detection identifies and addresses issues preemptively. Metrics from monitoring tools inform automated scaling decisions. Observability data is integrated into development workflows for continuous improvement."
+      {
+        "text": "Basic system metrics are collected (e.g., CPU, memory). Logs are stored manually for troubleshooting. Issues are identified reactively.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Application logs are centralised in a logging system. Alerts are configured for critical system failures. Monitoring dashboards visualise key metrics.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Monitoring tools track application performance (e.g., latency, throughput). Alerts include contextual information for faster resolution. Teams analyse trends to predict potential issues.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Distributed tracing tracks end-to-end system performance. Synthetic monitoring simulates user interactions. Teams use real-time dashboards for proactive management.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Automated anomaly detection identifies and addresses issues preemptively. Metrics from monitoring tools inform automated scaling decisions. Observability data is integrated into development workflows for continuous improvement.",
+        "details": "More details here..."
+      }
     ]
   },
   {
     "name": "Infrastructure and Operations",
     "levels": [
-      "Infrastructure is provisioned manually. Basic documentation exists for infrastructure configurations. Servers are maintained using standard operating procedures.",
-      "Basic configuration management tools (e.g., Ansible, Chef) are used. Environments are standardised for development and production. Automated provisioning is implemented for repeatable tasks.",
-      "Infrastructure is managed using infrastructure as code (IaC). Environments are reproducible across teams. Automation is used for scaling and disaster recovery.",
-      "Infrastructure changes are deployed via CI/CD pipelines. Monitoring ensures infrastructure health and performance. Multi-cloud or hybrid cloud infrastructure is supported.",
-      "Fully automated, self-healing infrastructure. Infrastructure is dynamically provisioned based on workload. Continuous optimisation reduces costs and enhances performance."
+      {
+        "text": "Infrastructure is provisioned manually. Basic documentation exists for infrastructure configurations. Servers are maintained using standard operating procedures.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Basic configuration management tools (e.g., Ansible, Chef) are used. Environments are standardised for development and production. Automated provisioning is implemented for repeatable tasks.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Infrastructure is managed using infrastructure as code (IaC). Environments are reproducible across teams. Automation is used for scaling and disaster recovery.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Infrastructure changes are deployed via CI/CD pipelines. Monitoring ensures infrastructure health and performance. Multi-cloud or hybrid cloud infrastructure is supported.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Fully automated, self-healing infrastructure. Infrastructure is dynamically provisioned based on workload. Continuous optimisation reduces costs and enhances performance.",
+        "details": "More details here..."
+      }
     ]
   },
   {
     "name": "Security and Compliance",
     "levels": [
-      "Security policies are documented and shared with teams. Manual reviews ensure compliance before deployments. Basic authentication controls protect systems.",
-      "Static analysis tools scan code for vulnerabilities. Developers complete basic security training. Compliance checklists are followed for releases.",
-      "Security scans are integrated into CI pipelines. Role-based access controls (RBAC) protect environments. Automated testing ensures adherence to compliance standards.",
-      "Dynamic analysis tools identify runtime vulnerabilities. Automated policy enforcement is implemented for compliance. Security events are monitored in real-time.",
-      "Security and compliance are embedded throughout the DevOps lifecycle. Teams use AI/ML for predictive security threat analysis. Compliance reports are generated automatically."
+      {
+        "text": "Security policies are documented and shared with teams. Manual reviews ensure compliance before deployments. Basic authentication controls protect systems.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Static analysis tools scan code for vulnerabilities. Developers complete basic security training. Compliance checklists are followed for releases.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Security scans are integrated into CI pipelines. Role-based access controls (RBAC) protect environments. Automated testing ensures adherence to compliance standards.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Dynamic analysis tools identify runtime vulnerabilities. Automated policy enforcement is implemented for compliance. Security events are monitored in real-time.",
+        "details": "More details here..."
+      },
+      {
+        "text": "Security and compliance are embedded throughout the DevOps lifecycle. Teams use AI/ML for predictive security threat analysis. Compliance reports are generated automatically.",
+        "details": "More details here..."
+      }
     ]
   }
 ]
