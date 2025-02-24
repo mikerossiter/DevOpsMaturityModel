@@ -24,4 +24,4 @@ dist/
 .env
 coverage/
 package-lock.json
-state.json
+save-state/*
