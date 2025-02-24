@@ -105,28 +105,20 @@ fetch('dimensions.json')
 
     // Calculate and display the average level
     function calculateAverageLevel() {
-      let totalChecked = 0;
-      let totalCheckboxes = 0;
-
-      dimensions.forEach((dimension, dimensionIndex) => {
-        dimension.levels.forEach((level, levelIndex) => {
-          const { checkedBoxes, totalBoxes } = countCheckboxStates(dimensionIndex, levelIndex);
-          totalChecked += checkedBoxes;
-          totalCheckboxes += totalBoxes;
-        });
-      });
-
-      const completionPercentage = (totalChecked / totalCheckboxes) * 100;
-      const averageLevel = (completionPercentage / 100) * dimensions.length;
-      // averageLevel = Math.round(averageLevel);      
-
+      // Compute the average level from currentLevels
+      const sumLevels = currentLevels.reduce((sum, level) => sum + level, 0);
+      const avgLevel = sumLevels / currentLevels.length;
+      // Compute the percentage based on a maximum level of 5
+      const percentage = (avgLevel / 5) * 100;
+      
       const averageLevelPane = document.getElementById('average-level');
-      if (averageLevelPane) { 
-        averageLevelPane.textContent = `Average Level: ${Math.round(averageLevel)} (${completionPercentage.toFixed(1)}% completed)`;
+      if (averageLevelPane) {
+        averageLevelPane.textContent = `Average Level: ${avgLevel.toFixed(1)} (${percentage.toFixed(1)}% completed)`;
       } else {
         console.error("Average level pane not found");
       }
     }
+
 
     // Count checkbox states for a specific dimension level
     function countCheckboxStates(dimensionIndex, levelIndex) {

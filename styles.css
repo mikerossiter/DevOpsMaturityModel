@@ -34,29 +34,38 @@ body {
     justify-content: center;  /* Center content horizontally */
 }
 
+/* Modern table styling */
 table {
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
-    height: auto; /* Prevent table from stretching vertically */
-    margin: 0;
-    border-spacing: 0;
-    overflow: hidden;  /* Ensure the table doesn't spill out */
+  width: 100%;
+  border-collapse: separate; /* Allows rounded corners */
+  border-spacing: 0;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 20px auto;
 }
 
-
 th, td {
-    font-size: 1rem;
-    border: 2px solid black;
-    padding: 0; /* Remove padding to control exact size */
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    font-size: calc(1vw + 1vh);
-    width: 100px; /* Fixed width */
-    height: 100px; /* Fixed height */
-    overflow: hidden; /* Prevent content overflow */
-    word-wrap: break-word;
+  padding: 12px 16px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+th {
+  background-color: #f0f8ff;  /* Light blue for a modern feel */
+  color: #333;
+  font-weight: bold;
+  border-bottom: 2px solid #4bc0c0;  /* Use a color similar to your chart */
+}
+
+td {
+  border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+  background-color: #f9f9f9;
+  transition: background-color 0.2s ease;
 }
 
 

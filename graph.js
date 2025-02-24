@@ -11,8 +11,8 @@ function createChart(data) {
     data: {
       labels: data.map(d => d.timestamp),
       datasets: [{
-        label: 'Maturity Score (%)',
-        data: data.map(d => d.maturityScore),
+        label: 'Completion (%)',
+        data: data.map(d => d.completionPercentage),
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 2,
@@ -43,7 +43,7 @@ function createChart(data) {
           max: 100,
           title: {
             display: true,
-            text: 'Maturity Score (%)'
+            text: 'Completion (%)'
           }
         }
       }
@@ -63,15 +63,11 @@ fetch('/state-files')
       return;
     }
     
-    // Calculate maturity score using currentLevels
-    const maxLevel = 5;
+    // Use the stored completionPercentage directly
     const adoptionData = stateFiles.map(file => {
       try {
         const state = JSON.parse(file);
-        const numDimensions = state.currentLevels.length;
-        const sumLevels = state.currentLevels.reduce((sum, level) => sum + level, 0);
-        const maturityScore = (sumLevels / (maxLevel * numDimensions)) * 100;
-        return { timestamp: state.timestamp, maturityScore };
+        return { timestamp: state.timestamp, completionPercentage: state.completionPercentage };
       } catch (e) {
         console.error("Error parsing state file:", file, e);
         return null;
