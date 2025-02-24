@@ -105,28 +105,20 @@ fetch('dimensions.json')
 
     // Calculate and display the average level
     function calculateAverageLevel() {
-      let totalChecked = 0;
-      let totalCheckboxes = 0;
-
-      dimensions.forEach((dimension, dimensionIndex) => {
-        dimension.levels.forEach((level, levelIndex) => {
-          const { checkedBoxes, totalBoxes } = countCheckboxStates(dimensionIndex, levelIndex);
-          totalChecked += checkedBoxes;
-          totalCheckboxes += totalBoxes;
-        });
-      });
-
-      const completionPercentage = (totalChecked / totalCheckboxes) * 100;
-      const averageLevel = (completionPercentage / 100) * dimensions.length;
-      // averageLevel = Math.round(averageLevel);      
-
+      // Compute the average level from currentLevels
+      const sumLevels = currentLevels.reduce((sum, level) => sum + level, 0);
+      const avgLevel = sumLevels / currentLevels.length;
+      // Compute the percentage based on a maximum level of 5
+      const percentage = (avgLevel / 5) * 100;
+      
       const averageLevelPane = document.getElementById('average-level');
-      if (averageLevelPane) { 
-        averageLevelPane.textContent = `Average Level: ${Math.round(averageLevel)} (${completionPercentage.toFixed(1)}% completed)`;
+      if (averageLevelPane) {
+        averageLevelPane.textContent = `Average Level: ${avgLevel.toFixed(1)} (${percentage.toFixed(1)}% completed)`;
       } else {
         console.error("Average level pane not found");
       }
     }
+
 
     // Count checkbox states for a specific dimension level
     function countCheckboxStates(dimensionIndex, levelIndex) {
@@ -144,21 +136,47 @@ fetch('dimensions.json')
       return { checkedBoxes, totalBoxes };
     }
 
-    // Save state to a new file with a timestamp
+    // Compute the average completion percentage across all dimensions
+    function computeAverageCompletionPercentage() {
+      let totalChecked = 0;
+      let totalBoxes = 0;
+
+      dimensions.forEach((dimension, dimensionIndex) => {
+        dimension.levels.forEach((level, levelIndex) => {
+          const { checkedBoxes, totalBoxes: boxes } = countCheckboxStates(dimensionIndex, levelIndex);
+          totalChecked += checkedBoxes;
+          totalBoxes += boxes;
+        });
+      });
+      return totalBoxes ? (totalChecked / totalBoxes) * 100 : 0;
+    }
+
     function saveState() {
-      const timestamp = new Date().toISOString().replace(/:/g, '-').replace('.', '-');
-      const state = { currentLevels, checkboxStates };
-      const filename = `state-${timestamp}.json`;
+      const now = new Date();
+      const timestamp = now.toISOString();
+      // Create a filename timestamp that's safe and sortable
+      const filenameTimestamp = now.toISOString().replace(/[-:.TZ]/g, '');
+      
+      // Use the same calculation as on the main page:
+      const computedCompletionPercentage = computeAverageCompletionPercentage();
+      
+      const state = { 
+        timestamp, 
+        currentLevels, 
+        checkboxStates, 
+        completionPercentage: computedCompletionPercentage 
+      };
+      const filename = `state-${filenameTimestamp}.json`;
 
       fetch('/save-state', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ filename, state: JSON.stringify(state) }),
       })
-    .then(response => {
-        if (response.ok) alert('State saved successfully!');
-      })
-    .catch(error => console.error('Error saving state:', error));
+        .then(response => {
+          if (response.ok) alert('State saved successfully!');
+        })
+        .catch(error => console.error('Error saving state:', error));
     }
 
     // Load state from the latest state file in /save-state
@@ -239,8 +257,15 @@ fetch('dimensions.json')
     loadButton.textContent = 'Load State';
     loadButton.onclick = loadState;
 
+    // New "Generate Graph" button
+    const graphButton = document.createElement('button');
+    graphButton.textContent = 'Generate Graph';
+    graphButton.onclick = () => window.open('graph.html', '_blank');
+
     buttonsContainer.appendChild(saveButton);
     buttonsContainer.appendChild(loadButton);
+    buttonsContainer.appendChild(graphButton);
+
     document.body.appendChild(buttonsContainer);
 
     // Initial calculations

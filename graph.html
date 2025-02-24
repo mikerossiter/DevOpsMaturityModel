@@ -1,11 +1,26 @@
-<!-- graph.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adoption Graph</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevOps Maturity Graph</title>
+  <!-- Load Chart.js and the date-fns adapter -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+    }
+    #adoption-graph {
+      display: block;
+      width: 100%;
+      height: 90vh; /* Fills most of the viewport height */
+      border: 1px solid red; /* Debug border */
+    }
+  </style>
 </head>
 <body>
   <canvas id="adoption-graph"></canvas>
