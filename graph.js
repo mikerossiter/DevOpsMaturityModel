@@ -1,7 +1,5 @@
+const graphContainer = document.getElementById('graph-container');
 const graphCanvas = document.getElementById('adoption-graph');
-if (!graphCanvas) {
-  console.error('Canvas with id "adoption-graph" not found.');
-}
 const ctx = graphCanvas.getContext('2d');
 
 function createChart(data) {
@@ -21,21 +19,22 @@ function createChart(data) {
       }]
     },
     options: {
-      responsive: true,
-      plugins: {
-        legend: { display: true },
-        title: { display: true, text: 'Adoption Over Time' }
-      },
       scales: {
         x: {
           type: 'time',
           time: {
+            // This format is used for the tooltip
             tooltipFormat: 'MMM d, yyyy, h:mm:ss a',
-            unit: 'minute'
+            // Specify the display format for ticks; here we set the unit to 'hour'
+            // so that both date and time are shown.
+            unit: 'hour',
+            displayFormats: {
+              hour: 'MMM d, yyyy, h:mm a'
+            }
           },
           title: {
             display: true,
-            text: 'Time'
+            text: 'Date & Time'
           }
         },
         y: {
@@ -58,27 +57,34 @@ fetch('/state-files')
   })
   .then(stateFiles => {
     console.log('State files:', stateFiles);
+    
     if (!stateFiles || stateFiles.length === 0) {
-      console.warn("No state files found.");
+      // Replace the container's content with a message
+      graphContainer.innerHTML = '<p class="no-state-message">No state files found.</p>';
       return;
     }
     
-    // Use the stored completionPercentage directly
+    // Map each file to the data object (assuming each state has a timestamp and completionPercentage)
     const adoptionData = stateFiles.map(file => {
       try {
         const state = JSON.parse(file);
-        return { timestamp: state.timestamp, completionPercentage: state.completionPercentage };
+        return { 
+          timestamp: state.timestamp, 
+          completionPercentage: state.completionPercentage 
+        };
       } catch (e) {
         console.error("Error parsing state file:", file, e);
         return null;
       }
     }).filter(item => item !== null);
     
-    console.log('Chart data before sorting:', adoptionData);
+    console.log('Chart data:', adoptionData);
+    
+    // Sort the data by timestamp (oldest to newest)
     adoptionData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-    console.log('Chart data after sorting:', adoptionData);
     createChart(adoptionData);
   })
   .catch(err => {
     console.error('Error fetching state files:', err);
+    graphContainer.innerHTML = '<p class="no-state-message">Error loading state files.</p>';
   });

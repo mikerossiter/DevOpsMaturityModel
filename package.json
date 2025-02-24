@@ -1,6 +1,6 @@
 {
   "name": "devops-maturity-model",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "scripts": {
     "start": "node server.js"
   },
@@ -9,7 +9,7 @@
   },
   "main": "script.js",
   "keywords": [],
-  "author": "",
+  "author": "Mike Rossiter",
   "license": "ISC",
   "description": ""
 }

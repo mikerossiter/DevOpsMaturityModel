@@ -70,6 +70,22 @@ app.get('/state-files', (req, res) => {
   res.json(states);
 });
 
+app.post('/reset-state', (req, res) => {
+  const saveStateDir = './save-state';
+  if (!fs.existsSync(saveStateDir)) {
+    return res.status(404).send('Save state folder does not exist.');
+  }
+  const files = fs.readdirSync(saveStateDir);
+  try {
+    files.forEach(file => {
+      fs.unlinkSync(path.join(saveStateDir, file));
+    });
+    res.send('Save state folder cleared successfully.');
+  } catch (error) {
+    console.error('Error clearing save state folder:', error);
+    res.status(500).send('Error clearing save state folder.');
+  }
+});
 
 
 app.listen(port, '127.0.0.1', () => {

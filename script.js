@@ -139,7 +139,7 @@ fetch('dimensions.json')
 
       const averageLevelPane = document.getElementById('average-level');
       if (averageLevelPane) {
-        averageLevelPane.textContent = `Average Level: ${avgLevelInt} (${percentage.toFixed(2)}% completed)`;
+        averageLevelPane.textContent = `Average Level: ${avgLevelInt}`;
       } else {
         console.error("Average level pane not found");
       }
@@ -202,16 +202,25 @@ fetch('dimensions.json')
     function loadState() {
       fetch('/load-state')
         .then(response => {
-          if (!response.ok) throw new Error('State file not found');
+          if (!response.ok) {
+            if (response.status === 404) {
+              throw new Error('State files not found');
+            }
+            throw new Error('State files not found');
+          }
           return response.json();
         })
         .then(state => {
           console.log('Loaded state:', state);
+          
+          // Update the state from the loaded data
           checkboxStates = state.checkboxStates || {};
           currentLevels = state.currentLevels || new Array(dimensions.length).fill(0);
+          
+          // Clear previous detail content
           const detailContent = document.getElementById('detail-content');
           detailContent.innerHTML = '';
-
+          
           // Recreate checkboxes for each dimension level (using subDimensions)
           dimensions.forEach((dimension, dimensionIndex) => {
             dimension.levels.forEach((level, levelIndex) => {
@@ -237,20 +246,29 @@ fetch('dimensions.json')
               });
             });
           });
-
+          
+          // Update cell colors based on loaded states
           dimensions.forEach((dimension, dimensionIndex) => {
             dimension.levels.forEach((_, levelIndex) => {
               updateCellColor(dimensionIndex, levelIndex);
             });
           });
-
+          
+          // Recalculate average level
           calculateAverageLevel();
           alert("State loaded successfully!");
         })
-        .catch(error => console.error('Error loading state:', error));
+        .catch(error => {
+          if (error.message === 'No state files present.') {
+            alert('No state files present.');
+          } else {
+            console.error('Error loading state:', error);
+          }
+        });
     }
 
-    // Add buttons (save, load, generate graph)
+
+    // Add save, load, generate graph, and reset buttons
     const buttonsContainer = document.createElement('div');
     buttonsContainer.id = 'buttons-container';
     buttonsContainer.style.position = 'fixed';
@@ -269,11 +287,47 @@ fetch('dimensions.json')
     graphButton.textContent = 'Generate Graph';
     graphButton.onclick = () => window.open('graph.html', '_blank');
 
+    // New Reset button
+    const resetButton = document.createElement('button');
+    resetButton.textContent = 'Reset';
+    resetButton.onclick = () => {
+      if (confirm('Are you sure you want to clear all saved state files? This cannot be undone.')) {
+        fetch('/reset-state', { method: 'POST' })
+          .then(response => {
+            if (response.ok) {
+              alert('Save state folder has been cleared.');
+              // Clear in-memory state
+              checkboxStates = {};
+              currentLevels = new Array(dimensions.length).fill(0);
+              // Clear the table cells (the cells that show percentages and colours)
+              cells.forEach(c => {
+                c.cell.textContent = '';
+                c.cell.className = '';
+              });
+              // Clear the detail panel
+              const detailContent = document.getElementById('detail-content');
+              detailContent.innerHTML = '';
+              // Update average level display
+              calculateAverageLevel();
+            } else {
+              alert('Failed to clear save state folder.');
+            }
+          })
+          .catch(error => {
+            console.error('Error resetting state folder:', error);
+            alert('Error resetting save state folder.');
+          });
+      }
+    };
+
+
     buttonsContainer.appendChild(saveButton);
     buttonsContainer.appendChild(loadButton);
     buttonsContainer.appendChild(graphButton);
+    buttonsContainer.appendChild(resetButton);
 
     document.body.appendChild(buttonsContainer);
+
 
     // Initial calculation
     calculateAverageLevel();

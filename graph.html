@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DevOps Maturity Graph</title>
-  <!-- Load Chart.js and the date-fns adapter -->
+  <title>Adoption Graph</title>
+  <!-- Using date-fns adapter, etc. -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
   <style>
@@ -14,16 +14,27 @@
       padding: 0;
       background: #f7f7f7;
     }
-    #adoption-graph {
-      display: block;
-      width: 100%;
+    #graph-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 90vh; /* Fills most of the viewport height */
-      border: 1px solid red; /* Debug border */
+    }
+    #adoption-graph {
+      width: 100%;
+      height: 100%;
+    }
+    /* Style the message */
+    .no-state-message {
+      font-size: 1.5em;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <canvas id="adoption-graph"></canvas>
+  <div id="graph-container">
+    <canvas id="adoption-graph"></canvas>
+  </div>
   <script src="graph.js"></script>
 </body>
 </html>
