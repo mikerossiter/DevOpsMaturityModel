@@ -1,9 +1,9 @@
 // Fetch dimensions and load the initial state
 fetch('dimensions.json')
-  .then(response => response.json())
-  .then(dimensions => {
-    let currentLevels = new Array(dimensions.length).fill(0);
-    let checkboxStates = {};
+ .then(response => response.json())
+ .then(dimensions => {
+    currentLevels = new Array(dimensions.length).fill(0);
+    checkboxStates = {};
 
     const tableBody = document.getElementById('table-body');
     const cells = [];
@@ -23,55 +23,54 @@ fetch('dimensions.json')
 
     // Show details for a dimension level
     function showDetails(dimensionIndex, levelIndex) {
-        const detailTitle = document.getElementById('detail-title');
-        const detailContent = document.getElementById('detail-content');
-        const dimension = dimensions[dimensionIndex];
-        const level = dimension.levels[levelIndex];
+      const detailTitle = document.getElementById('detail-title');
+      const detailContent = document.getElementById('detail-content');
+      const dimension = dimensions[dimensionIndex];
+      const level = dimension.levels[levelIndex];
 
-        // Update the title
-        detailTitle.textContent = `${dimension.name} - Level ${levelIndex + 1}`;
+      // Update the title
+      detailTitle.textContent = `${dimension.name} - Level ${levelIndex + 1}`;
 
-        // Clear previous content
-        detailContent.innerHTML = '';
+      // Clear previous content
+      detailContent.innerHTML = '';
 
-        // If there are no details, hide the detail box
-        if (!level) {
-            detailContent.classList.remove('visible');
-            return;
-        }
+      // If there are no details, hide the detail box
+      if (!level) {
+        detailContent.classList.remove('visible');
+        return;
+      }
 
-        // Show the detail box by adding the 'visible' class
-        detailContent.classList.add('visible');
+      // Show the detail box by adding the 'visible' class
+      detailContent.classList.add('visible');
 
-        // Split details by ". " (assuming each detail is separated by a period and space)
-        const details = level.split('. ');
+      // Split details by ". " (assuming each detail is separated by a period and space)
+      const details = level.split('. ');
 
-        // Create checkbox and label elements for each detail
-        details.forEach((detail, index) => {
-            const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${index}`;
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = checkboxId;
-            checkbox.checked = checkboxStates[checkboxId] || false;
-            
-            // Update the state on change
-            checkbox.onchange = () => {
-                checkboxStates[checkboxId] = checkbox.checked;
-                updateCellColor(dimensionIndex, levelIndex);
-                calculateAverageLevel(); // Update the average level dynamically
-            };
+      // Create checkbox and label elements for each detail
+      details.forEach((detail, index) => {
+        const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${index}`;
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = checkboxId;
+        checkbox.checked = checkboxStates[checkboxId] || false;
 
-            const label = document.createElement('label');
-            label.htmlFor = checkboxId;
-            label.textContent = detail;
+        // Update the state on change
+        checkbox.onchange = () => {
+          checkboxStates[checkboxId] = checkbox.checked;
+          updateCellColor(dimensionIndex, levelIndex);
+          calculateAverageLevel(); // Update the average level dynamically
+        };
 
-            // Append the checkbox and label to the detail content
-            detailContent.appendChild(checkbox);
-            detailContent.appendChild(label);
-            detailContent.appendChild(document.createElement('br'));
-        });
+        const label = document.createElement('label');
+        label.htmlFor = checkboxId;
+        label.textContent = detail;
+
+        // Append the checkbox and label to the detail content
+        detailContent.appendChild(checkbox);
+        detailContent.appendChild(label);
+        detailContent.appendChild(document.createElement('br'));
+      });
     }
-
 
     // Update cell colors based on checkbox states
     function updateCellColor(dimensionIndex, levelIndex) {
@@ -79,10 +78,10 @@ fetch('dimensions.json')
       const cell = cells.find(c => c.dimensionIndex === dimensionIndex && c.levelIndex === levelIndex)?.cell;
 
       if (cell) {
-        const percentage = totalBoxes > 0 ? (checkedBoxes / totalBoxes) * 100 : 0;
+        const percentage = totalBoxes > 0? (checkedBoxes / totalBoxes) * 100 : 0;
 
         // Update cell text with percentage if greater than 0
-        cell.textContent = checkedBoxes > 0 ? `${percentage.toFixed(1)}%` : '';
+        cell.textContent = checkedBoxes > 0? `${percentage.toFixed(1)}%` : '';
 
         // Update cell class for color
         const threshold1 = Math.floor((totalBoxes - 1) / 2);
@@ -104,7 +103,6 @@ fetch('dimensions.json')
       }
     }
 
-
     // Calculate and display the average level
     function calculateAverageLevel() {
       let totalChecked = 0;
@@ -123,7 +121,7 @@ fetch('dimensions.json')
       // averageLevel = Math.round(averageLevel);      
 
       const averageLevelPane = document.getElementById('average-level');
-      if (averageLevelPane) {
+      if (averageLevelPane) { 
         averageLevelPane.textContent = `Average Level: ${Math.round(averageLevel)} (${completionPercentage.toFixed(1)}% completed)`;
       } else {
         console.error("Average level pane not found");
@@ -146,56 +144,87 @@ fetch('dimensions.json')
       return { checkedBoxes, totalBoxes };
     }
 
-    // Save state to state.json
+    // Save state to a new file with a timestamp
     function saveState() {
+      const timestamp = new Date().toISOString().replace(/:/g, '-').replace('.', '-');
       const state = { currentLevels, checkboxStates };
+      const filename = `state-${timestamp}.json`;
+
       fetch('/save-state', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(state),
+        body: JSON.stringify({ filename, state: JSON.stringify(state) }),
       })
-        .then(response => {
-          if (response.ok) alert('State saved successfully!');
-        })
-        .catch(error => console.error('Error saving state:', error));
+    .then(response => {
+        if (response.ok) alert('State saved successfully!');
+      })
+    .catch(error => console.error('Error saving state:', error));
     }
 
-    // Load state from state.json
+    // Load state from the latest state file in /save-state
     function loadState() {
-      fetch('/state.json')
+      fetch('/load-state')
         .then(response => {
           if (!response.ok) throw new Error('State file not found');
           return response.json();
         })
         .then(state => {
-          console.log('Loaded state:', state); // Debugging step to log the state
+          console.log('Loaded state:', state);
+          
+          // Update the state from the loaded data
           checkboxStates = state.checkboxStates || {};
           currentLevels = state.currentLevels || new Array(dimensions.length).fill(0);
-
-          // Apply the loaded state to checkboxes
-          Object.keys(checkboxStates).forEach(checkboxId => {
-            const checkbox = document.getElementById(checkboxId);
-            if (checkbox) {
-              checkbox.checked = checkboxStates[checkboxId];
-            }
+          
+          // Clear previous detail content
+          const detailContent = document.getElementById('detail-content');
+          detailContent.innerHTML = '';
+          
+          // Recreate checkboxes for each dimension level
+          dimensions.forEach((dimension, dimensionIndex) => {
+            dimension.levels.forEach((level, levelIndex) => {
+              const details = level.split('. ');
+              details.forEach((detail, index) => {
+                const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${index}`;
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = checkboxId;
+                checkbox.checked = checkboxStates[checkboxId] || false;
+      
+                // Update state on change
+                checkbox.onchange = () => {
+                  checkboxStates[checkboxId] = checkbox.checked;
+                  updateCellColor(dimensionIndex, levelIndex);
+                  calculateAverageLevel();
+                };
+      
+                const label = document.createElement('label');
+                label.htmlFor = checkboxId;
+                label.textContent = detail;
+      
+                // Append checkbox and label to detail content
+                detailContent.appendChild(checkbox);
+                detailContent.appendChild(label);
+                detailContent.appendChild(document.createElement('br'));
+              });
+            });
           });
-
+      
           // Update cell colors based on loaded states
           dimensions.forEach((dimension, dimensionIndex) => {
             dimension.levels.forEach((_, levelIndex) => {
               updateCellColor(dimensionIndex, levelIndex);
             });
           });
-
+      
           // Recalculate and update the average level
           calculateAverageLevel();
           alert("State loaded successfully!");
         })
         .catch(error => console.error('Error loading state:', error));
     }
+  
 
-
-        // Add save and load buttons
+    // Add save and load buttons
     const buttonsContainer = document.createElement('div');
     buttonsContainer.id = 'buttons-container';
     buttonsContainer.style.position = 'fixed';
@@ -216,5 +245,4 @@ fetch('dimensions.json')
 
     // Initial calculations
     calculateAverageLevel();
-    // loadState();
   });
