@@ -6,7 +6,7 @@
         "subDimensions": [
           {
             "text": "Teams use a shared communication platform (e.g., email, chat).",
-            "details": "Using tools such as Slack or Teams can help streamline communication. (Contact: Communications Manager)"
+            "details": "Using tools such as Slack or Teams can help streamline communication. (Contact: Project Manager)"
           },
           {
             "text": "Periodic meetings for major milestones or incidents.",
@@ -38,7 +38,7 @@
         "subDimensions": [
           {
             "text": "Defined communication channels for all teams (e.g., Slack channels).",
-            "details": "Set up dedicated channels for different teams to ensure clear communication. (Contact: Communications Manager)"
+            "details": "Set up dedicated channels for different teams to ensure clear communication. (Contact: Project Manager)"
           },
           {
             "text": "Regular retrospectives with actionable outcomes.",
