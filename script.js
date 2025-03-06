@@ -4,9 +4,19 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((dimensions) => {
       const tableBody = document.getElementById("table-body");
       const averageLevelDisplay = document.getElementById("average-level");
+      const levelDescriptionDisplay = document.getElementById("level-description");
       let selectedLevels = {}; // Track user selections
 
-      // Save State Button
+      // Level descriptions mapping
+      const levelDescriptions = {
+        1: "Level 1: Initial - Basic, ad-hoc practices.",
+        2: "Level 2: Emerging - Some structure, still improving.",
+        3: "Level 3: Established - Standardized and repeatable.",
+        4: "Level 4: Advanced - Proactive, optimized processes.",
+        5: "Level 5: Optimized - Fully automated, AI-driven improvements."
+      };
+
+      // Save State Button (functionality to be added later)
       const saveStateButton = document.getElementById("save-state-btn");
       saveStateButton.addEventListener("click", () => {
         const timestamp = new Date().toISOString();
@@ -34,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
       });
 
-      // Load State Button
+      // Load State Button (functionality to be added later)
       const loadStateButton = document.getElementById("load-state-btn");
       loadStateButton.addEventListener("click", () => {
         fetch("/load-state")
@@ -74,28 +84,46 @@ document.addEventListener("DOMContentLoaded", () => {
         updateAverageLevel();
       }
 
-      // Update aggregated progress for a dimension in both thin (closed) and full (if expanded) bars
+      // Update progress for a given dimension.
       function updateProgress(dimensionIndex) {
-        // Calculate aggregated progress from sub-dimensions
         const selectElements = document.querySelectorAll(
           `.sub-dimension-${dimensionIndex} select.level-selector`
         );
         let total = 0;
         let count = 0;
+        let complete = true;
         selectElements.forEach((select) => {
-          const val = parseInt(select.value) || 1;
-          total += val;
-          count++;
+          if (select.value === "") {
+            complete = false;
+          } else {
+            total += parseInt(select.value);
+            count++;
+          }
         });
+        // If not all selections made, set progress bars to 0 and update average display as incomplete.
+        if (!complete) {
+          const progressBar = document.getElementById(`progress-bar-${dimensionIndex}`);
+          if (progressBar) {
+            progressBar.style.width = "0%";
+            progressBar.textContent = "";
+          }
+          const thinProgressBar = document.getElementById(`progress-bar-closed-${dimensionIndex}`);
+          if (thinProgressBar) {
+            thinProgressBar.style.width = "0%";
+            thinProgressBar.textContent = "";
+          }
+          updateAverageLevel();
+          return;
+        }
         let average = total / count;
         let percentage = (average / 5) * 100;
 
-        // Update full progress bar if exists (expanded state)
+        // Update full progress bar if exists (expanded view)
         const progressBar = document.getElementById(`progress-bar-${dimensionIndex}`);
         if (progressBar) {
           progressBar.style.width = `${percentage}%`;
           progressBar.textContent = `${percentage.toFixed(1)}% Complete`;
-          progressBar.className = "progress-bar"; // Reset
+          progressBar.className = "progress-bar";
           if (percentage === 100) {
             progressBar.classList.add("colour5");
           } else if (percentage > 80) {
@@ -112,7 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const thinProgressBar = document.getElementById(`progress-bar-closed-${dimensionIndex}`);
         if (thinProgressBar) {
           thinProgressBar.style.width = `${percentage}%`;
-          // Optionally, you can omit text on a thin bar:
           thinProgressBar.textContent = "";
           thinProgressBar.className = "progress-bar progress-bar-thin";
           if (percentage === 100) {
@@ -137,20 +164,31 @@ document.addEventListener("DOMContentLoaded", () => {
         updateAverageLevel();
       }
 
-      // Update overall average level using all dimensions
+      // Update overall average level if—and only if—all dropdowns are selected.
       function updateAverageLevel() {
         let totalLevels = 0;
         let totalSubdimensions = 0;
+        let allSelected = true;
         dimensions.forEach((dimension, dimensionIndex) => {
           dimension.subDimensions.forEach((subDim, subDimIndex) => {
-            let level = 1;
-            if (selectedLevels[dimensionIndex] && selectedLevels[dimensionIndex][subDimIndex]) {
-              level = selectedLevels[dimensionIndex][subDimIndex];
+            // Check if selection exists in our tracking object.
+            if (
+              !selectedLevels[dimensionIndex] ||
+              selectedLevels[dimensionIndex][subDimIndex] === undefined ||
+              selectedLevels[dimensionIndex][subDimIndex] === ""
+            ) {
+              allSelected = false;
+            } else {
+              totalLevels += selectedLevels[dimensionIndex][subDimIndex];
             }
-            totalLevels += level;
             totalSubdimensions++;
           });
         });
+        if (!allSelected) {
+          averageLevelDisplay.textContent = "Average Level: --";
+          levelDescriptionDisplay.textContent = "";
+          return;
+        }
         let averageLevel = totalLevels / totalSubdimensions;
         let roundedAverageLevel = Math.round(averageLevel);
         let maxPossibleLevels = totalSubdimensions * 5;
@@ -158,6 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ((totalLevels - totalSubdimensions) / (maxPossibleLevels - totalSubdimensions)) * 100;
         overallProgress = Math.max(20, overallProgress);
         averageLevelDisplay.textContent = `Average Level: ${roundedAverageLevel} (${overallProgress.toFixed(1)}% completed)`;
+        levelDescriptionDisplay.textContent = levelDescriptions[roundedAverageLevel] || "";
       }
 
       function getModelState() {
@@ -168,17 +207,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const selectElement = document.querySelector(
               `#dimension-${dimensionIndex}-subdimension-${subDimIndex}`
             );
-            if (selectElement) {
+            if (selectElement && selectElement.value !== "") {
               modelState.selectedLevels[dimensionIndex][subDimIndex] = parseInt(selectElement.value);
             } else {
-              modelState.selectedLevels[dimensionIndex][subDimIndex] = 1;
+              modelState.selectedLevels[dimensionIndex][subDimIndex] = "";
             }
           });
         });
         return modelState;
       }
 
-      // Render dimensions and their dropdowns along with a thin progress bar row (always visible when closed)
+      // Render dimensions and their dropdowns (with blank defaults) along with a thin progress bar row.
       function renderDimensions() {
         dimensions.forEach((dimension, dimensionIndex) => {
           // Create dimension row
@@ -218,17 +257,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
           cell.addEventListener("click", () => {
             if (expanded) {
-              // Collapse: Remove expanded sub-dimension rows and full progress row,
-              // and show the thin (closed) progress bar row.
+              // Collapse: remove sub-dimension rows and full progress row, show thin progress bar row.
               const subRows = document.querySelectorAll(`.sub-dimension-${dimensionIndex}`);
               subRows.forEach((el) => el.remove());
               const progressRow = document.getElementById(`progress-row-${dimensionIndex}`);
               if (progressRow) progressRow.remove();
-              // Show thin progress bar row
               closedProgressRow.style.display = "table-row";
               expanded = false;
             } else {
-              // Expand: Hide the thin progress bar row and insert sub-dimension rows
+              // Expand: hide thin progress bar row and insert sub-dimension rows.
               closedProgressRow.style.display = "none";
               if (!selectedLevels[dimensionIndex]) {
                 selectedLevels[dimensionIndex] = {};
@@ -246,6 +283,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 select.classList.add("level-selector");
                 select.id = `dimension-${dimensionIndex}-subdimension-${subDimIndex}`;
 
+                // Add default blank option.
+                const defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.textContent = "Select level";
+                select.appendChild(defaultOption);
+
+                // Add level options.
                 subDim.levels.forEach((levelText, levelIndex) => {
                   const option = document.createElement("option");
                   option.value = levelIndex + 1;
@@ -253,29 +297,25 @@ document.addEventListener("DOMContentLoaded", () => {
                   select.appendChild(option);
                 });
 
-                // Set select value based on previous selection if available
-                if (
-                  selectedLevels[dimensionIndex] &&
-                  selectedLevels[dimensionIndex][subDimIndex]
-                ) {
-                  select.value = selectedLevels[dimensionIndex][subDimIndex];
-                } else {
-                  select.value = "1";
-                }
-
+                // Start with blank selection.
+                select.value = "";
                 select.addEventListener("change", () => {
-                  selectedLevels[dimensionIndex][subDimIndex] = parseInt(select.value);
+                  // If a level is selected, update the tracking object.
+                  if (select.value === "") {
+                    selectedLevels[dimensionIndex][subDimIndex] = "";
+                  } else {
+                    selectedLevels[dimensionIndex][subDimIndex] = parseInt(select.value);
+                  }
                   updateProgress(dimensionIndex);
                 });
 
                 subCell2.appendChild(select);
                 subRow.appendChild(subCell1);
                 subRow.appendChild(subCell2);
-                // Insert sub-dimension rows right after the dimension row (and before the thin progress bar row)
                 tableBody.insertBefore(subRow, closedProgressRow);
               });
 
-              // Optionally, insert a full aggregated progress row (if you want a larger bar in expanded view)
+              // Optionally, insert a full aggregated progress row for expanded view.
               const progressRow = document.createElement("tr");
               progressRow.id = `progress-row-${dimensionIndex}`;
               const progressCell = document.createElement("td");
@@ -296,8 +336,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // Initialize by rendering dimensions
+      // Initialize by rendering dimensions (leaving dropdowns blank) and clear average level.
       renderDimensions();
+      averageLevelDisplay.textContent = "Average Level: --";
+      levelDescriptionDisplay.textContent = "";
     })
     .catch((error) => console.error("Error loading dimensions:", error));
 });

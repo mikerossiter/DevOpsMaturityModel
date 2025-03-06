@@ -1,50 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOps Maturity Model</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevOps Maturity Model</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
 
-    <h1>DevOps Maturity Model</h1>
+  <h1>DevOps Maturity Model</h1>
 
-    <!-- Container for Table and Buttons -->
-    <div class="model-container">
-        <!-- Table Wrapper -->
-        <div class="table-wrapper">
-            <table id="model-table">
-                <tbody id="table-body"></tbody>
-            </table>
-        </div>
+  <!-- Container for Table -->
+  <div class="model-container">
+    <!-- Table Wrapper -->
+    <div class="table-wrapper">
+      <table id="model-table">
+        <tbody id="table-body"></tbody>
+      </table>
     </div>
+  </div>
 
-    <!-- Average Level Section -->
-    <div id="average-level-container">
-        <div id="average-level">Average Level: 1 (20% completed)</div>
-    </div>
+  <!-- Average Level Section -->
+  <div id="average-level-container">
+    <div id="average-level">Average Level: 1 (20% completed)</div>
+    <div id="level-description"></div>
+  </div>
 
-    <!-- Level Descriptions Section with Buttons -->
-    <div id="level-descriptions-container">
-        <div id="level-descriptions">
-            <h3>Level Descriptions</h3>
-            <p><strong>Level 1:</strong> Initial - Basic, ad-hoc practices.</p>
-            <p><strong>Level 2:</strong> Emerging - Some structure, still improving.</p>
-            <p><strong>Level 3:</strong> Established - Standardized and repeatable.</p>
-            <p><strong>Level 4:</strong> Advanced - Proactive, optimized processes.</p>
-            <p><strong>Level 5:</strong> Optimized - Fully automated, AI-driven improvements.</p>
-        </div>
-
-        <!-- Buttons Container for level descriptions -->
-        <div id="buttons-container">
-            <button id="save-state-btn">Save State</button>
-            <button id="load-state-btn">Load State</button>
-            <button id="reset-state-btn">Reset</button>
-            <button onclick="window.open('graph.html', '_blank')">Generate Graph</button>
-        </div>
-    </div>
+  <!-- Buttons Container (displayed in a row at the bottom) -->
+  <div id="buttons-container">
+    <button id="save-state-btn">Save State</button>
+    <button id="load-state-btn">Load State</button>
+    <button id="reset-state-btn">Reset</button>
+    <button onclick="window.open('graph.html', '_blank')">Generate Graph</button>
+  </div>
 
 </body>
 </html>

@@ -58,15 +58,11 @@ td {
 
 /* Average Level Section */
 #average-level-container {
-    display: flex;
-    justify-content: flex-start; /* Align left */
-    align-items: center;
-    width: 90%;
-    max-width: 1200px;
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #f4f4f4;
-    border-radius: 8px;
+  text-align: center;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
 }
 
 #average-level {
@@ -90,11 +86,11 @@ td {
     border-radius: 8px;
 }
 
-#level-descriptions {
-    flex: 1;
-    text-align: left;
-    font-size: 16px;
-    color: #333;
+#level-description {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333;
 }
 
 #level-descriptions h3 {
@@ -108,11 +104,11 @@ td {
 
 /* Buttons Container for level descriptions */
 #buttons-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 200px; /* Width for the button container */
-    text-align: right;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px auto;
+  flex-wrap: wrap;
 }
 
 /* Progress Bar Styling */
