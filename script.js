@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         5: "Level 5: Optimized - Fully automated, AI-driven improvements."
       };
 
-      // Save State Button (functionality to be added later)
+      // Save State Button (sends state to server via SQLite)
       const saveStateButton = document.getElementById("save-state-btn");
       saveStateButton.addEventListener("click", () => {
         const timestamp = new Date().toISOString();
@@ -33,10 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
             state: JSON.stringify(modelState, null, 2),
           }),
         })
-          .then((response) => response.json())
+          .then((response) => response.text())
           .then((data) => {
-            console.log("State saved successfully:", data);
-            alert("State saved successfully!");
+            // console.log("State saved successfully:", data);
+            // alert("State saved successfully!");
           })
           .catch((error) => {
             console.error("Error saving state:", error);
@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
           });
       });
 
-      // Load State Button (functionality to be added later)
       const loadStateButton = document.getElementById("load-state-btn");
       loadStateButton.addEventListener("click", () => {
         fetch("/load-state")
@@ -52,9 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
           .then((data) => {
             if (data.selectedLevels) {
               loadModelState(data);
-              alert("State loaded successfully!");
             } else {
-              alert("No valid state data found");
+              alert("No state saved");
             }
           })
           .catch((error) => {
@@ -63,20 +61,28 @@ document.addEventListener("DOMContentLoaded", () => {
           });
       });
 
+      // Reset Button: clears the current selections (client-side only)
+      const resetStateButton = document.getElementById("reset-state-btn");
+      resetStateButton.addEventListener("click", () => {
+        resetModel();
+      });
+
       function loadModelState(savedState) {
         const { selectedLevels: savedLevels } = savedState;
         dimensions.forEach((dimension, dimensionIndex) => {
-          if (!selectedLevels[dimensionIndex]) {
-            selectedLevels[dimensionIndex] = {};
-          }
+          // Always update the tracking variable.
+          selectedLevels[dimensionIndex] = savedLevels[dimensionIndex] || {};
           dimension.subDimensions.forEach((subDim, subDimIndex) => {
-            const savedLevel = savedLevels[dimensionIndex]?.[subDimIndex];
+            // Save the value from saved state.
+            if (savedLevels[dimensionIndex] && savedLevels[dimensionIndex][subDimIndex] !== undefined) {
+              selectedLevels[dimensionIndex][subDimIndex] = savedLevels[dimensionIndex][subDimIndex];
+            }
+            // If dropdown exists (i.e. dimension is expanded), update its value.
             const levelSelector = document.querySelector(
               `#dimension-${dimensionIndex}-subdimension-${subDimIndex}`
             );
-            if (levelSelector && savedLevel !== "") {
-              levelSelector.value = savedLevel;
-              selectedLevels[dimensionIndex][subDimIndex] = savedLevel;
+            if (levelSelector) {
+              levelSelector.value = savedLevels[dimensionIndex]?.[subDimIndex] || "";
             }
           });
           updateProgress(dimensionIndex);
@@ -84,23 +90,59 @@ document.addEventListener("DOMContentLoaded", () => {
         updateAverageLevel();
       }
 
-      // Update the aggregated progress for a dimension in both full (expanded) and thin (closed) bars.
+      // Reset the model (client-side only): clear selections, progress bars, and update display.
+      function resetModel() {
+        selectedLevels = {}; // Clear tracking object.
+        // Reset all dropdowns (whether expanded or collapsed)
+        const allSelects = document.querySelectorAll("select.level-selector");
+        allSelects.forEach((select) => {
+          select.value = "";
+        });
+        // Reset progress bars for each dimension.
+        dimensions.forEach((dimension, dimensionIndex) => {
+          const progressBar = document.getElementById(`progress-bar-${dimensionIndex}`);
+          if (progressBar) {
+            progressBar.style.width = "0%";
+            progressBar.textContent = "";
+          }
+          const thinProgressBar = document.getElementById(`progress-bar-closed-${dimensionIndex}`);
+          if (thinProgressBar) {
+            thinProgressBar.style.width = "0%";
+            thinProgressBar.textContent = "";
+          }
+        });
+        // Reset overall average display.
+        averageLevelDisplay.textContent = "Please select levels for each dimension";
+        levelDescriptionDisplay.textContent = "";
+      }
+
       function updateProgress(dimensionIndex) {
         const selectElements = document.querySelectorAll(
           `.sub-dimension-${dimensionIndex} select.level-selector`
         );
         let total = 0;
         let count = 0;
-        selectElements.forEach((select) => {
-          if (select.value === "") {
-            // If any dropdown is blank, do not count it.
-            return;
+
+        if (selectElements.length > 0) {
+          selectElements.forEach((select) => {
+            if (select.value === "") return;
+            total += parseInt(select.value);
+            count++;
+          });
+        } else {
+          // If collapsed, compute using saved state.
+          if (selectedLevels[dimensionIndex]) {
+            Object.values(selectedLevels[dimensionIndex]).forEach((val) => {
+              if (val !== "" && val !== undefined) {
+                total += val;
+                count++;
+              }
+            });
           }
-          total += parseInt(select.value);
-          count++;
-        });
-        // If not all dropdowns are selected, reset the progress bar.
-        if (count < selectElements.length) {
+        }
+
+        const dimensionSubCount = dimensions[dimensionIndex].subDimensions.length;
+        if (count < dimensionSubCount) {
           const progressBar = document.getElementById(`progress-bar-${dimensionIndex}`);
           if (progressBar) {
             progressBar.style.width = "0%";
@@ -114,10 +156,11 @@ document.addEventListener("DOMContentLoaded", () => {
           updateAverageLevel();
           return;
         }
+
         let average = total / count;
         let percentage = (average / 5) * 100;
 
-        // Update full progress bar (expanded view)
+        // Expanded view progress bar.
         const progressBar = document.getElementById(`progress-bar-${dimensionIndex}`);
         if (progressBar) {
           progressBar.style.width = `${percentage}%`;
@@ -135,7 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
             progressBar.classList.add("colour1");
           }
         }
-        // Update thin progress bar (closed view)
+
+        // Collapsed (thin) view progress bar.
         const thinProgressBar = document.getElementById(`progress-bar-closed-${dimensionIndex}`);
         if (thinProgressBar) {
           thinProgressBar.style.width = `${percentage}%`;
@@ -163,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateAverageLevel();
       }
 
-      // Update the overall average level display if—and only if—all dropdowns are selected.
+      // Update overall average only when all dropdowns are selected.
       function updateAverageLevel() {
         let totalLevels = 0;
         let totalSubdimensions = 0;
@@ -183,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
         if (!allSelected) {
-          averageLevelDisplay.textContent = "Average Level: --";
+          averageLevelDisplay.textContent = "Please select levels for each dimension";
           levelDescriptionDisplay.textContent = "";
           return;
         }
@@ -201,24 +245,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const modelState = { selectedLevels: {} };
         dimensions.forEach((dimension, dimensionIndex) => {
           modelState.selectedLevels[dimensionIndex] = {};
-          dimension.subDimensions.forEach((_, subDimIndex) => {
-            const selectElement = document.querySelector(
-              `#dimension-${dimensionIndex}-subdimension-${subDimIndex}`
-            );
-            if (selectElement && selectElement.value !== "") {
-              modelState.selectedLevels[dimensionIndex][subDimIndex] = parseInt(selectElement.value);
-            } else {
+          // If there is no stored state for this dimension, default every sub-dimension to blank.
+          if (!selectedLevels[dimensionIndex]) {
+            dimension.subDimensions.forEach((_, subDimIndex) => {
               modelState.selectedLevels[dimensionIndex][subDimIndex] = "";
-            }
-          });
+            });
+          } else {
+            dimension.subDimensions.forEach((_, subDimIndex) => {
+              // Use the value from selectedLevels; if it's falsy, store blank.
+              modelState.selectedLevels[dimensionIndex][subDimIndex] = selectedLevels[dimensionIndex][subDimIndex] || "";
+            });
+          }
         });
         return modelState;
       }
 
-      // Render dimensions and their dropdowns along with a thin progress bar row (always visible when closed)
+      // Render dimensions and their dropdowns with blank defaults and a thin progress bar row.
       function renderDimensions() {
         dimensions.forEach((dimension, dimensionIndex) => {
-          // Create dimension row.
+          // Dimension row.
           const row = document.createElement("tr");
           row.classList.add("dimension-row");
           row.id = `row-${dimensionIndex}`;
@@ -231,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
           row.appendChild(cell);
           tableBody.appendChild(row);
 
-          // Create thin progress bar row (closed view).
+          // Thin progress bar row.
           const closedProgressRow = document.createElement("tr");
           closedProgressRow.id = `progress-row-closed-${dimensionIndex}`;
           const closedProgressCell = document.createElement("td");
@@ -278,13 +323,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 select.classList.add("level-selector");
                 select.id = `dimension-${dimensionIndex}-subdimension-${subDimIndex}`;
 
-                // Add default blank option.
+                // Default blank option.
                 const defaultOption = document.createElement("option");
                 defaultOption.value = "";
                 defaultOption.textContent = "Select level";
                 select.appendChild(defaultOption);
 
-                // Add level options.
+                // Level options.
                 subDim.levels.forEach((levelText, levelIndex) => {
                   const option = document.createElement("option");
                   option.value = levelIndex + 1;
@@ -292,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   select.appendChild(option);
                 });
 
-                // Set the select value based on saved state if available.
+                // Use saved value if exists.
                 if (
                   selectedLevels[dimensionIndex] &&
                   selectedLevels[dimensionIndex][subDimIndex] !== undefined &&
@@ -318,7 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 tableBody.insertBefore(subRow, closedProgressRow);
               });
 
-              // Optionally, insert a full aggregated progress row (expanded view).
+              // Full progress row (expanded view).
               const progressRow = document.createElement("tr");
               progressRow.id = `progress-row-${dimensionIndex}`;
               const progressCell = document.createElement("td");
@@ -341,7 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Initialize by rendering dimensions (with blank dropdowns) and clear average level.
       renderDimensions();
-      averageLevelDisplay.textContent = "Average Level: --";
+      averageLevelDisplay.textContent = "Please select levels for each dimension";
       levelDescriptionDisplay.textContent = "";
     })
     .catch((error) => console.error("Error loading dimensions:", error));
