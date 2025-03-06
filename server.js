@@ -28,6 +28,7 @@ app.post('/save-state', (req, res) => {
   });
 });
 
+
 app.get('/load-state', (req, res) => {
   const saveStateDir = './save-state';
   const files = fs.readdirSync(saveStateDir);
@@ -38,7 +39,6 @@ app.get('/load-state', (req, res) => {
     return;
   }
 
-  // Sort the filenames in descending order (newest first)
   const latestStateFile = stateFiles.sort((a, b) => b.localeCompare(a))[0];
   const filePath = path.join(saveStateDir, latestStateFile);
 
@@ -51,6 +51,7 @@ app.get('/load-state', (req, res) => {
     }
   });
 });
+
 
 app.get('/state-files', (req, res) => {
   const saveStateDir = './save-state';

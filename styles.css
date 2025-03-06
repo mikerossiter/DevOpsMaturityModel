@@ -1,153 +1,181 @@
+/* General Reset */
 body {
-    font-family: 'Lato';
+    font-family: 'Lato', sans-serif;
     margin: 0;
     padding: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden
-/*    background-color: #fefab7;*/
+    align-items: center;
+    background-color: #ffffff;
+    text-align: center;
 }
 
-.container {
-    display: flex;
-    flex: 1;
-    overflow-y: auto;
-    margin-bottom: 60px;  /* Space for the buttons at the bottom */
-    padding-left: 10px;
-    padding-top: 10px;
+/* Model Container to hold both Table and Buttons */
+.model-container {
+    display: flex;  /* Use Flexbox to arrange table and buttons */
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
 }
 
-.table-container {
-    flex: 1;
-    border: 2px solid #000;  /* Add a border around the table */
-    padding: 20px;  /* Increase padding around the table */
-    margin-right: 20px;  /* Adjust space to the right for the text */
-    margin-left: 20px;  /* Add space from the left */
-    box-sizing: border-box;  /* Ensures padding doesn't affect overall width */
-    height: calc(100vh - 100px); /* Makes room for the buttons */
-    overflow: auto;  /* Clipping content that exceeds the container */
-    border-radius: 15px;  /* Apply rounded corners */
-    background-color: #ffffff; /* Optional: Add a background color for clarity */
-    display: flex;  /* Ensure content aligns properly */
-    align-items: center;  /* Center content vertically */
-    justify-content: center;  /* Center content horizontally */
+/* Table Styling */
+.table-wrapper {
+    flex: 1; /* Allow the table to take up available space */
+    margin-right: 20px; /* Space between table and buttons */
 }
 
-/* Modern table styling */
 table {
-  width: 100%;
-  border-collapse: separate; /* Allows rounded corners */
-  border-spacing: 0;
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
-  margin: 20px auto;
-}
-
-th, td {
-  padding: 12px 16px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-th {
-  background-color: #f0f8ff;  /* Light blue for a modern feel */
-  color: #333;
-  font-weight: bold;
-  border-bottom: 2px solid #4bc0c0;  /* Use a color similar to your chart */
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    table-layout: fixed;
 }
 
 td {
-  border-bottom: 1px solid #eee;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    white-space: nowrap;
 }
 
-tr:hover {
-  background-color: #f9f9f9;
-  transition: background-color 0.2s ease;
-}
-
-
-#detail-panel {
-    width: 30%;
-    padding: 10px;
-    overflow-y: auto;
-}
-
-.colour1 { background-color: #d4b9da; }
-.colour2 { background-color: #c994c7; }
-.colour3 { background-color: #7a0177; }
-
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-    
-    #detail-panel {
-        width: 100%;
-    }
-    
-    th, td {
-        font-size: 2vw;
-    }
-}
-
-/* Position the average level, save and load buttons outside the table */
-#average-level {
-    font-size: 1.2em;
+.dimension-row td {
+    font-size: 18px;
     font-weight: bold;
-    margin-top: 10px;
+    background-color: #f4f4f4;
+    cursor: pointer;
+    text-align: center;
 }
 
-/* Styling for the fixed position save and load buttons */
-#buttons-container {
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-    z-index: 999; /* Ensure the buttons are on top */
+.sub-dimension td {
+    padding-left: 20px;
+    font-size: 16px;
+}
+
+/* Average Level Section */
+#average-level-container {
     display: flex;
-    gap: 10px;
-}
-
-/* Define the flash animation */
-@keyframes flash-yellow {
-    0% { background-color: yellow; }
-    100% { background-color: inherit; } /* Restore the original background color */
-}
-
-/* Apply the animation on hover */
-td:not(:first-child):hover {
-    animation: flash-yellow 0.5s ease-out; /* Adjust duration as needed */
-}
-
-#detail-content {
-    background-color: #f9f9f9; /* Light background color */
+    justify-content: flex-start; /* Align left */
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 20px;
     padding: 20px;
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    margin-top: 10px;
-    max-height: 400px; /* Optional: to limit the height */
-    overflow-y: auto; /* Add scrolling if content overflows */
-    display: none; /* Initially hidden */
+    background-color: #f4f4f4;
+    border-radius: 8px;
 }
 
-#detail-content.visible {
-    display: block; /* Show when content is populated */
+#average-level {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;  /* Add this to center-align the text */
+    width: 100%;  /* Ensure it spans the entire width */
 }
 
-#detail-content .detail-item {
-    display: flex; /* Align checkbox and text horizontally */
-    align-items: center; /* Vertically center the items */
-    margin: 5px 0; /* Add spacing between each item */
+/* Level Descriptions Section with Buttons on the Right */
+#level-descriptions-container {
+    display: flex;
+    justify-content: space-between; /* Space between level descriptions and buttons */
+    align-items: flex-start;
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
 }
 
-#detail-content label {
-    margin-left: 10px; /* Space between checkbox and label */
-    font-size: 1.1em;
+#level-descriptions {
+    flex: 1;
+    text-align: left;
+    font-size: 16px;
     color: #333;
 }
 
-#detail-content input[type="checkbox"] {
-    margin: 0; /* Remove margin to make it align properly */
+#level-descriptions h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+#level-descriptions p {
+    margin: 5px 0;
+}
+
+/* Buttons Container for level descriptions */
+#buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px; /* Width for the button container */
+    text-align: right;
+}
+
+/* Progress Bar Styling */
+.progress-container {
+    width: 100%;
+    background-color: #eee;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-bar {
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    width: 0;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .model-container {
+        flex-direction: column; /* Stack table and buttons vertically on smaller screens */
+        align-items: center;
+    }
+
+    table {
+        width: 100%; /* Table should take up full width on small screens */
+    }
+
+    #buttons-container {
+        width: 100%; /* Button container should also take up full width */
+        margin-top: 20px; /* Add margin on top for spacing */
+    }
+}
+
+/* Colour classes for progress bar */
+.progress-bar.colour1 {
+  background-color: #e74c3c; /* Red for low progress */
+}
+
+.progress-bar.colour2 {
+  background-color: #f39c12; /* Orange */
+}
+
+.progress-bar.colour3 {
+  background-color: #f1c40f; /* Yellow */
+}
+
+.progress-bar.colour4 {
+  background-color: #2ecc71; /* Light Green */
+}
+
+.progress-bar.colour5 {
+  background-color: #27ae60; /* Green for complete */
+}
+
+/* Add this to your styles.css */
+.progress-bar-thin {
+  height: 5px;
+  line-height: 5px;
+  font-size: 10px;
+  transition: width 0.5s ease-in-out;
 }
