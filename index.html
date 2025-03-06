@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOps Maturity Model</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevOps Maturity Model</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-    <div class="container">
-        <table id="maturity-table">
-            <thead>
-                <tr>
-                    <th>Dimension</th>
-                    <th>Level 1 (Foundational)</th>
-                    <th>Level 2 (Standardised)</th>
-                    <th>Level 3 (Collaborative)</th>
-                    <th>Level 4 (Automated)</th>
-                    <th>Level 5 (Innovative)</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-            </tbody>
-        </table>
-        <div id="detail-panel">
-            <h3 id="detail-title"></h3>
-            <div id="detail-content"></div>
-        </div>
+
+  <h1>DevOps Maturity Model</h1>
+
+  <!-- Container for Table -->
+  <div class="model-container">
+    <!-- Table Wrapper -->
+    <div class="table-wrapper">
+      <table id="model-table">
+        <tbody id="table-body"></tbody>
+      </table>
     </div>
-    
-    <div id="average-level" style="position: fixed; bottom: 10px; right: 10px; font-size: 16px; background-color: rgba(0, 0, 0, 0.5); color: white; padding: 5px; border-radius: 5px;">
-        Average Level: 0
-    </div>
-    <script src="script.js"></script>
+  </div>
+
+  <!-- Average Level Section -->
+  <div id="average-level-container">
+    <div id="average-level">Average Level: 1 (20% completed)</div>
+    <div id="level-description"></div>
+  </div>
+
+  <!-- Buttons Container (displayed in a row at the bottom) -->
+  <div id="buttons-container">
+    <button id="save-state-btn">Save State</button>
+    <button id="load-state-btn">Load State</button>
+    <button id="reset-state-btn">Reset</button>
+    <button onclick="window.open('graph.html', '_blank')">Generate Graph</button>
+  </div>
+
 </body>
 </html>

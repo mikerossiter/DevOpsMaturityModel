@@ -1,214 +1,393 @@
-// Fetch dimensions and load the initial state
-fetch('dimensions.json')
-  .then(response => response.json())
-  .then(dimensions => {
-    currentLevels = new Array(dimensions.length).fill(0);
-    checkboxStates = {};
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("dimensions.json")
+    .then((response) => response.json())
+    .then((dimensions) => {
+      const tableBody = document.getElementById("table-body");
+      const averageLevelDisplay = document.getElementById("average-level");
+      const levelDescriptionDisplay = document.getElementById("level-description");
+      let selectedLevels = {}; // Track user selections
 
-    const tableBody = document.getElementById('table-body');
-    const cells = [];
+      // Level descriptions mapping
+      const levelDescriptions = {
+        1: "Level 1: Initial - Basic, ad-hoc practices.",
+        2: "Level 2: Emerging - Some structure, still improving.",
+        3: "Level 3: Established - Standardized and repeatable.",
+        4: "Level 4: Advanced - Proactive, optimized processes.",
+        5: "Level 5: Optimized - Fully automated, AI-driven improvements."
+      };
 
-    // Create table rows for each dimension
-    dimensions.forEach((dimension, dimensionIndex) => {
-      const row = tableBody.insertRow();
-      const dimensionCell = row.insertCell();
-      dimensionCell.textContent = dimension.name;
+      // Save State Button (sends state to server via SQLite)
+      const saveStateButton = document.getElementById("save-state-btn");
+      saveStateButton.addEventListener("click", () => {
+        const timestamp = new Date().toISOString();
+        const modelState = getModelState();
+        const filename = `state-${timestamp}.json`;
 
-      // Create one cell per level for this dimension
-      dimension.levels.forEach((level, levelIndex) => {
-        const cell = row.insertCell();
-        cell.onclick = () => showDetails(dimensionIndex, levelIndex);
-        cells.push({ dimensionIndex, levelIndex, cell });
-      });
-    });
-
-    // Show details for a specific level and sub-dimension
-    function showDetails(dimensionIndex, levelIndex) {
-      const detailTitle = document.getElementById('detail-title');
-      const detailContent = document.getElementById('detail-content');
-      const dimension = dimensions[dimensionIndex];
-      const levelObj = dimension.levels[levelIndex];
-
-      // Update title
-      detailTitle.textContent = `${dimension.name} - Level ${levelIndex + 1}`;
-
-      // Clear previous content
-      detailContent.innerHTML = '';
-
-      if (!levelObj || !levelObj.subDimensions) {
-        detailContent.classList.remove('visible');
-        return;
-      }
-
-      detailContent.classList.add('visible');
-
-      // Iterate over each sub-dimension
-      levelObj.subDimensions.forEach((subDim, index) => {
-        const subDimContainer = document.createElement('div');
-        subDimContainer.className = 'sub-dimension-container';
-        subDimContainer.style.marginBottom = '10px';
-
-        const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${index}`;
-
-        // Create checkbox and label
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = checkboxId;
-        checkbox.checked = checkboxStates[checkboxId] || false;
-        checkbox.onchange = () => {
-          checkboxStates[checkboxId] = checkbox.checked;
-          updateCellColor(dimensionIndex, levelIndex);
-          calculateAverageLevel();
-        };
-
-        const label = document.createElement('label');
-        label.htmlFor = checkboxId;
-        label.textContent = subDim.text;
-
-        subDimContainer.appendChild(checkbox);
-        subDimContainer.appendChild(label);
-
-        // Expandable details section per sub-dimension
-        const expandBtn = document.createElement('button');
-        expandBtn.textContent = 'Show More';
-        expandBtn.style.marginLeft = '10px';
-
-        const detailsContainer = document.createElement('div');
-        detailsContainer.style.display = 'none';
-        detailsContainer.style.marginTop = '5px';
-        detailsContainer.textContent = subDim.details || 'No additional details available.';
-
-        expandBtn.onclick = () => {
-          if (detailsContainer.style.display === 'none') {
-            detailsContainer.style.display = 'block';
-            expandBtn.textContent = 'Show Less';
-          } else {
-            detailsContainer.style.display = 'none';
-            expandBtn.textContent = 'Show More';
-          }
-        };
-
-        subDimContainer.appendChild(expandBtn);
-        subDimContainer.appendChild(detailsContainer);
-        detailContent.appendChild(subDimContainer);
-      });
-    }
-
-    // Count checkbox states for a specific level
-    function countCheckboxStates(dimensionIndex, levelIndex) {
-      const subDimensions = dimensions[dimensionIndex].levels[levelIndex].subDimensions;
-      const totalBoxes = subDimensions.length;
-      let checkedBoxes = 0;
-      for (let i = 0; i < totalBoxes; i++) {
-        const checkboxId = `detail-${dimensionIndex}-${levelIndex}-${i}`;
-        if (checkboxStates[checkboxId]) {
-          checkedBoxes++;
-        }
-      }
-      return { checkedBoxes, totalBoxes };
-    }
-
-    // Update cell colors
-    function updateCellColor(dimensionIndex, levelIndex) {
-      const { checkedBoxes, totalBoxes } = countCheckboxStates(dimensionIndex, levelIndex);
-      const cell = cells.find(c => c.dimensionIndex === dimensionIndex && c.levelIndex === levelIndex)?.cell;
-
-      if (cell) {
-        const percentage = totalBoxes > 0 ? (checkedBoxes / totalBoxes) * 100 : 0;
-        cell.textContent = checkedBoxes > 0 ? `${percentage.toFixed(1)}%` : '';
-
-        const threshold1 = Math.floor((totalBoxes - 1) / 2);
-        const threshold2 = totalBoxes - 1;
-
-        if (checkedBoxes === threshold2 + 1) {
-          cell.className = 'colour3';
-          currentLevels[dimensionIndex] = levelIndex + 1;
-        } else if (checkedBoxes > threshold1) {
-          cell.className = 'colour2';
-          currentLevels[dimensionIndex] = levelIndex + 1;
-        } else if (checkedBoxes > 0) {
-          cell.className = 'colour1';
-          currentLevels[dimensionIndex] = levelIndex + 1;
-        } else {
-          cell.className = '';
-          currentLevels[dimensionIndex] = 0;
-        }
-      }
-    }
-
-    // Calculate completion percentage
-    function computeCompletionPercentage() {
-      let totalChecked = 0;
-      let totalBoxes = 0;
-
-      dimensions.forEach((dimension, dimensionIndex) => {
-        dimension.levels.forEach((level, levelIndex) => {
-          const { checkedBoxes, totalBoxes: boxes } = countCheckboxStates(dimensionIndex, levelIndex);
-          totalChecked += checkedBoxes;
-          totalBoxes += boxes;
-        });
-      });
-
-      return totalBoxes ? (totalChecked / totalBoxes) * 100 : 0;
-    }
-
-    // Calculate and display the average level
-    function calculateAverageLevel() {
-      const sumLevels = currentLevels.reduce((sum, level) => sum + level, 0);
-      const avgLevelInt = Math.round(sumLevels / currentLevels.length);
-      const completionPercentage = computeCompletionPercentage();
-
-      const averageLevelPane = document.getElementById('average-level');
-      if (averageLevelPane) {
-        averageLevelPane.textContent = `Average Level: ${avgLevelInt} (${completionPercentage.toFixed(2)}% completed)`;
-      }
-    }
-
-    // Save state function
-    function saveState() {
-      const timestamp = new Date().toISOString();
-      const completionPercentage = computeCompletionPercentage();
-      const state = { timestamp, currentLevels, checkboxStates, completionPercentage };
-
-      fetch('/save-state', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: `state-${timestamp.replace(/[-:.TZ]/g, '')}.json`, state: JSON.stringify(state) })
-      }).then(() => alert('State saved successfully!'));
-    }
-
-    // Load state function
-    function loadState() {
-      fetch('/load-state')
-        .then(response => response.ok ? response.json() : Promise.reject('No state files present.'))
-        .then(state => {
-          checkboxStates = state.checkboxStates || {};
-          currentLevels = state.currentLevels || new Array(dimensions.length).fill(0);
-
-          document.getElementById('detail-content').innerHTML = '';
-          document.getElementById('detail-title').textContent = '';
-
-          dimensions.forEach((dimension, dimensionIndex) => {
-            dimension.levels.forEach((_, levelIndex) => {
-              updateCellColor(dimensionIndex, levelIndex);
-            });
-          });
-
-          calculateAverageLevel();
-          alert("State loaded successfully!");
+        fetch("/save-state", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            filename: filename,
+            state: JSON.stringify(modelState, null, 2),
+          }),
         })
-        .catch(error => alert(error));
-    }
+          .then((response) => response.text())
+          .then((data) => {
+            // console.log("State saved successfully:", data);
+            // alert("State saved successfully!");
+          })
+          .catch((error) => {
+            console.error("Error saving state:", error);
+            alert("Error saving state!");
+          });
+      });
 
-    // Add buttons
-    const buttonsContainer = document.createElement('div');
-    buttonsContainer.id = 'buttons-container';
+      const loadStateButton = document.getElementById("load-state-btn");
+      loadStateButton.addEventListener("click", () => {
+        fetch("/load-state")
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.selectedLevels) {
+              loadModelState(data);
+            } else {
+              alert("No state saved");
+            }
+          })
+          .catch((error) => {
+            console.error("Error loading state:", error);
+            alert("Error loading state!");
+          });
+      });
 
-    buttonsContainer.appendChild(Object.assign(document.createElement('button'), { textContent: 'Save State', onclick: saveState }));
-    buttonsContainer.appendChild(Object.assign(document.createElement('button'), { textContent: 'Load State', onclick: loadState }));
-    buttonsContainer.appendChild(Object.assign(document.createElement('button'), { textContent: 'Generate Graph', onclick: () => window.open('graph.html', '_blank') }));
+      // Reset Button: clears the current selections (client-side only)
+      const resetStateButton = document.getElementById("reset-state-btn");
+      resetStateButton.addEventListener("click", () => {
+        resetModel();
+      });
 
-    document.body.appendChild(buttonsContainer);
+      function loadModelState(savedState) {
+        const { selectedLevels: savedLevels } = savedState;
+        dimensions.forEach((dimension, dimensionIndex) => {
+          // Always update the tracking variable.
+          selectedLevels[dimensionIndex] = savedLevels[dimensionIndex] || {};
+          dimension.subDimensions.forEach((subDim, subDimIndex) => {
+            // Save the value from saved state.
+            if (savedLevels[dimensionIndex] && savedLevels[dimensionIndex][subDimIndex] !== undefined) {
+              selectedLevels[dimensionIndex][subDimIndex] = savedLevels[dimensionIndex][subDimIndex];
+            }
+            // If dropdown exists (i.e. dimension is expanded), update its value.
+            const levelSelector = document.querySelector(
+              `#dimension-${dimensionIndex}-subdimension-${subDimIndex}`
+            );
+            if (levelSelector) {
+              levelSelector.value = savedLevels[dimensionIndex]?.[subDimIndex] || "";
+            }
+          });
+          updateProgress(dimensionIndex);
+        });
+        updateAverageLevel();
+      }
 
-    calculateAverageLevel();
-  });
+      // Reset the model (client-side only): clear selections, progress bars, and update display.
+      function resetModel() {
+        selectedLevels = {}; // Clear tracking object.
+        // Reset all dropdowns (whether expanded or collapsed)
+        const allSelects = document.querySelectorAll("select.level-selector");
+        allSelects.forEach((select) => {
+          select.value = "";
+        });
+        // Reset progress bars for each dimension.
+        dimensions.forEach((dimension, dimensionIndex) => {
+          const progressBar = document.getElementById(`progress-bar-${dimensionIndex}`);
+          if (progressBar) {
+            progressBar.style.width = "0%";
+            progressBar.textContent = "";
+          }
+          const thinProgressBar = document.getElementById(`progress-bar-closed-${dimensionIndex}`);
+          if (thinProgressBar) {
+            thinProgressBar.style.width = "0%";
+            thinProgressBar.textContent = "";
+          }
+        });
+        // Reset overall average display.
+        averageLevelDisplay.textContent = "Please select levels for each dimension";
+        levelDescriptionDisplay.textContent = "";
+      }
+
+      function updateProgress(dimensionIndex) {
+        const selectElements = document.querySelectorAll(
+          `.sub-dimension-${dimensionIndex} select.level-selector`
+        );
+        let total = 0;
+        let count = 0;
+
+        if (selectElements.length > 0) {
+          selectElements.forEach((select) => {
+            if (select.value === "") return;
+            total += parseInt(select.value);
+            count++;
+          });
+        } else {
+          // If collapsed, compute using saved state.
+          if (selectedLevels[dimensionIndex]) {
+            Object.values(selectedLevels[dimensionIndex]).forEach((val) => {
+              if (val !== "" && val !== undefined) {
+                total += val;
+                count++;
+              }
+            });
+          }
+        }
+
+        const dimensionSubCount = dimensions[dimensionIndex].subDimensions.length;
+        if (count < dimensionSubCount) {
+          const progressBar = document.getElementById(`progress-bar-${dimensionIndex}`);
+          if (progressBar) {
+            progressBar.style.width = "0%";
+            progressBar.textContent = "";
+          }
+          const thinProgressBar = document.getElementById(`progress-bar-closed-${dimensionIndex}`);
+          if (thinProgressBar) {
+            thinProgressBar.style.width = "0%";
+            thinProgressBar.textContent = "";
+          }
+          updateAverageLevel();
+          return;
+        }
+
+        let average = total / count;
+        let percentage = (average / 5) * 100;
+
+        // Expanded view progress bar.
+        const progressBar = document.getElementById(`progress-bar-${dimensionIndex}`);
+        if (progressBar) {
+          progressBar.style.width = `${percentage}%`;
+          progressBar.textContent = `${percentage.toFixed(1)}% Complete`;
+          progressBar.className = "progress-bar";
+          if (percentage === 100) {
+            progressBar.classList.add("colour5");
+          } else if (percentage > 80) {
+            progressBar.classList.add("colour4");
+          } else if (percentage > 60) {
+            progressBar.classList.add("colour3");
+          } else if (percentage > 40) {
+            progressBar.classList.add("colour2");
+          } else {
+            progressBar.classList.add("colour1");
+          }
+        }
+
+        // Collapsed (thin) view progress bar.
+        const thinProgressBar = document.getElementById(`progress-bar-closed-${dimensionIndex}`);
+        if (thinProgressBar) {
+          thinProgressBar.style.width = `${percentage}%`;
+          thinProgressBar.textContent = "";
+          thinProgressBar.className = "progress-bar progress-bar-thin";
+          if (percentage === 100) {
+            thinProgressBar.classList.add("colour5");
+          } else if (percentage > 80) {
+            thinProgressBar.classList.add("colour4");
+          } else if (percentage > 60) {
+            thinProgressBar.classList.add("colour3");
+          } else if (percentage > 40) {
+            thinProgressBar.classList.add("colour2");
+          } else {
+            thinProgressBar.classList.add("colour1");
+          }
+        }
+        updateAverageLevel();
+      }
+
+      function updateAllProgress() {
+        dimensions.forEach((dimension, dimensionIndex) => {
+          updateProgress(dimensionIndex);
+        });
+        updateAverageLevel();
+      }
+
+      // Update overall average only when all dropdowns are selected.
+      function updateAverageLevel() {
+        let totalLevels = 0;
+        let totalSubdimensions = 0;
+        let allSelected = true;
+        dimensions.forEach((dimension, dimensionIndex) => {
+          dimension.subDimensions.forEach((subDim, subDimIndex) => {
+            totalSubdimensions++;
+            if (
+              !selectedLevels[dimensionIndex] ||
+              selectedLevels[dimensionIndex][subDimIndex] === undefined ||
+              selectedLevels[dimensionIndex][subDimIndex] === ""
+            ) {
+              allSelected = false;
+            } else {
+              totalLevels += selectedLevels[dimensionIndex][subDimIndex];
+            }
+          });
+        });
+        if (!allSelected) {
+          averageLevelDisplay.textContent = "Please select levels for each dimension";
+          levelDescriptionDisplay.textContent = "";
+          return;
+        }
+        let averageLevel = totalLevels / totalSubdimensions;
+        let roundedAverageLevel = Math.round(averageLevel);
+        let maxPossibleLevels = totalSubdimensions * 5;
+        let overallProgress =
+          ((totalLevels - totalSubdimensions) / (maxPossibleLevels - totalSubdimensions)) * 100;
+        overallProgress = Math.max(20, overallProgress);
+        averageLevelDisplay.textContent = `Average Level: ${roundedAverageLevel} (${overallProgress.toFixed(1)}% completed)`;
+        levelDescriptionDisplay.textContent = levelDescriptions[roundedAverageLevel] || "";
+      }
+
+      function getModelState() {
+        const modelState = { selectedLevels: {} };
+        dimensions.forEach((dimension, dimensionIndex) => {
+          modelState.selectedLevels[dimensionIndex] = {};
+          // If there is no stored state for this dimension, default every sub-dimension to blank.
+          if (!selectedLevels[dimensionIndex]) {
+            dimension.subDimensions.forEach((_, subDimIndex) => {
+              modelState.selectedLevels[dimensionIndex][subDimIndex] = "";
+            });
+          } else {
+            dimension.subDimensions.forEach((_, subDimIndex) => {
+              // Use the value from selectedLevels; if it's falsy, store blank.
+              modelState.selectedLevels[dimensionIndex][subDimIndex] = selectedLevels[dimensionIndex][subDimIndex] || "";
+            });
+          }
+        });
+        return modelState;
+      }
+
+      // Render dimensions and their dropdowns with blank defaults and a thin progress bar row.
+      function renderDimensions() {
+        dimensions.forEach((dimension, dimensionIndex) => {
+          // Dimension row.
+          const row = document.createElement("tr");
+          row.classList.add("dimension-row");
+          row.id = `row-${dimensionIndex}`;
+          const cell = document.createElement("td");
+          cell.textContent = dimension.name;
+          cell.classList.add("clickable");
+          cell.style.cursor = "pointer";
+          cell.style.fontWeight = "bold";
+          cell.colSpan = 2;
+          row.appendChild(cell);
+          tableBody.appendChild(row);
+
+          // Thin progress bar row.
+          const closedProgressRow = document.createElement("tr");
+          closedProgressRow.id = `progress-row-closed-${dimensionIndex}`;
+          const closedProgressCell = document.createElement("td");
+          closedProgressCell.colSpan = 2;
+          const closedProgressContainer = document.createElement("div");
+          closedProgressContainer.classList.add("progress-container");
+          const thinProgressBar = document.createElement("div");
+          thinProgressBar.classList.add("progress-bar", "progress-bar-thin");
+          thinProgressBar.id = `progress-bar-closed-${dimensionIndex}`;
+          closedProgressContainer.appendChild(thinProgressBar);
+          closedProgressCell.appendChild(closedProgressContainer);
+          closedProgressRow.appendChild(closedProgressCell);
+          tableBody.insertBefore(closedProgressRow, row.nextSibling);
+
+          let expanded = false;
+          const arrow = document.createElement("span");
+          arrow.classList.add("arrow");
+          arrow.textContent = "   🔽";
+          cell.appendChild(arrow);
+
+          cell.addEventListener("click", () => {
+            if (expanded) {
+              // Collapse: remove sub-dimension rows and full progress row, show thin progress bar row.
+              const subRows = document.querySelectorAll(`.sub-dimension-${dimensionIndex}`);
+              subRows.forEach((el) => el.remove());
+              const progressRow = document.getElementById(`progress-row-${dimensionIndex}`);
+              if (progressRow) progressRow.remove();
+              closedProgressRow.style.display = "table-row";
+              expanded = false;
+            } else {
+              // Expand: hide thin progress bar row and insert sub-dimension rows.
+              closedProgressRow.style.display = "none";
+              if (!selectedLevels[dimensionIndex]) {
+                selectedLevels[dimensionIndex] = {};
+              }
+              dimension.subDimensions.forEach((subDim, subDimIndex) => {
+                const subRow = document.createElement("tr");
+                subRow.classList.add(`sub-dimension-${dimensionIndex}`);
+                const subCell1 = document.createElement("td");
+                subCell1.textContent = subDim.name;
+                subCell1.style.paddingLeft = "20px";
+                const subCell2 = document.createElement("td");
+                const select = document.createElement("select");
+                select.classList.add("level-selector");
+                select.id = `dimension-${dimensionIndex}-subdimension-${subDimIndex}`;
+
+                // Default blank option.
+                const defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.textContent = "Select level";
+                select.appendChild(defaultOption);
+
+                // Level options.
+                subDim.levels.forEach((levelText, levelIndex) => {
+                  const option = document.createElement("option");
+                  option.value = levelIndex + 1;
+                  option.textContent = `Level ${levelIndex + 1}: ${levelText}`;
+                  select.appendChild(option);
+                });
+
+                // Use saved value if exists.
+                if (
+                  selectedLevels[dimensionIndex] &&
+                  selectedLevels[dimensionIndex][subDimIndex] !== undefined &&
+                  selectedLevels[dimensionIndex][subDimIndex] !== ""
+                ) {
+                  select.value = selectedLevels[dimensionIndex][subDimIndex];
+                } else {
+                  select.value = "";
+                }
+
+                select.addEventListener("change", () => {
+                  if (select.value === "") {
+                    selectedLevels[dimensionIndex][subDimIndex] = "";
+                  } else {
+                    selectedLevels[dimensionIndex][subDimIndex] = parseInt(select.value);
+                  }
+                  updateProgress(dimensionIndex);
+                });
+
+                subCell2.appendChild(select);
+                subRow.appendChild(subCell1);
+                subRow.appendChild(subCell2);
+                tableBody.insertBefore(subRow, closedProgressRow);
+              });
+
+              // Full progress row (expanded view).
+              const progressRow = document.createElement("tr");
+              progressRow.id = `progress-row-${dimensionIndex}`;
+              const progressCell = document.createElement("td");
+              progressCell.colSpan = 2;
+              const progressContainer = document.createElement("div");
+              progressContainer.classList.add("progress-container");
+              const progressBar = document.createElement("div");
+              progressBar.classList.add("progress-bar");
+              progressBar.id = `progress-bar-${dimensionIndex}`;
+              progressContainer.appendChild(progressBar);
+              progressCell.appendChild(progressContainer);
+              progressRow.appendChild(progressCell);
+              tableBody.insertBefore(progressRow, closedProgressRow);
+              expanded = true;
+              updateProgress(dimensionIndex);
+            }
+          });
+        });
+      }
+
+      // Initialize by rendering dimensions (with blank dropdowns) and clear average level.
+      renderDimensions();
+      averageLevelDisplay.textContent = "Please select levels for each dimension";
+      levelDescriptionDisplay.textContent = "";
+    })
+    .catch((error) => console.error("Error loading dimensions:", error));
+});

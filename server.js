@@ -1,92 +1,87 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
+const path = require('path');
 const app = express();
 const port = 3131;
 
 app.use(express.static('./'));
 app.use(bodyParser.json());
 
-app.post('/save-state', (req, res) => {
-  const saveStateDir = './save-state';
-  const { filename, state } = req.body;
-
-  if (!fs.existsSync(saveStateDir)) {
-    fs.mkdirSync(saveStateDir);
+// Open (or create) the SQLite database.
+const db = new sqlite3.Database('./model_state.db', (err) => {
+  if (err) {
+    console.error('Error opening database:', err.message);
+  } else {
+    console.log('Connected to the SQLite database.');
+    // Create the table if it doesn't already exist.
+    db.run(`
+      CREATE TABLE IF NOT EXISTS model_states (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        timestamp TEXT,
+        state TEXT
+      )
+    `, (err) => {
+      if (err) {
+        console.error('Error creating table:', err.message);
+      }
+    });
   }
+});
 
-  const filePath = path.join(saveStateDir, filename);
-
-  fs.writeFile(filePath, state, (err) => {
+// Save state: Insert a record with a timestamp and JSON state.
+app.post('/save-state', (req, res) => {
+  const { filename, state } = req.body;
+  // Use the current timestamp
+  const timestamp = new Date().toISOString();
+  db.run("INSERT INTO model_states (timestamp, state) VALUES (?, ?)", [timestamp, state], function(err) {
     if (err) {
-      console.error('Error writing state file:', err);
-      res.status(500).send('Error writing state file');
+      console.error('Error saving state:', err.message);
+      res.status(500).send('Error saving state');
     } else {
       res.send('State saved successfully');
     }
   });
 });
 
+// Load state: Retrieve the most recent state.
 app.get('/load-state', (req, res) => {
-  const saveStateDir = './save-state';
-  const files = fs.readdirSync(saveStateDir);
-  const stateFiles = files.filter(file => file.startsWith('state-') && file.endsWith('.json'));
-
-  if (stateFiles.length === 0) {
-    res.status(404).send('No state files found');
-    return;
-  }
-
-  // Sort the filenames in descending order (newest first)
-  const latestStateFile = stateFiles.sort((a, b) => b.localeCompare(a))[0];
-  const filePath = path.join(saveStateDir, latestStateFile);
-
-  fs.readFile(filePath, (err, data) => {
+  db.get("SELECT state FROM model_states ORDER BY id DESC LIMIT 1", [], (err, row) => {
     if (err) {
-      console.error('Error reading state file:', err);
-      res.status(500).send('Error reading state file');
+      console.error('Error loading state:', err.message);
+      res.status(500).send('Error loading state');
+    } else if (!row) {
+      res.status(404).send('No state found');
     } else {
-      res.json(JSON.parse(data));
+      // Parse the saved JSON string and return it.
+      res.json(JSON.parse(row.state));
     }
   });
 });
 
+// List all saved states (for tracking history).
 app.get('/state-files', (req, res) => {
-  const saveStateDir = './save-state';
-  if (!fs.existsSync(saveStateDir)) {
-    return res.json([]);
-  }
-  const files = fs.readdirSync(saveStateDir);
-  const stateFiles = files.filter(file => file.startsWith('state-') && file.endsWith('.json'));
-  
-  // Read each file's content (as text)
-  const states = stateFiles.map(file => {
-    const filePath = path.join(saveStateDir, file);
-    const data = fs.readFileSync(filePath, 'utf8');
-    return data;
+  db.all("SELECT * FROM model_states ORDER BY id DESC", [], (err, rows) => {
+    if (err) {
+      console.error('Error retrieving states:', err.message);
+      res.status(500).send('Error retrieving states');
+    } else {
+      res.json(rows);
+    }
   });
-  
-  res.json(states);
 });
 
+// Reset state: Clear all saved state records.
 app.post('/reset-state', (req, res) => {
-  const saveStateDir = './save-state';
-  if (!fs.existsSync(saveStateDir)) {
-    return res.status(404).send('Save state folder does not exist.');
-  }
-  const files = fs.readdirSync(saveStateDir);
-  try {
-    files.forEach(file => {
-      fs.unlinkSync(path.join(saveStateDir, file));
-    });
-    res.send('Save state folder cleared successfully.');
-  } catch (error) {
-    console.error('Error clearing save state folder:', error);
-    res.status(500).send('Error clearing save state folder.');
-  }
+  db.run("DELETE FROM model_states", function(err) {
+    if (err) {
+      console.error('Error resetting state:', err.message);
+      res.status(500).send('Error resetting state');
+    } else {
+      res.send('State reset successfully');
+    }
+  });
 });
-
 
 app.listen(port, '127.0.0.1', () => {
   console.log(`Server running at http://127.0.0.1:${port}/`);
