@@ -1,14 +1,13 @@
-/* General Reset */
 body {
-    font-family: 'Lato', sans-serif;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #ffffff;
-    text-align: center;
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh; /* use min-height instead of fixed height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  text-align: center;
 }
 
 /* Model Container to hold both Table and Buttons */
@@ -107,7 +106,7 @@ td {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin: 20px auto;
+  margin: 20px auto 20px auto; /* top, horizontal, bottom margins */
   flex-wrap: wrap;
 }
 
