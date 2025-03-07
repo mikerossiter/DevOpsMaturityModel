@@ -174,3 +174,16 @@ td {
   font-size: 10px;
   transition: width 0.5s ease-in-out;
 }
+
+/* Standardize the width of all level dropdowns */
+select.level-selector {
+  width: 500px;           /* Fixed width; adjust as needed */
+  max-width: 100%;
+  box-sizing: border-box; /* Ensure padding/border are included in the width */
+}
+
+/* Attempt to wrap long option text */
+select.level-selector option {
+  white-space: normal;
+  word-wrap: break-word;
+}

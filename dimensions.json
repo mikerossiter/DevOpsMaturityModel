@@ -5,41 +5,41 @@
       {
         "name": "Cross-functional Collaboration",
         "levels": [
-          "Teams operate in silos, no shared goals.",
-          "Basic cross-team discussions occur, but misalignment remains.",
-          "Regular standups, retrospectives, and shared decision-making.",
-          "Dev, Ops, and Security work together seamlessly.",
-          "Fully autonomous, product-aligned teams drive innovation together."
+          "Teams are forming initial DevOps connections but work independently.",
+          "Basic cross-team discussions occur, with limited collaboration.",
+          "Regular standups, retrospectives, and shared decision-making improve alignment.",
+          "Dev, Ops, and Security work together seamlessly with shared ownership.",
+          "Fully autonomous, product-aligned teams drive innovation and own delivery end-to-end."
         ]
       },
       {
         "name": "Shared Responsibility & Ownership",
         "levels": [
-          "Dev and Ops teams work separately.",
-          "Some shared tools but independent workflows.",
-          "Co-owned deployment and incident response.",
-          "Full accountability for deployment and production health.",
-          "“You Build It, You Run It” philosophy embedded in culture."
+          "Teams operate in silos, with little shared accountability.",
+          "Some shared tools exist, but workflows remain separate.",
+          "Teams co-own deployment and incident response.",
+          "Full accountability for deployments, operations, and reliability.",
+          "“You Build It, You Run It” culture is fully adopted across the organisation."
         ]
       },
       {
         "name": "Leadership Buy-in & Sponsorship",
         "levels": [
-          "No leadership support for DevOps.",
-          "Leadership acknowledges DevOps but takes no action.",
-          "Leadership provides budget and high-level support.",
-          "Leadership actively embeds DevOps principles into strategy.",
-          "Executives personally drive DevOps transformation and improvement."
+          "Leadership is unaware or disengaged from DevOps transformation.",
+          "Leaders acknowledge DevOps benefits but provide limited support.",
+          "Leadership invests in DevOps teams, tooling, and skills development.",
+          "Executives actively drive DevOps principles across departments.",
+          "DevOps is embedded in the organisation’s strategic vision and leadership mindset."
         ]
       },
       {
-        "name": "Blameless Postmortems",
+        "name": "Blameless Postmortems & Psychological Safety",
         "levels": [
-          "No structured postmortems; blame culture exists.",
-          "Some postmortems, but teams avoid accountability.",
-          "Regular postmortems with actionable takeaways.",
-          "Blameless postmortems drive continuous improvement.",
-          "Teams proactively learn from incidents without fear."
+          "No structured postmortems; failures lead to blame culture.",
+          "Some postmortems occur, but teams hesitate to openly discuss failures.",
+          "Regular postmortems with actionable takeaways promote learning.",
+          "Blameless postmortems drive continuous improvement across teams.",
+          "Teams proactively learn from incidents in a psychologically safe environment."
         ]
       }
     ]
@@ -50,21 +50,31 @@
       {
         "name": "Change Management & Governance",
         "levels": [
-          "Manual approvals slow releases.",
-          "Basic automated approvals but governance is manual.",
-          "Standardised governance with streamlined risk-based approvals.",
-          "Automated risk analysis and self-service governance.",
-          "Fully automated governance processes with AI-driven decision-making."
+          "Changes are manually reviewed, leading to long approval times.",
+          "Basic automated approvals exist, but governance remains manual.",
+          "Standardised governance with risk-based automated approvals.",
+          "Self-service governance allows teams to manage their own deployments.",
+          "AI-driven governance optimises risk management and decision-making."
         ]
       },
       {
         "name": "Incident Response & Resilience Engineering",
         "levels": [
-          "No formal incident response plan.",
-          "Teams track incidents manually.",
-          "Incident response plans documented and regularly tested.",
-          "Automated alerts and proactive monitoring.",
-          "AI-driven, self-healing infrastructure with automated incident resolution."
+          "No formal incident response plan, reliance on ad-hoc fixes.",
+          "Teams manually track incidents and root causes.",
+          "Incident response playbooks and testing improve reliability.",
+          "Automated alerts and proactive monitoring enable fast recovery.",
+          "AI-driven, self-healing infrastructure resolves incidents without manual intervention."
+        ]
+      },
+      {
+        "name": "Lean Product Management & Flow Efficiency",
+        "levels": [
+          "Large batch releases and waterfall-style planning dominate workflows.",
+          "Smaller batches are introduced, but process bottlenecks remain.",
+          "Continuous delivery pipelines improve feedback loops and release cadence.",
+          "Value stream mapping and lean principles reduce delays.",
+          "Workflows are fully optimised for rapid and iterative delivery."
         ]
       }
     ]
@@ -75,21 +85,31 @@
       {
         "name": "Infrastructure as Code (IaC)",
         "levels": [
-          "Manual infrastructure provisioning.",
-          "Some scripts for automation but still manual setup.",
-          "Fully automated, version-controlled infrastructure.",
-          "Immutable infrastructure with declarative configurations.",
-          "AI-driven self-healing infrastructure."
+          "Infrastructure is manually configured and deployed.",
+          "Some scripting exists, but automation is inconsistent.",
+          "Infrastructure is fully managed via version-controlled code.",
+          "Immutable infrastructure ensures repeatable, consistent deployments.",
+          "AI-driven self-healing infrastructure dynamically adjusts to needs."
         ]
       },
       {
         "name": "Automated Testing & Quality Assurance",
         "levels": [
-          "All testing is manual.",
-          "Some unit testing automated.",
-          "CI/CD integrated with full automated testing.",
-          "Security and performance tests automated.",
-          "AI-driven, predictive test automation."
+          "Testing is primarily manual, causing slow feedback loops.",
+          "Some unit tests are automated, but coverage is limited.",
+          "CI/CD pipelines integrate automated testing across environments.",
+          "Security, performance, and compliance tests run automatically.",
+          "AI-driven test automation predicts failures before they occur."
+        ]
+      },
+      {
+        "name": "Security Automation (DevSecOps)",
+        "levels": [
+          "Security reviews are performed manually at the end of development.",
+          "Basic security scans are added to CI/CD pipelines.",
+          "Automated security scanning ensures vulnerabilities are caught early.",
+          "Real-time security analysis improves proactive risk mitigation.",
+          "Threat detection is fully automated and AI-assisted."
         ]
       }
     ]
@@ -100,11 +120,21 @@
       {
         "name": "CI/CD Pipeline Maturity",
         "levels": [
-          "Manual builds, deployments, and releases.",
-          "Some CI/CD automation, but processes remain inconsistent.",
-          "CI/CD pipelines automated with rollback mechanisms.",
-          "Feature flags and progressive delivery implemented.",
-          "AI-driven autonomous deployments with zero downtime."
+          "Manual builds, deployments, and releases introduce inconsistencies.",
+          "Some automation exists, but processes remain unreliable.",
+          "CI/CD pipelines are fully automated with rollback mechanisms.",
+          "Feature flags, blue-green, and canary releases improve safety.",
+          "AI-driven autonomous deployments optimise release frequency."
+        ]
+      },
+      {
+        "name": "Trunk-Based Development & Feature Flags",
+        "levels": [
+          "Long-lived branches cause merge conflicts and slow integration.",
+          "Developers merge more frequently, but conflicts still occur.",
+          "Trunk-based development is widely adopted, reducing merge issues.",
+          "Feature flags enable safe experimentation and controlled rollouts.",
+          "All deployments are decoupled from releases for maximum flexibility."
         ]
       }
     ]
@@ -115,11 +145,21 @@
       {
         "name": "Logging & Telemetry",
         "levels": [
-          "No structured logging.",
-          "Basic logs captured, but no proactive monitoring.",
-          "Logs centralised, alerts defined.",
-          "Distributed tracing and anomaly detection.",
-          "AI-powered self-healing monitoring."
+          "Minimal logging exists, making issue diagnosis difficult.",
+          "Basic logs are captured but lack structure or centralisation.",
+          "Logs are centralised with alerts for key system failures.",
+          "Distributed tracing and anomaly detection improve insights.",
+          "AI-driven monitoring proactively detects and resolves issues."
+        ]
+      },
+      {
+        "name": "Error Budgeting & Reliability Targets",
+        "levels": [
+          "No defined reliability targets, leading to inconsistent performance.",
+          "Some reliability tracking, but no enforcement mechanisms exist.",
+          "Error budgets are used to balance velocity with stability.",
+          "SLIs and SLOs are defined and monitored for service reliability.",
+          "Reliability targets are actively used to guide engineering decisions."
         ]
       }
     ]
@@ -130,11 +170,21 @@
       {
         "name": "Cloud & Hybrid Infrastructure",
         "levels": [
-          "On-prem infrastructure, no containers.",
-          "Basic cloud adoption, but still traditional models.",
-          "Containerisation (Docker, Kubernetes).",
-          "Multi-cloud, service mesh, hybrid strategy.",
-          "Fully serverless architecture with intelligent scaling."
+          "Infrastructure is on-premises, with little automation.",
+          "Cloud adoption begins, but legacy dependencies remain.",
+          "Cloud-native services and containerisation improve scalability.",
+          "Multi-cloud, service mesh, and hybrid strategies increase resilience.",
+          "Fully serverless architecture with dynamic scaling optimises cost and performance."
+        ]
+      },
+      {
+        "name": "Capacity & Cost Optimisation",
+        "levels": [
+          "Capacity planning is manual and reactive.",
+          "Basic cost tracking exists, but no proactive optimisations are in place.",
+          "Automated scaling improves efficiency while reducing costs.",
+          "Cost optimisation is integrated into CI/CD pipelines.",
+          "AI-driven cost management ensures optimal resource allocation."
         ]
       }
     ]
@@ -143,13 +193,23 @@
     "name": "Security and Compliance",
     "subDimensions": [
       {
-        "name": "DevSecOps Integration",
+        "name": "Shift-Left Security & Secure SDLC",
         "levels": [
-          "Security checked manually at end of development.",
-          "Basic security scans included in CI/CD.",
-          "Automated security scanning and shift-left security.",
-          "Real-time security analysis with risk scoring.",
-          "AI-driven threat detection and security automation."
+          "Security is checked manually at the end of development.",
+          "Basic security tests are automated but reactive.",
+          "Security is fully integrated into CI/CD pipelines.",
+          "Proactive risk assessments and compliance-as-code prevent vulnerabilities.",
+          "Security posture is continuously improved with AI-driven analytics."
+        ]
+      },
+      {
+        "name": "Secure Software Supply Chain",
+        "levels": [
+          "Third-party dependencies are manually managed with no security validation.",
+          "Some automated dependency scanning is introduced.",
+          "All dependencies are tracked and validated against security databases.",
+          "End-to-end supply chain security ensures code integrity.",
+          "Self-healing supply chain protections prevent compromises in real-time."
         ]
       }
     ]
