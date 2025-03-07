@@ -9,11 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Level descriptions mapping
       const levelDescriptions = {
-        1: "Level 1: Initial - Basic, ad-hoc practices.",
-        2: "Level 2: Emerging - Some structure, still improving.",
-        3: "Level 3: Established - Standardized and repeatable.",
-        4: "Level 4: Advanced - Proactive, optimized processes.",
-        5: "Level 5: Optimized - Fully automated, AI-driven improvements."
+        1: "Initial - Basic, ad-hoc practices.",
+        2: "Emerging - Some structure, still improving.",
+        3: "Established - Standardised and repeatable.",
+        4: "Advanced - Proactive, optimised processes.",
+        5: "Optimised - Fully automated, AI-driven improvements."
       };
 
       // Save State Button (sends state to server via SQLite)
@@ -47,7 +47,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const loadStateButton = document.getElementById("load-state-btn");
       loadStateButton.addEventListener("click", () => {
         fetch("/load-state")
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              if (response.status === 404) {
+                throw new Error("No state saved. Please save state first.");
+              } else {
+                throw new Error("Error loading state");
+              }
+            }
+            return response.json();
+          })
           .then((data) => {
             if (data.selectedLevels) {
               loadModelState(data);
@@ -57,15 +66,32 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .catch((error) => {
             console.error("Error loading state:", error);
-            alert("Error loading state!");
+            alert(error.message);
           });
       });
 
-      // Reset Button: clears the current selections (client-side only)
+
       const resetStateButton = document.getElementById("reset-state-btn");
       resetStateButton.addEventListener("click", () => {
-        resetModel();
+        if (confirm("Warning: This will delete all saved state and start from fresh. Are you sure you want to proceed?")) {
+          // Call the server to reset the state in the database.
+          fetch("/reset-state", {
+            method: "POST"
+          })
+            .then(response => response.text())
+            .then(data => {
+              console.log("Server reset:", data);
+              // Reset the client UI.
+              resetModel();
+              alert("Model has been reset to fresh state.");
+            })
+            .catch(error => {
+              console.error("Error resetting state:", error);
+              alert("Error resetting state!");
+            });
+        }
       });
+
 
       function loadModelState(savedState) {
         const { selectedLevels: savedLevels } = savedState;
@@ -237,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let overallProgress =
           ((totalLevels - totalSubdimensions) / (maxPossibleLevels - totalSubdimensions)) * 100;
         overallProgress = Math.max(20, overallProgress);
-        averageLevelDisplay.textContent = `Average Level: ${roundedAverageLevel} (${overallProgress.toFixed(1)}% completed)`;
+        averageLevelDisplay.textContent = `Level: ${roundedAverageLevel}`; // (${overallProgress.toFixed(1)}% completed)`;
         levelDescriptionDisplay.textContent = levelDescriptions[roundedAverageLevel] || "";
       }
 
