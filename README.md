@@ -2,23 +2,24 @@
 A web application for assessing and tracking DevOps maturity.
 
 ## Introduction
-This project is designed to help organisations/projects/teams assess and track their DevOps maturity across multiple dimensions. The application is built using HTML, CSS, and JavaScript, and is intended for use on a local network.
+This project is designed to help organisations/projects/teams assess and track their DevOps maturity across multiple dimensions. The application is built using HTML, CSS, and JavaScript. It runs on a Node.js server and is designed for local use.
 
 ## Features
 * Interactive assessment interface for evaluating DevOps maturity
 * Simple and intuitive design
 * Highly customisable dimensions and levels through the `dimensions.json` 
-* Includes `Average Level` gauge to view average level of DevOps maturity as the model is completed.
-* **Save State** to automatically save state to local `state.json`.
-* **Load State** from `state.json` in the local folder.
-* Refresh the page to reset the model.
+* Includes `Level` gauge to view approximate level of DevOps maturity as the model is completed.
+* **Save State** to persist the current state (along with a timestamp) into a local SQLite database, building a history over time.
+* **Load State** retrieves the most recent saved state from the SQLite database.
+* **Reset** will clear the current state from the DB entirely and refresh the UI with a warning prompt.
+* **Generate Graph** opens a separate graph view (graph.html) that displays a multi-dimensional line graph of your adoption progress over time using Chart.js.
 
 ## Customisation
 The application uses a `dimensions.json` file to define the dimensions and levels of the DevOps Maturity Model. This file can be easily modified to add or remove dimensions, levels, and descriptions, allowing users to tailor the model to their specific needs.
 
 The `dimensions.json` file is a JSON object that contains an array of dimension objects, each with the following properties:
-* `name`: The name of the high level dimension (e.g. "Continuous Integration")
-* `levels`: An array of sub-dimensional level objects. Each level is on a separate row (5 in total). Users can add extra levels to the JSON by separating them with '. ' e.g. two levels = "Deployments occur manually. Releases follow a schedule"
+* `name` is the high-level name of the dimension (e.g. "Continuous Integration", "Collaboration and Culture").
+* `subDimensions` are an array of sub-dimension objects, each representing a level description or specific aspect. Each sub-dimension includes its own name and an array of level descriptions.
 
 By modifying the `dimensions.json` file, users can:
 * Add new dimensions and levels to the model

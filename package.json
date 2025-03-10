@@ -1,6 +1,6 @@
 {
   "name": "devops-maturity-model",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "scripts": {
     "start": "node server.js"
   },
@@ -11,6 +11,6 @@
   "main": "script.js",
   "keywords": [],
   "author": "Mike Rossiter",
-  "license": "ISC",
-  "description": ""
+  "license": "MIT",
+  "description": "A web application for assessing and tracking DevOps maturity across multiple dimensions."
 }
