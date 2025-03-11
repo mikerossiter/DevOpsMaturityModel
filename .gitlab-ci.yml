@@ -30,7 +30,7 @@ trivy:
     # Build the Docker image for scanning
     - docker build -t $IMAGE .
     # Generate a container scanning report in GitLab's required format
-    - ./trivy image --exit-code 0 --format template --template "@/contrib/gitlab.tpl" -o gl-container-scanning-report.json $IMAGE
+    - ./trivy image --exit-code 0 --format template --template "@./contrib/gitlab.tpl" -o gl-container-scanning-report.json $IMAGE
     # Print summary report for high severity issues
     - ./trivy image --exit-code 0 --severity HIGH $IMAGE
     # Fail if any CRITICAL vulnerabilities are found
