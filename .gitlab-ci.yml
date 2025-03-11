@@ -1,0 +1,26 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - push
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+before_script:
+  - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USER" --password-stdin
+
+build:
+  stage: build
+  script:
+    - docker build -t $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA .
+    
+push:
+  stage: push
+  script:
+    - docker push $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA
+  only:
+    - main

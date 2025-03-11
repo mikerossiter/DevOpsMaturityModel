@@ -1,6 +1,6 @@
 {
   "name": "devops-maturity-model",
-  "version": "2.1.7",
+  "version": "2.1.2",
   "scripts": {
     "start": "node src/server.js"
   },
