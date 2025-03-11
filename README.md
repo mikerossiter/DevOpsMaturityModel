@@ -64,5 +64,3 @@ This command will start the container with a persistent Docker volume (devops_da
     Docker (for containerised deployment)
 
 ## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your proposed changes.
