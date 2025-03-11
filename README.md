@@ -22,7 +22,7 @@ By modifying this file, users can add, remove, or reorder dimensions and levels,
 
 **Data Privacy and Security:** This tool is designed solely to assess DevOps maturity and does not include built-in encryption for the SQLite database. Users are responsible for ensuring the security and privacy of any data entered.
 
-**Personal Information (PII):** Do not input any personal information (PII) into the `dimensions.json` file. Incorporating PII may lead to data breaches and legal complications. A legal disclaimer is provided in the README to remind users of this requirement.
+**Personal Information (PII):** Do not input any PII into the `dimensions.json` file. Incorporating PII may lead to data breaches and legal complications.
 
 **Liability:** The creators and distributors of this tool are not liable for any data breaches or legal issues arising from its use or from the inclusion of personal data.
 
@@ -36,7 +36,7 @@ To run the application locally:
 2. Navigate to the project folder:
 
 ```bash
-   cd <your-file-path>/devops-maturity-model
+cd <your-file-path>/devops-maturity-model
 ```
 
 Install the dependencies:
@@ -46,7 +46,7 @@ npm install
 ```
 Start the server:
 ```bash
-    npm start
+npm start
 ```
 Open your browser and navigate to http://127.0.0.1:3131 to use the model.
 
@@ -57,11 +57,12 @@ Alternatively, you can run the application as a Docker container. Simply execute
 docker run -d --restart=always -p 3131:3131 -v devops_data:/app/data mikerossiter/devops-maturity-model:latest
 
 This command will start the container with a persistent Docker volume (devops_data) mounted to the container's /app/data directory, ensuring that your SQLite database persists across container restarts.
-Requirements
+
+## Requirements
 
     Node.js (for local server deployment)
     Docker (for containerised deployment)
 
-Contributing
+## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request with your proposed changes.
