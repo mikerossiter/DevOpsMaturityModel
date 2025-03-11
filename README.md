@@ -1,50 +1,67 @@
 # DevOps Maturity Model
+
 A web application for assessing and tracking DevOps maturity.
 
 ## Introduction
-This project is designed to help organisations/projects/teams assess and track their DevOps maturity across multiple dimensions. The application is built using HTML, CSS, and JavaScript. It runs on a Node.js server and is designed for local use.
+
+This project is designed to help organisations, projects, and teams assess and track their DevOps maturity across multiple dimensions. The application is built using HTML, CSS, and JavaScript, runs on a Node.js server, and is intended for local use. It emphasises interactivity, customisation, and data-driven evaluation of DevOps practices.
 
 ## Features
-* Interactive assessment interface for evaluating DevOps maturity
-* Simple and intuitive design
-* Highly customisable dimensions and levels through the `dimensions.json` 
-* Includes `Level` gauge to view approximate level of DevOps maturity as the model is completed.
-* **Save State** to persist the current state (along with a timestamp) into a local SQLite database, building a history over time.
-* **Load State** retrieves the most recent saved state from the SQLite database.
-* **Reset** will clear the current state from the DB entirely and refresh the UI with a warning prompt.
-* **Generate Graph** opens a separate graph view (graph.html) that displays a multi-dimensional line graph of your adoption progress over time using Chart.js.
+
+The model offers an interactive assessment interface that allows users to evaluate their DevOps maturity with precision. Customisability is achieved through the `dimensions.json` file, which lets users tailor dimensions and levels to meet their specific organisational needs. An overall "Level" gauge provides an approximate measure of maturity once the model is fully completed. The system persistently saves the current state (including a timestamp) into a local SQLite database, thereby creating a historical record of progress. Users can load the most recent saved state or reset the model entirely—resetting both the UI and the underlying database after a warning prompt. Additionally, the application includes a graph view (accessible via graph.html) that displays a multi-dimensional line graph of adoption progress over time using Chart.js.
 
 ## Customisation
-The application uses a `dimensions.json` file to define the dimensions and levels of the DevOps Maturity Model. This file can be easily modified to add or remove dimensions, levels, and descriptions, allowing users to tailor the model to their specific needs.
 
-The `dimensions.json` file is a JSON object that contains an array of dimension objects, each with the following properties:
-* `name` is the high-level name of the dimension (e.g. "Continuous Integration", "Collaboration and Culture").
-* `subDimensions` are an array of sub-dimension objects, each representing a level description or specific aspect. Each sub-dimension includes its own name and an array of level descriptions.
+The application utilises a `dimensions.json` file to define its structure. This file comprises an array of dimension objects, each with two key properties:
+- **name:** The high-level identifier of the dimension (e.g. "Continuous Integration", "Collaboration and Culture").
+- **subDimensions:** An array of sub-dimension objects, each representing a specific aspect or level description.
 
-By modifying the `dimensions.json` file, users can:
-* Add new dimensions and levels to the model
-* Remove existing dimensions and levels from the model
-* Update the descriptions and details of existing dimensions and levels
-* Reorder the dimensions and levels to reflect their organization's specific priorities and goals
+By modifying this file, users can add, remove, or reorder dimensions and levels, and update the descriptions to reflect their organisation's unique priorities and goals.
 
-### Legal Disclaimer
-- **Data Privacy and Security**: This tool is designed to assess DevOps maturity and does not include built-in encryption for the SQLite database. Users are solely responsible for ensuring the security and privacy of the data they input.
-- **Personal Information (PII)**: Do not input any personal information (PII) into the `dimensions.json` file. Inputting PII can lead to data breaches and legal issues. If you need to input sensitive data, please ensure it is properly encrypted and anonymized.
-- **Liability**: The creators and distributors of this tool are not liable for any data breaches or legal issues arising from the misuse of this tool or the input of PII.
+## Legal Disclaimer
+
+**Data Privacy and Security:** This tool is designed solely to assess DevOps maturity and does not include built-in encryption for the SQLite database. Users are responsible for ensuring the security and privacy of any data entered.
+
+**Personal Information (PII):** Do not input any personal information (PII) into the `dimensions.json` file. Incorporating PII may lead to data breaches and legal complications. A legal disclaimer is provided in the README to remind users of this requirement.
+
+**Liability:** The creators and distributors of this tool are not liable for any data breaches or legal issues arising from its use or from the inclusion of personal data.
 
 ## Getting Started
+
+### Local Deployment
+
+To run the application locally:
+
 1. Clone the repository to your local machine.
-2. Navigate to the folder with `cd <your-file-path>/devops-maturity-model` in order to run the model.
-3. Run `npm install` to install any dependencies required by the `package.json`.
-2. Run `npm start` to run the server locally.
-3. Visit `http://127.0.0.1:3131` to view the maturity model.
+2. Navigate to the project folder:
 
-## Requirements
-* Node.js (for running the server)
+```bash
+   cd <your-file-path>/devops-maturity-model
+```
 
-## Contributing
-Contributions are welcome! If you'd like to contribute to this project, please fork the repository and submit a pull request with your changes.
+Install the dependencies:
 
-## License
+```bash
+npm install
+```
+Start the server:
+```bash
+    npm start
+```
+Open your browser and navigate to http://127.0.0.1:3131 to use the model.
 
-## Acknowledgments
+## Docker Deployment
+
+Alternatively, you can run the application as a Docker container. Simply execute the following command (Docker will automatically pull the image if it is not available locally):
+
+docker run -d --restart=always -p 3131:3131 -v devops_data:/app/data mikerossiter/devops-maturity-model:latest
+
+This command will start the container with a persistent Docker volume (devops_data) mounted to the container's /app/data directory, ensuring that your SQLite database persists across container restarts.
+Requirements
+
+    Node.js (for local server deployment)
+    Docker (for containerised deployment)
+
+Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request with your proposed changes.
