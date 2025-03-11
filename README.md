@@ -27,6 +27,11 @@ By modifying the `dimensions.json` file, users can:
 * Update the descriptions and details of existing dimensions and levels
 * Reorder the dimensions and levels to reflect their organization's specific priorities and goals
 
+### Legal Disclaimer
+- **Data Privacy and Security**: This tool is designed to assess DevOps maturity and does not include built-in encryption for the SQLite database. Users are solely responsible for ensuring the security and privacy of the data they input.
+- **Personal Information (PII)**: Do not input any personal information (PII) into the `dimensions.json` file. Inputting PII can lead to data breaches and legal issues. If you need to input sensitive data, please ensure it is properly encrypted and anonymized.
+- **Liability**: The creators and distributors of this tool are not liable for any data breaches or legal issues arising from the misuse of this tool or the input of PII.
+
 ## Getting Started
 1. Clone the repository to your local machine.
 2. Navigate to the folder with `cd <your-file-path>/devops-maturity-model` in order to run the model.

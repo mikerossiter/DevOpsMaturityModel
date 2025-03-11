@@ -24,7 +24,6 @@ dist/
 .env
 coverage/
 package-lock.json
-save-state/*
 
 # DB files
 model_state.db
