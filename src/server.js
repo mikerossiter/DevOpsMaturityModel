@@ -5,11 +5,11 @@ const path = require('path');
 const app = express();
 const port = 3131;
 
-app.use(express.static('./'));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 
 // Open (or create) the SQLite database.
-const db = new sqlite3.Database('./model_state.db', (err) => {
+const db = new sqlite3.Database(path.join(__dirname, '../data/model_state.db'), (err) => {
   if (err) {
     console.error('Error opening database:', err.message);
   } else {
