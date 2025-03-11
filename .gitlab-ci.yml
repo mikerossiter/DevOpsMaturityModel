@@ -22,13 +22,18 @@ trivy:
     TRIVY_NO_PROGRESS: "true"
     TRIVY_CACHE_DIR: ".trivycache/"
   before_script:
-    - chmod +x trivy_setup.sh
-    - ./trivy_setup.sh
+    - export TRIVY_VERSION=$(wget -qO - "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | grep '"tag_name"\:' | sed -E 's/.*"v([^"]+)".*/\1/')
+    - echo $TRIVY_VERSION
+    - wget --no-verbose https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz -O - | tar -zxvf -
   allow_failure: true
   script:
+    # Build the Docker image for scanning
     - docker build -t $IMAGE .
+    # Generate a container scanning report in GitLab's required format
     - ./trivy image --exit-code 0 --format template --template "@/contrib/gitlab.tpl" -o gl-container-scanning-report.json $IMAGE
+    # Print summary report for high severity issues
     - ./trivy image --exit-code 0 --severity HIGH $IMAGE
+    # Fail if any CRITICAL vulnerabilities are found
     - ./trivy image --exit-code 1 --severity CRITICAL $IMAGE
   cache:
     paths:
