@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((dimensions) => {
       const tableBody = document.getElementById("table-body");
       const averageLevelDisplay = document.getElementById("average-level");
+
       const levelDescriptionDisplay = document.getElementById("level-description");
       let selectedLevels = {}; // Track user selections
 
@@ -236,6 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let totalLevels = 0;
         let totalSubdimensions = 0;
         let allSelected = true;
+
         dimensions.forEach((dimension, dimensionIndex) => {
           dimension.subDimensions.forEach((subDim, subDimIndex) => {
             totalSubdimensions++;
@@ -261,6 +263,10 @@ document.addEventListener("DOMContentLoaded", () => {
         let averageLevel = totalLevels / totalSubdimensions;
         let roundedAverageLevel = Math.round(averageLevel);
 
+        // Calculate percentage complete: if all selections are at level 1, that's 0% complete,
+        // if they're all at level 4, that's 100% complete.
+        let percentage = (averageLevel / 4 ) * 100;
+
         // For percentage calculations with 4 levels
         let maxPossibleLevels = totalSubdimensions * 4;
         let overallProgress =
@@ -270,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
         overallProgress = Math.max(20, overallProgress);
 
         // Display results
-        averageLevelDisplay.textContent = `Level: ${roundedAverageLevel}`;
+        averageLevelDisplay.textContent = `Level: ${roundedAverageLevel} (${percentage.toFixed(2)}% completed)`;
         levelDescriptionDisplay.textContent = levelDescriptions[roundedAverageLevel] || "";
       }
 

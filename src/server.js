@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const port = 3131;
+const fs = require('fs');
+const MarkdownIt = require('markdown-it');
+const md = new MarkdownIt();
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
@@ -83,9 +86,41 @@ app.post('/reset-state', (req, res) => {
   });
 });
 
-// app.listen(port, '127.0.0.1', () => {
-//   console.log(`Server running at http://127.0.0.1:${port}/`);
-// });
+app.get('/readme', (req, res) => {
+  fs.readFile(path.join(__dirname, '../README.md'), 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).send("Error reading README");
+    }
+    const htmlContent = md.render(data);
+    const fullHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>README</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
+        <style>
+          body { 
+            box-sizing: border-box; 
+            min-width: 200px; 
+            max-width: 980px; 
+            margin: 0 auto; 
+            padding: 45px;
+          }
+          .markdown-body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+          }
+        </style>
+      </head>
+      <body class="markdown-body">
+        ${htmlContent}
+      </body>
+      </html>
+    `;
+    res.send(fullHtml);
+  });
+});
+
 
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running at http://0.0.0.0:${port}/`);
