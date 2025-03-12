@@ -57,9 +57,9 @@ The model offers an interactive assessment interface that allows users to evalua
    - Investigate how your results align with the **DORA metrics**.
    - Use the **DORA capability catalog** (that aligns with the **three ways** as defined in the **DevOps Handbook** by Gene Kim et al) to improve and drive meaningful change.  
 
-| **Deployment Frequency** 🚀  *How often new code is deployed to production. Frequent, smaller releases reduce risk.* | **Lead Time for Changes** ⏱️  *Time from commit to production. Shorter lead times mean faster feedback and higher agility.* |
-|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
-| **Change Failure Rate** ❌ *Percentage of deployments causing production failures or rollbacks. Lower is better.* | **Time to Restore Service** ⏰ *Speed of recovering from incidents or failed deployments. Rapid recovery minimises impact.* |
+| Deployment Frequency 🚀  How often new code is deployed to production. Frequent, smaller releases reduce risk. | Lead Time for Changes ⏱️  Time from commit to production. Shorter lead times mean faster feedback and higher agility. |
+|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| Change Failure Rate ❌ Percentage of deployments causing production failures or rollbacks. Lower is better. | Time to Restore Service ⏰ Speed of recovering from incidents or failed deployments. Rapid recovery minimises impact. |
 
 
 By following this approach—*surveying, mapping, selecting levels, running improvement Katas, and tracking progress over time*—you will create a **continuous improvement culture** that systematically drives your teams towards higher levels of DevOps maturity.
