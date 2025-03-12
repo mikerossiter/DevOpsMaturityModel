@@ -16,6 +16,6 @@ COPY contrib/gitlab.tpl /contrib/gitlab.tpl
 
 # Expose the port the app runs on
 EXPOSE 3131
-
+	
 # Start the application
 CMD ["npm", "start"]

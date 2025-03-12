@@ -7,13 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const levelDescriptionDisplay = document.getElementById("level-description");
       let selectedLevels = {}; // Track user selections
 
-      // Level descriptions mapping
+      // Updated level descriptions mapping (4 levels)
       const levelDescriptions = {
-        1: "Initial - Basic, ad-hoc practices.",
-        2: "Emerging - Some structure, still improving.",
-        3: "Established - Standardised and repeatable.",
-        4: "Advanced - Proactive, optimised processes.",
-        5: "Optimised - Fully automated, AI-driven improvements."
+        1: "Foundational - Basic, ad-hoc practices.",
+        2: "Improving - Some structure, still evolving.",
+        3: "Accelerating - Standardised, stable processes with frequent interactions.",
+        4: "Leading - On-demand deployment, highly optimised DevOps practices."
       };
 
       // Save State Button (sends state to server via SQLite)
@@ -70,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
           });
       });
 
-
       const resetStateButton = document.getElementById("reset-state-btn");
       resetStateButton.addEventListener("click", () => {
         if (confirm("Warning: This will delete all saved state and start from fresh. Are you sure you want to proceed?")) {
@@ -91,7 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
       });
-
 
       function loadModelState(savedState) {
         const { selectedLevels: savedLevels } = savedState;
@@ -184,7 +181,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         let average = total / count;
-        let percentage = (average / 5) * 100;
+        // Adjusted for 4 levels instead of 5
+        let percentage = (average / 4) * 100;
 
         // Expanded view progress bar.
         const progressBar = document.getElementById(`progress-bar-${dimensionIndex}`);
@@ -194,11 +192,11 @@ document.addEventListener("DOMContentLoaded", () => {
           progressBar.className = "progress-bar";
           if (percentage === 100) {
             progressBar.classList.add("colour5");
-          } else if (percentage > 80) {
+          } else if (percentage > 75) {
             progressBar.classList.add("colour4");
-          } else if (percentage > 60) {
+          } else if (percentage > 50) {
             progressBar.classList.add("colour3");
-          } else if (percentage > 40) {
+          } else if (percentage > 25) {
             progressBar.classList.add("colour2");
           } else {
             progressBar.classList.add("colour1");
@@ -213,11 +211,11 @@ document.addEventListener("DOMContentLoaded", () => {
           thinProgressBar.className = "progress-bar progress-bar-thin";
           if (percentage === 100) {
             thinProgressBar.classList.add("colour5");
-          } else if (percentage > 80) {
+          } else if (percentage > 75) {
             thinProgressBar.classList.add("colour4");
-          } else if (percentage > 60) {
+          } else if (percentage > 50) {
             thinProgressBar.classList.add("colour3");
-          } else if (percentage > 40) {
+          } else if (percentage > 25) {
             thinProgressBar.classList.add("colour2");
           } else {
             thinProgressBar.classList.add("colour1");
@@ -252,18 +250,27 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           });
         });
+
         if (!allSelected) {
           averageLevelDisplay.textContent = "Please select levels for each dimension";
           levelDescriptionDisplay.textContent = "";
           return;
         }
+
+        // Compute the average level on a 1..4 scale
         let averageLevel = totalLevels / totalSubdimensions;
         let roundedAverageLevel = Math.round(averageLevel);
-        let maxPossibleLevels = totalSubdimensions * 5;
+
+        // For percentage calculations with 4 levels
+        let maxPossibleLevels = totalSubdimensions * 4;
         let overallProgress =
           ((totalLevels - totalSubdimensions) / (maxPossibleLevels - totalSubdimensions)) * 100;
+
+        // If you want a minimum progress display, you can keep or remove this line:
         overallProgress = Math.max(20, overallProgress);
-        averageLevelDisplay.textContent = `Level: ${roundedAverageLevel}`; // (${overallProgress.toFixed(1)}% completed)`;
+
+        // Display results
+        averageLevelDisplay.textContent = `Level: ${roundedAverageLevel}`;
         levelDescriptionDisplay.textContent = levelDescriptions[roundedAverageLevel] || "";
       }
 
@@ -279,7 +286,8 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
             dimension.subDimensions.forEach((_, subDimIndex) => {
               // Use the value from selectedLevels; if it's falsy, store blank.
-              modelState.selectedLevels[dimensionIndex][subDimIndex] = selectedLevels[dimensionIndex][subDimIndex] || "";
+              modelState.selectedLevels[dimensionIndex][subDimIndex] =
+                selectedLevels[dimensionIndex][subDimIndex] || "";
             });
           }
         });
@@ -355,10 +363,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 defaultOption.textContent = "Select level";
                 select.appendChild(defaultOption);
 
-                // Level options.
+                // Level options (4-level scale)
                 subDim.levels.forEach((levelText, levelIndex) => {
                   const option = document.createElement("option");
-                  option.value = levelIndex + 1;
+                  option.value = levelIndex + 1; // 1..4
                   option.textContent = `Level ${levelIndex + 1}: ${levelText}`;
                   select.appendChild(option);
                 });

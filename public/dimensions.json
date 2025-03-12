@@ -1,144 +1,245 @@
 [
   {
-    "name": "Collaboration and Culture",
-    "description": "A strong DevOps culture, based on collaboration, leadership support, and continuous improvement, is foundational to achieving high performance.",
+    "name": "Continuous Delivery & Automation",
+    "description": "Practices that enable fast, repeatable, and low-risk delivery of changes to production.",
     "subDimensions": [
       {
-        "name": "Cross-functional Collaboration",
-        "description": "Encouraging seamless cooperation between Dev, Ops, and Security to eliminate silos.",
-        "improves": ["Change Failure Rate", "Time to Restore Service"],
-        "levels": [
-          "Teams work in silos with limited visibility into each other’s work.",
-          "Basic cross-team communication, but misalignment persists.",
-          "Regular joint planning sessions and shared objectives improve collaboration.",
-          "Dev, Ops, and Security fully integrate workflows and shared responsibilities.",
-          "Teams work as autonomous, product-aligned units with strong collaboration."
-        ]
-      },
-      {
-        "name": "Blameless Postmortems & Psychological Safety",
-        "description": "Encouraging learning from failures instead of assigning blame to foster a safe environment for experimentation.",
-        "improves": ["Change Failure Rate", "Time to Restore Service"],
-        "levels": [
-          "Failures result in blame, discouraging innovation and risk-taking.",
-          "Basic postmortems occur but focus on individual accountability.",
-          "Structured postmortems identify systemic issues and improvement actions.",
-          "Blameless culture enables rapid learning and experimentation.",
-          "Continuous feedback loops and psychological safety drive innovation."
-        ]
-      },
-      {
-        "name": "Leadership Buy-in & Sponsorship",
-        "description": "Executive and management support for DevOps adoption and continuous improvement.",
+        "name": "Version Control & Trunk-Based Development",
+        "description": "Using a single source of truth (version control) and short-lived branches or direct commits on trunk.",
         "improves": ["Deployment Frequency", "Lead Time for Changes"],
         "levels": [
-          "Leaders are unaware or indifferent to DevOps transformation.",
-          "Leadership acknowledges DevOps but provides limited resources.",
-          "Leaders actively invest in DevOps and drive cultural change.",
-          "Executives ensure DevOps principles are part of business strategy.",
-          "Leadership continuously funds, promotes, and measures DevOps success."
+          "Foundational: Teams are establishing consistent version control, sometimes using longer-lived branches with occasional merging considerations.",
+          "Improving: Code is largely in version control, with efforts to reduce merge duration and complexity.",
+          "Accelerating: Short-lived branches or trunk-based development are standard, with frequent merges that streamline integration.",
+          "Leading: Continuous merging and an always-releasable trunk, supported by automated checks that sustain high quality."
+        ]
+      },
+      {
+        "name": "Continuous Integration & Test Automation",
+        "description": "Automatically building and testing changes in a shared codebase.",
+        "improves": ["Deployment Frequency", "Change Failure Rate"],
+        "levels": [
+          "Foundational: Builds and tests incorporate some manual steps; initial automated checks are being introduced.",
+          "Improving: Unit tests are automated in a CI pipeline, and teams are working to increase coverage.",
+          "Accelerating: Comprehensive suites (unit, integration, security) run automatically, ensuring rapid feedback in CI.",
+          "Leading: Extensive automated tests with near-complete coverage, providing immediate quality insights and swift iteration."
+        ]
+      },
+      {
+        "name": "Deployment Automation & Release Orchestration",
+        "description": "Automating the process of packaging, delivering, and releasing software changes.",
+        "improves": ["Deployment Frequency", "Lead Time for Changes", "Time to Restore Service"],
+        "levels": [
+          "Foundational: Deployments are primarily guided by manual instructions or scripts unique to each environment.",
+          "Improving: Teams use consistent scripting and partial automation, with some human oversight during releases.",
+          "Accelerating: Deployments are triggered via pipeline steps or push-button processes across environments.",
+          "Leading: Fully automated end-to-end delivery, enabling frequent, reliable releases with minimal overhead."
+        ]
+      },
+      {
+        "name": "Database Change Management",
+        "description": "Aligning schema changes with application changes, versioned and deployed automatically.",
+        "improves": ["Deployment Frequency", "Change Failure Rate"],
+        "levels": [
+          "Foundational: Database changes are performed with manual coordination, and teams are exploring structured versioning approaches.",
+          "Improving: Scripts for migrations exist with partial rollback strategies; consistency is being refined.",
+          "Accelerating: Automated, versioned migrations integrated into the CI/CD pipeline, ensuring predictable updates.",
+          "Leading: Zero-downtime migration and rollback/roll-forward options are in place, promoting seamless database updates."
         ]
       }
     ]
   },
   {
-    "name": "Technical Practices & Automation",
-    "description": "Automation and modern development practices enable faster, more reliable software delivery.",
+    "name": "Architecture & Infrastructure",
+    "description": "Technical foundations that enable independent, small-batch changes while ensuring reliability and scalability.",
     "subDimensions": [
       {
-        "name": "Trunk-Based Development",
-        "description": "Developers integrate code into a shared repository frequently to reduce merge conflicts.",
-        "improves": ["Deployment Frequency", "Lead Time for Changes"],
+        "name": "Loosely Coupled Architecture",
+        "description": "Ability for teams to make changes independently without tightly coupled dependencies.",
+        "improves": ["Deployment Frequency", "Lead Time for Changes", "Change Failure Rate"],
         "levels": [
-          "Long-lived feature branches create bottlenecks.",
-          "Developers integrate changes weekly or longer, causing delays.",
-          "Daily integrations reduce conflicts and speed up reviews.",
-          "Frequent merges and feature flags allow continuous delivery.",
-          "Trunk-based development with automated testing enables rapid releases."
+          "Foundational: Systems are primarily monolithic, and teams are discussing ways to isolate components.",
+          "Improving: Some modularisation or microservices are introduced, with ongoing work to reduce interdependencies.",
+          "Accelerating: Services are independently deployable, supported by clearly defined data contracts.",
+          "Leading: Fully decoupled architecture, allowing teams to deliver changes swiftly with minimal cross-team coordination."
         ]
       },
       {
-        "name": "Automated Testing",
-        "description": "Automating tests at multiple levels (unit, integration, performance) to ensure stability.",
-        "improves": ["Change Failure Rate", "Lead Time for Changes"],
+        "name": "Cloud & Infrastructure Automation",
+        "description": "On-demand, self-service, flexible environments for building, testing, and releasing changes.",
+        "improves": ["Lead Time for Changes", "Time to Restore Service", "Organisational Performance"],
         "levels": [
-          "Most testing is manual, causing slow releases.",
-          "Some unit tests are automated, but coverage is low.",
-          "Automated testing is integrated into CI/CD pipelines.",
-          "Security, performance, and compliance tests run automatically.",
-          "AI-driven testing predicts failures before deployment."
+          "Foundational: Servers are provisioned using some manual steps, with early exploration of cloud adoption.",
+          "Improving: Basic cloud resources and partial infrastructure-as-code are in place, reducing manual efforts.",
+          "Accelerating: Infrastructure-as-code is widely adopted, enabling dynamic environments in CI/CD pipelines.",
+          "Leading: Fully elastic, on-demand infrastructure with advanced automation practices (immutable infrastructure, GitOps, etc.)."
         ]
       },
       {
-        "name": "Continuous Integration and Deployment (CI/CD)",
-        "description": "Automating build, test, and deployment pipelines to enable fast, frequent releases.",
-        "improves": ["Deployment Frequency", "Lead Time for Changes"],
+        "name": "Platform Engineering",
+        "description": "Providing an internal platform that streamlines development and reduces cognitive load on teams.",
+        "improves": ["Lead Time for Changes", "Developer Experience", "Organisational Performance"],
         "levels": [
-          "Manual builds and deployments introduce delays.",
-          "Some automation exists, but processes are inconsistent.",
-          "CI/CD pipelines automate testing and deployments.",
-          "Progressive delivery methods (canary, feature flags) are implemented.",
-          "Autonomous CI/CD pipelines enable frequent, low-risk releases."
+          "Foundational: Individual teams manage infrastructure independently, with growing interest in a unified platform approach.",
+          "Improving: Basic shared services exist, offering partial self-service functionality for developers.",
+          "Accelerating: The platform is treated as a product, providing robust self-service capabilities to multiple teams.",
+          "Leading: A fully evolved internal developer platform, continuously improved through user feedback and iteration."
         ]
       }
     ]
   },
   {
-    "name": "Reliability & Operational Excellence",
-    "description": "Building resilient, self-healing infrastructure and proactive monitoring practices.",
+    "name": "Lean Product Management & Process",
+    "description": "Planning and delivery practices focused on rapid feedback, small batches, and limiting work in process.",
     "subDimensions": [
       {
-        "name": "Observability & Monitoring",
-        "description": "Real-time insights into system health, logs, and performance metrics.",
-        "improves": ["Time to Restore Service", "Change Failure Rate"],
+        "name": "Working in Small Batches & Limiting WIP",
+        "description": "Delivering value in small, frequent increments and minimising parallel work.",
+        "improves": ["Deployment Frequency", "Lead Time for Changes"],
         "levels": [
-          "Minimal logging; issues are identified reactively.",
-          "Basic monitoring tools provide alerts but lack visibility.",
-          "Centralized logging and structured incident tracking improve response times.",
-          "Distributed tracing enables deep system insights and proactive detection.",
-          "AI-driven observability detects anomalies and prevents failures."
+          "Foundational: Teams plan for larger releases with room to explore smaller batch sizes moving forward.",
+          "Improving: Early adoption of smaller user stories, gradually reducing batch size in releases.",
+          "Accelerating: A systematic approach to limiting work in progress, enabling frequent small-batch delivery cycles.",
+          "Leading: Continuous flow with minimal context switching and near real-time feedback, optimising throughput."
         ]
       },
       {
-        "name": "Incident Response & Remediation",
-        "description": "Developing automated incident response mechanisms to recover quickly from failures.",
+        "name": "User-Centric & Hypothesis-Driven Development",
+        "description": "Rapidly gathering user feedback and iterating based on real-world outcomes.",
+        "improves": ["Organisational Performance", "Product Performance"],
+        "levels": [
+          "Foundational: Teams primarily follow top-down feature direction, with increasing focus on user validation.",
+          "Improving: Some user research and feedback loops are in place, gradually accelerating response times.",
+          "Accelerating: Frequent experiments, such as A/B tests or user studies, guide decisions through data insights.",
+          "Leading: A culture of continuous experimentation at scale, with real-time analytics informing product evolution."
+        ]
+      },
+      {
+        "name": "Stable, Prioritised Backlog",
+        "description": "Maintaining clear, consistently prioritised work with stable objectives and minimal churn.",
+        "improves": ["Team Productivity", "Burnout Reduction", "Organisational Performance"],
+        "levels": [
+          "Foundational: Teams experience shifting priorities and are establishing consistent backlog structures.",
+          "Improving: Basic backlog management is practiced, with ongoing efforts to reduce unplanned changes.",
+          "Accelerating: Short- and mid-term priorities are clearly set, limiting disruptions and promoting smoother delivery.",
+          "Leading: A well-groomed, stable roadmap aligned with strategic goals, enabling teams to plan effectively and confidently."
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Observability & Resilience",
+    "description": "Ensuring systems are measurable, monitored, and capable of rapid recovery from potential issues.",
+    "subDimensions": [
+      {
+        "name": "Monitoring & Alerting",
+        "description": "Collecting telemetry (logs, metrics, traces) with actionable alerts for system health.",
         "improves": ["Time to Restore Service", "Change Failure Rate"],
         "levels": [
-          "No structured incident response process exists.",
-          "Teams manually track and resolve incidents reactively.",
-          "Incident response is automated, reducing recovery times.",
-          "Self-healing systems detect and correct failures autonomously.",
-          "AI-driven remediation prevents failures before they impact users."
+          "Foundational: Basic monitoring is in place, and teams are refining approaches to address incidents proactively.",
+          "Improving: Centralised logging and dashboards provide more thorough visibility, while teams refine alert quality.",
+          "Accelerating: A unified observability platform correlates traces, metrics, and logs for deeper insights.",
+          "Leading: Proactive anomaly detection with SLO-based alerts, leveraging real-time data to drive continuous improvement."
+        ]
+      },
+      {
+        "name": "Failure Recovery & Incident Response",
+        "description": "How quickly a team detects and restores service after an incident.",
+        "improves": ["Change Failure Rate", "Time to Restore Service"],
+        "levels": [
+          "Foundational: Issues are addressed as they emerge, with incident response practices evolving.",
+          "Improving: On-call rotations and structured post-incident reviews are introduced to enhance response consistency.",
+          "Accelerating: Coordinated incident management, real-time collaboration, and systematic retrospectives strengthen recovery.",
+          "Leading: Automated rollback or restore, supported by blameless retrospectives that lead to significant resilience gains."
+        ]
+      },
+      {
+        "name": "Chaos Engineering / Proactive Resilience",
+        "description": "Introducing controlled experiments to validate system resilience and enhance fault tolerance.",
+        "improves": ["Time to Restore Service", "Organisational Learning"],
+        "levels": [
+          "Foundational: Teams rely on existing tests and are beginning to explore proactive resilience strategies.",
+          "Improving: Occasional exercises (e.g. ‘game days’) to examine specific failure scenarios and refine responses.",
+          "Accelerating: Regular chaos experiments integrated into pipelines, with systematic learning from injected failures.",
+          "Leading: Resilience is integral to the culture; continuous exploration shapes architectural and operational decisions."
         ]
       }
     ]
   },
   {
     "name": "Security & Compliance",
-    "description": "Integrating security into the software development lifecycle without slowing down delivery.",
+    "description": "Incorporating security throughout the software lifecycle to protect against threats without slowing delivery.",
     "subDimensions": [
       {
         "name": "Shift-Left Security",
-        "description": "Incorporating security checks early in the development process.",
+        "description": "Including security checks and practices early in development.",
         "improves": ["Change Failure Rate", "Lead Time for Changes"],
         "levels": [
-          "Security is checked manually after development.",
-          "Some automated security scans exist but are not mandatory.",
-          "Security testing is fully integrated into CI/CD pipelines.",
-          "Automated compliance checks and risk scoring improve security posture.",
-          "AI-driven threat modeling proactively prevents vulnerabilities."
+          "Foundational: Security considerations are introduced as teams review code or features, with further shifts planned.",
+          "Improving: Automated security checks are partially integrated into pipelines, expanding to cover more scenarios.",
+          "Accelerating: Security scanning is fully embedded in CI/CD, providing frequent validation and feedback.",
+          "Leading: Policies are codified and risk assessments automated, creating a continually improving security posture."
         ]
       },
       {
         "name": "Secure Software Supply Chain",
-        "description": "Protecting dependencies and ensuring software integrity from development to deployment.",
+        "description": "Safeguarding dependencies and ensuring code integrity from development through release.",
         "improves": ["Change Failure Rate", "Time to Restore Service"],
         "levels": [
-          "Third-party dependencies are not tracked for security risks.",
-          "Basic dependency scanning is in place but lacks enforcement.",
-          "Dependencies are validated and monitored for vulnerabilities.",
-          "End-to-end supply chain security prevents unauthorized modifications.",
-          "Self-healing supply chains prevent security breaches in real-time."
+          "Foundational: Teams begin tracking dependencies and addressing security considerations as they arise.",
+          "Improving: Known vulnerabilities are scanned regularly, with enforcement policies in development.",
+          "Accelerating: Dependency monitoring is enforced by validated processes that guard against security issues.",
+          "Leading: A thorough, end-to-end supply chain approach that prevents tampering and ensures trusted releases."
+        ]
+      },
+      {
+        "name": "Compliance Automation",
+        "description": "Automatically verifying adherence to required standards (audit logs, policy checks) within delivery pipelines.",
+        "improves": ["Lead Time for Changes", "Organisational Performance"],
+        "levels": [
+          "Foundational: Compliance is monitored via manual checklists, with opportunities for partial automation under review.",
+          "Improving: Some evidence is gathered automatically, and gating steps are being introduced in CI/CD.",
+          "Accelerating: Compliance checks are fully integrated, with policies defined as code for consistent enforcement.",
+          "Leading: Continuous audit readiness is embedded, making compliance a seamless part of daily delivery."
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Culture & Leadership",
+    "description": "Organisational environment, leadership style, and collaboration practices supporting continuous improvement and high performance.",
+    "subDimensions": [
+      {
+        "name": "Westrum Organisational Culture",
+        "description": "A generative culture emphasising cooperation, open information sharing, and learning from experiences.",
+        "improves": ["Change Failure Rate", "Time to Restore Service", "Team Performance"],
+        "levels": [
+          "Foundational: The organisation is working towards open communication, with efforts to learn from outcomes.",
+          "Improving: Processes are in place to encourage collaboration, moving beyond departmental boundaries.",
+          "Accelerating: Greater generative behaviours emerge; teams share risks, and insights flow freely.",
+          "Leading: A truly generative culture where all voices are heard, and learning from any setback is the norm."
+        ]
+      },
+      {
+        "name": "Transformational Leadership",
+        "description": "Leaders inspire, empower, and enable continuous improvement across the organisation.",
+        "improves": ["Productivity", "Organisational Performance", "Burnout Reduction"],
+        "levels": [
+          "Foundational: Leaders are establishing supportive practices, exploring ways to grant teams more autonomy.",
+          "Improving: Teams receive growing empowerment through delegated decisions, with increasing trust from leadership.",
+          "Accelerating: Leaders actively remove obstacles, invest in growth, and celebrate learning from experimentation.",
+          "Leading: A clear transformational mindset permeates the organisation, rooted in psychological safety and continuous progress."
+        ]
+      },
+      {
+        "name": "Team Autonomy & Empowerment",
+        "description": "Providing teams with the freedom to choose tools, drive experiments, and deliver business value independently.",
+        "improves": ["Lead Time for Changes", "Deployment Frequency", "Job Satisfaction"],
+        "levels": [
+          "Foundational: Teams are gaining additional decision-making capabilities and establishing local ownership.",
+          "Improving: Autonomy is growing, with teams selecting some methods and tools, supported by increased trust.",
+          "Accelerating: High levels of autonomy, with teams shaping their own processes and experiments to drive outcomes.",
+          "Leading: A fully empowered environment, aligned to clear strategic goals, where ownership and innovation thrive."
         ]
       }
     ]
