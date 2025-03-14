@@ -49,7 +49,7 @@ build_push:
   before_script:
     - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USER" --password-stdin
   script:
-    - docker build -t $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA .
+    - docker build --no-cache -t $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA .
     - docker tag $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA $DOCKER_USER/devops-maturity-model:latest
     - docker push $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA
     - docker push $DOCKER_USER/devops-maturity-model:latest
