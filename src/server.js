@@ -1,5 +1,4 @@
 const express = require('express');
-const fetch = require('node-fetch'); // Not used now but kept if needed for future
 const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -7,7 +6,6 @@ const fs = require('fs');
 const MarkdownIt = require('markdown-it');
 const md = new MarkdownIt();
 const dimensions = require('../public/dimensions.json');
-
 const app = express();
 const PORT = process.env.PORT || 3131;
 
