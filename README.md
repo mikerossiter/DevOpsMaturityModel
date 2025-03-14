@@ -20,6 +20,9 @@ The model offers an interactive assessment interface that allows users to evalua
    - For each dimension and subdimension (e.g., “Continuous Delivery & Automation”, “Architecture & Infrastructure”), select the level (Foundational, Improving, Accelerating, or Optimising) that most closely matches your current practice. **N.B** Users can adapt the sub-dimensions if, for instance, a particular domain is not applicable to their environment post initial survey.  
    - These selections will generate an **average maturity level** (ranging from **1** to **4**) and a **percentage** complete to help visualise the journey. This average can serve as a useful snapshot of your overall DevOps posture.
 
+3. **Generate a Gap Analysis Report**  
+   - Once you have saved your state, the application can generate a Gap Analysis Report. This report lists each dimension and sub-dimension, shows your current level description alongside the next target level (if available), and provides text areas for you to input your own gap analysis and action plan. This report is a key tool in your transformation Kata, guiding you through a cycle of Plan, Do, Check, and Act to incrementally improve your DevOps practices.
+
 3. **Plan Your Next Steps with a Kata**  
    - Once you have established your current level, decide how you would like to **move from your present state (e.g., Foundational) to a higher state (e.g., Improving)**.  
    - Use a [**Kata cycle**](https://dora.dev/guides/devops-culture-transform/) (Plan, Do, Check, Act) to run small experiments that close the gap between your current level and your target level.
@@ -43,15 +46,15 @@ The model offers an interactive assessment interface that allows users to evalua
 
    - **Remember** - the levels are guidelines rather than a strict prescription.  
 
-4. **Incorporate into Regular Team Ceremonies**  
+5. **Incorporate into Regular Team Ceremonies**  
    - Consider revisiting this model and your selected levels in **monthly retrospectives**, **weekly stand-ups**, or other regular meetings.  
    - By reviewing progress frequently, you can keep your improvement initiatives on track and adapt them in response to changing conditions.
 
-5. **Track Adoption Over Time**  
+6. **Track Adoption Over Time**  
    - Each time you update your levels, make sure to save the changes so that you can **load the time series graph**. This historical view will show whether your adoption and maturity are **improving, stagnating, or even regressing**.  
    - Regularly reviewing these trends helps you spot patterns and react to potential downward trends promptly. Teams often revisit their DevOps maturity every 1–3 sprints (or monthly) to reflect incremental progress.
 
-6. **Further Reading and Next Steps**  
+7. **Further Reading and Next Steps**  
    - After you have progressed through these stages and feel comfortable at (or near) the Optimising level, you may wish to explore more advanced team dynamics.  
    - **Team Topologies** (by Matthew Skelton and Manuel Pais) is an excellent resource to help you refine the structure and collaboration of your teams at scale.  
    - Investigate how your results align with the **DORA metrics**.
