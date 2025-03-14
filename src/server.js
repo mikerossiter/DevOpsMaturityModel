@@ -51,10 +51,11 @@ app.get('/gap-analysis', (req, res) => {
       <!DOCTYPE html>
       <html>
       <head>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
         <meta charset="utf-8">
         <title>Gap Analysis Report</title>
         <style>
-          body { font-family: Arial, sans-serif; margin: 40px; }
+          body { font-family: Lato, sans-serif; margin: 40px; }
           table { width: 100%; border-collapse: collapse; margin-top: 20px; }
           th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
           th { background-color: #f4f4f4; }
