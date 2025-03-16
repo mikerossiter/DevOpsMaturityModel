@@ -53,7 +53,7 @@ app.get('/gap-analysis', (req, res) => {
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
         <meta charset="utf-8">
-        <title>Gap Analysis Report</title>
+        <title>Gap Analysis</title>
         <style>
           body { font-family: Lato, sans-serif; margin: 40px; }
           table { width: 100%; border-collapse: collapse; margin-top: 20px; }
@@ -65,7 +65,7 @@ app.get('/gap-analysis', (req, res) => {
         </style>
       </head>
       <body>
-        <h1>Gap Analysis Report</h1>
+        <h1>Gap Analysis</h1>
         <p>This report lists the current maturity levels along with a gap analysis to help you determine improvements needed to reach the next level. Please review each entry and add your own notes where indicated.</p>
         <div class="button-container">
           <button onclick="window.print()">Print / Save as PDF</button>
@@ -74,9 +74,9 @@ app.get('/gap-analysis', (req, res) => {
           <tr>
             <th>Dimension</th>
             <th>Sub-Dimension</th>
-            <th>Current Level</th>
-            <th>Next Level</th>
-            <th>Gap Analysis (your input)</th>
+            <th>Current Condition</th>
+            <th>Target Condition</th>
+            <th>Notes (Improvement Suggestions and Objectives - drag to scale)</th>
           </tr>
     `;
 
