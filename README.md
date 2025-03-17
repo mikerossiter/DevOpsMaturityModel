@@ -24,8 +24,8 @@ The model offers an interactive assessment interface that allows users to evalua
    - Once you have saved your state, the application can generate a Gap Analysis Report. This report lists each dimension and sub-dimension, shows your current level description alongside the next target level (if available), and provides text areas for you to input your own gap analysis and action plan. This report is a key tool in your transformation Kata, guiding you through a cycle of Plan, Do, Check, and Act to incrementally improve your DevOps practices.
 
 3. **Plan Your Next Steps with a Kata**  
-   - Once you have established your current level, decide how you would like to **move from your present state (e.g., Foundational) to a higher state (e.g., Improving)**.  
-   - Use a [**Kata cycle**](https://dora.dev/guides/devops-culture-transform/) (Plan, Do, Check, Act) to run small experiments that close the gap between your current level and your target level.
+   - Once you have established your current level, decide how you would like to move from your present state (e.g., Foundational) to a higher state (e.g., Improving).  
+   - Use a PDCA (Plan, Do, Check, Act) [Shewhart cycle](https://en.wikipedia.org/wiki/PDCA) based on your gap analysis to feed into a [**Kata**](https://dora.dev/guides/devops-culture-transform/) (or similar method) to run iterate over objectives to reach the target level or further improvements.
 
 | **Step**                                     | **Explanation**                                                                     |
 |----------------------------------------------|-------------------------------------------------------------------------------------|
@@ -57,8 +57,10 @@ The model offers an interactive assessment interface that allows users to evalua
 7. **Further Reading and Next Steps**  
    - After you have progressed through these stages and feel comfortable at (or near) the Optimising level, you may wish to explore more advanced team dynamics.  
    - **Team Topologies** (by Matthew Skelton and Manuel Pais) is an excellent resource to help you refine the structure and collaboration of your teams at scale.  
-   - Investigate how your results align with the **DORA metrics**.
-   - Use the **DORA capability catalog** (that aligns with the **three ways** as defined in the **DevOps Handbook** by Gene Kim et al) to improve and drive meaningful change.  
+   - **Flow Engineering** (by Steve Pereira and Andrew Davis) is a practical guide to using value stream mapping techniques to align teams, unlock innovation, and optimise performance.  
+   - Investigate how your results align with the **DORA metrics** (see table below).
+   - Use the **DORA capability catalog** (aligns well with the "three ways" outlined in the **DevOps Handbook** by Gene Kim et al) to improve and drive long-term improvements.  
+
 
 | **Deployment Frequency** 🚀  **How often new code is deployed to production. Frequent, smaller releases reduce risk.** | **Lead Time for Changes** ⏱️  **Time from commit to production. Shorter lead times mean faster feedback and higher agility.** |
 |:---:|:---:|
@@ -66,7 +68,8 @@ The model offers an interactive assessment interface that allows users to evalua
 
 
 
-By following this approach—*surveying, mapping, selecting levels, running improvement Katas, and tracking progress over time*—you will create a **continuous improvement culture** that systematically drives your teams towards higher levels of DevOps maturity.
+By following this approach—*surveying, mapping, using the model to obtain an average level, running improvement PDCAs and Katas, plus tracking progress over time*—you will create a continuous improvement culture that systematically drives your teams towards higher levels of DevOps maturity.
+
 
 ## Customisation
 
