@@ -35,6 +35,8 @@ trivy:
     - ./trivy image --exit-code 0 --severity HIGH $IMAGE
     # Fail if any CRITICAL vulnerabilities are found
     - ./trivy image --exit-code 1 --severity CRITICAL $IMAGE
+    # Scan for secrets
+    - ./trivy image --scanners secret --exit-code 0 $IMAGE
   cache:
     paths:
       - .trivycache/
