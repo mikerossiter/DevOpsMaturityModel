@@ -65,3 +65,4 @@ build_push:
   - main
 include:
 - template: Security/Dependency-Scanning.gitlab-ci.yml
+- template: Jobs/Secret-Detection.gitlab-ci.yml
