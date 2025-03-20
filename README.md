@@ -107,13 +107,13 @@ Open your browser and navigate to [http://localhost:3131](http://localhost:3131)
 
 Alternatively, you can run the application as a Docker container. Simply execute the following command (Docker will automatically pull the image if it is not available locally):
 ```bash
-docker run -d --name devops-maturity-model --restart=always -p 3131:3131 -v devops_data:/app/data mikerossiter/devops-maturity-model:latest
+docker run -d --name devops-maturity-model --restart=always -p 3131:3131 -v devops_data:/app/data registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest                                         
 ```
 This command will start the container with a persistent Docker volume (devops_data) mounted to the container's /app/data directory and the `--restart=always` ensures that your SQLite database persists across container restarts.
 
 To update the running image run:
 ```bash
-docker pull mikerossiter/devops-maturity-model
+docker pull registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest
 ```
 
 ## Requirements
