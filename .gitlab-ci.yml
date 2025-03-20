@@ -8,7 +8,7 @@ stages:
   - build_push
 
 trivy:
-  stage: trivy_sacn
+  stage: trivy_scan
   image: docker:stable
   services:
     - name: docker:dind
@@ -24,7 +24,7 @@ trivy:
     TRIVY_CACHE_DIR: ".trivycache/"
   before_script:
     - export TRIVY_VERSION=$(wget -qO - "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | grep '"tag_name"\:' | sed -E 's/.*"v([^"]+)".*/\1/')
-    - echo "Trivy version: $TRIVY_VERSION"
+    - echo $TRIVY_VERSION
     - wget --no-verbose https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz -O - | tar -zxvf -
   allow_failure: true
   script:
