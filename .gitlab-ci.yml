@@ -1,59 +1,67 @@
+# You can override the included template(s) by including variable overrides
+# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
+# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/pipeline/#customization
+# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
+# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
+# Note that environment variables can be set in several places
+# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 image: docker:latest
-
 services:
-  - docker:dind
-
+- docker:dind
 stages:
-  - test
-  - build_push
-
+- test
+- build_push
 trivy:
   stage: test
   image: docker:stable
   services:
-    - name: docker:dind
-      entrypoint: ["env", "-u", "DOCKER_HOST"]
-      command: ["dockerd-entrypoint.sh"]
+  - name: docker:dind
+    entrypoint:
+    - env
+    - "-u"
+    - DOCKER_HOST
+    command:
+    - dockerd-entrypoint.sh
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
-    IMAGE: $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHA
-    TRIVY_NO_PROGRESS: "true"
+    DOCKER_TLS_CERTDIR: ''
+    IMAGE: "$DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHA"
+    TRIVY_NO_PROGRESS: 'true'
     TRIVY_CACHE_DIR: ".trivycache/"
   before_script:
-    - export TRIVY_VERSION=$(wget -qO - "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | grep '"tag_name"\:' | sed -E 's/.*"v([^"]+)".*/\1/')
-    - echo $TRIVY_VERSION
-    - wget --no-verbose https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz -O - | tar -zxvf -
+  - export TRIVY_VERSION=$(wget -qO - "https://api.github.com/repos/aquasecurity/trivy/releases/latest"
+    | grep '"tag_name"\:' | sed -E 's/.*"v([^"]+)".*/\1/')
+  - echo $TRIVY_VERSION
+  - wget --no-verbose https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz
+    -O - | tar -zxvf -
   allow_failure: true
   script:
-    # Build the Docker image for scanning
-    - docker build -t $IMAGE .
-    # Generate a container scanning report in GitLab's required format
-    - ./trivy image --exit-code 0 --format template --template "@./contrib/gitlab.tpl" -o gl-container-scanning-report.json $IMAGE
-    # Print summary report for high severity issues
-    - ./trivy image --exit-code 0 --severity HIGH $IMAGE
-    # Fail if any CRITICAL vulnerabilities are found
-    - ./trivy image --exit-code 1 --severity CRITICAL $IMAGE
-    # Scan for secrets
-    - ./trivy image --scanners secret --exit-code 0 $IMAGE
+  - docker build -t $IMAGE .
+  - ./trivy image --exit-code 0 --format template --template "@./contrib/gitlab.tpl"
+    -o gl-container-scanning-report.json $IMAGE
+  - "./trivy image --exit-code 0 --severity HIGH $IMAGE"
+  - "./trivy image --exit-code 1 --severity CRITICAL $IMAGE"
+  - "./trivy image --scanners secret --exit-code 0 $IMAGE"
   cache:
     paths:
-      - .trivycache/
+    - ".trivycache/"
   artifacts:
     reports:
       container_scanning: gl-container-scanning-report.json
-
 build_push:
   stage: build_push
   variables:
     DOCKER_DRIVER: overlay2
   before_script:
-    - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USER" --password-stdin
+  - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USER" --password-stdin
   script:
-    - docker build --no-cache -t $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA .
-    - docker tag $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA $DOCKER_USER/devops-maturity-model:latest
-    - docker push $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA
-    - docker push $DOCKER_USER/devops-maturity-model:latest
+  - docker build --no-cache -t $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA
+    .
+  - docker tag $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA $DOCKER_USER/devops-maturity-model:latest
+  - docker push $DOCKER_USER/devops-maturity-model:$CI_COMMIT_SHORT_SHA
+  - docker push $DOCKER_USER/devops-maturity-model:latest
   only:
-    - main
+  - main
+include:
+- template: Security/Dependency-Scanning.gitlab-ci.yml
