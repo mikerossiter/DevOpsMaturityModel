@@ -14,6 +14,11 @@ COPY . .
 # Copy the GitLab template file into the container
 COPY contrib/gitlab.tpl /contrib/gitlab.tpl
 
+# Create a non-root user and switch to it
+RUN addgroup -S dmmgroup && adduser -S dmmuser -G dmmgroup
+RUN chown -R dmmuser:dmmgroup /app
+USER dmmuser
+
 # Expose the port the app runs on
 EXPOSE 3131
 	
