@@ -4,11 +4,11 @@ services:
   - docker:dind
 
 stages:
-  - trivy_scan
+  - test
   - build_push
 
 trivy:
-  stage: trivy_scan
+  stage: test
   image: docker:stable
   services:
     - name: docker:dind
