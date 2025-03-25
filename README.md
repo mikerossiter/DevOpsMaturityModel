@@ -8,6 +8,8 @@ This project is designed to help all organisations, projects, and teams assess a
 
 The application is built using HTML, CSS, and JavaScript, runs on a Node.js server with a minimal SQLite database, and is intended for local use via the browser using npm or the Docker image stored in Gitlab container registry. It is intended to be an interactive, customisable, and data-driven evaluation of your current DevOps state.
 
+![DevOps Maturity Model Screenshot](assets/DMM.png)
+
 ## Features
 
 Customisability is possible via the `dimensions.json` file, which lets users tailor dimensions and levels to meet their specific organisational needs. An overall "Level" gauge provides an approximate measure of maturity once the model is fully completed. The system persistently saves the current state in the local db, thereby creating a historical record of progress as seen on the multi-dimensional graph. Users can load the most recent saved state or reset the model entirely.  
@@ -113,8 +115,9 @@ docker run -d --name devops-maturity-model --restart=always -p 3131:3131 -v devo
 ```
 This command will start the container with a persistent Docker volume (devops_data) mounted to the container's /app/data directory and the `--restart=always` ensures that your SQLite database persists across container restarts.
 
-To update the running image run:
+To update the image run:
 ```bash
+docker rmi registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest
 docker pull registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest
 ```
 
