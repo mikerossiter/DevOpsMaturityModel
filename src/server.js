@@ -31,6 +31,11 @@ app.use('/assets', express.static(path.join(__dirname, '../assets')));
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 
+app.get('/license', (req, res) => {
+  res.type('text/plain');
+  res.sendFile(path.join(__dirname, '..', 'LICENSE'));
+});
+
 // Open (or create) the SQLite database.
 const db = new sqlite3.Database(path.join(__dirname, '../data/model_state.db'), (err) => {
   if (err) {
