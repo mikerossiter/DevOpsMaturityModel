@@ -117,7 +117,8 @@ This command will start the container with a persistent Docker volume (devops_da
 
 To update the image run:
 ```bash
-docker rmi registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest
+docker stop <container-id>
+docker rm <container-id>
 docker pull registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest
 ```
 
