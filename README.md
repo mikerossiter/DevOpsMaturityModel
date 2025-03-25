@@ -4,16 +4,18 @@ A web application for assessing and tracking DevOps maturity.
 
 ## Introduction
 
-This project is designed to help all organisations, projects, and teams assess and track their DevOps maturity across multiple dimensions. The application is built using HTML, CSS, and JavaScript, runs on a Node.js server with an SQLite database, and is intended for local use via the browser using npm or the Docker image. It emphasises interactivity, customisation, and data-driven evaluation of DevOps practices. While DevOps initially emerged as a practice aimed at software development teams, this model is designed to support IT integration at all levels, ensuring a holistic approach across the entire organisation.
+This project is designed to help all organisations, projects, and teams assess and track their DevOps maturity across multiple dimensions.  
+
+The application is built using HTML, CSS, and JavaScript, runs on a Node.js server with a minimal SQLite database, and is intended for local use via the browser using npm or the Docker image stored in Gitlab container registry. It is intended to be an interactive, customisable, and data-driven evaluation of your current DevOps state.
 
 ## Features
 
-The model offers an interactive assessment interface that allows users to evaluate their DevOps maturity with precision. Customisability is achieved through the `dimensions.json` file, which lets users tailor dimensions and levels to meet their specific organisational needs. An overall "Level" gauge provides an approximate measure of maturity once the model is fully completed. The system persistently saves the current state, thereby creating a historical record of progress. Users can load the most recent saved state or reset the model entirely. Additionally, the application includes a time series graph view that displays a multi-dimensional line graph of adoption progress over time.
+Customisability is possible via the `dimensions.json` file, which lets users tailor dimensions and levels to meet their specific organisational needs. An overall "Level" gauge provides an approximate measure of maturity once the model is fully completed. The system persistently saves the current state in the local db, thereby creating a historical record of progress as seen on the multi-dimensional graph. Users can load the most recent saved state or reset the model entirely.  
 
 ## How to Use This Maturity Model
 
 1. **Survey Your DevOps Baseline**  
-   - Begin by conducting an initial DevOps survey (for example, the DORA Quick Check or similar questionnaire). This will help you understand what DevOps currently looks like within your organisation or team.  
+   - It is important to conduct an initial DevOps survey (for example, the DORA Quick Check or similar questionnaire). This will help you understand what DevOps currently looks like within your organisation or team.  
    - As recommended by DORA, consider mapping your workflows with [**Value Stream Mapping (VSM)**](https://dora.dev/guides/value-stream-management/). By visualising your end-to-end process, you can pinpoint major bottlenecks or constraints and highlight potential improvement areas.
 
 2. **Assign Levels for Each Subdimension**  
@@ -132,7 +134,7 @@ To stop and remove the docker container run:
 ```bash
 docker stop devops-maturity-model &&
 docker rm devops-maturity-model &&
-docker rmi mikerossiter/devops-maturity-model:latest &&
+docker rmi registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest &&
 docker volume rm devops_data
 ```
 
@@ -143,3 +145,9 @@ docker volume rm devops_data
 **Personal Information (PII):** Do not input any PII into the `dimensions.json` file. Incorporating PII may lead to data breaches and legal complications.
 
 **Liability:** The creators and distributors of this tool are not liable for any data breaches or legal issues arising from its use or from the inclusion of personal data.
+
+## License
+
+This project is open source and licensed under the [GNU General Public License v3.0](./LICENSE).
+
+© 2025 Mike Rossiter
