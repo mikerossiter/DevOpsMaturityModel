@@ -26,6 +26,8 @@ const dimensions = require('../public/dimensions.json');
 const app = express();
 const PORT = process.env.PORT || 3131;
 
+// Serve the assets folder
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 
