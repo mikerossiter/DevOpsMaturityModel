@@ -21,7 +21,7 @@ Customisability is possible via the `dimensions.json` file, which lets users tai
    - As recommended by DORA, consider mapping your workflows with [**Value Stream Mapping (VSM)**](https://dora.dev/guides/value-stream-management/). By visualising your end-to-end process, you can pinpoint major bottlenecks or constraints and highlight potential improvement areas.
 
 2. **Assign Levels for Each Subdimension**  
-   - For each dimension and subdimension (e.g., “Continuous Delivery & Automation”, “Architecture & Infrastructure”), select the level (Foundational, Improving, Accelerating, or Optimising) that most closely matches your current practice. **N.B** Users can adapt the sub-dimensions if, for instance, a particular domain is not applicable to their environment post initial survey.  
+   - For each dimension and subdimension (e.g., “Continuous Delivery & Automation”, “Architecture & Infrastructure”), select the level (Foundational, Improving, Accelerating, or Leading) that most closely matches your current practice. **N.B** Users can adapt the sub-dimensions if, for instance, a particular domain is not applicable to their environment post initial survey.  
    - These selections will generate an **average maturity level** (ranging from **1** to **4**) and a **percentage** complete to help visualise the journey. This average can serve as a useful snapshot of your overall DevOps posture.
 
 3. **Generate a Gap Analysis Report**  
@@ -59,7 +59,7 @@ Customisability is possible via the `dimensions.json` file, which lets users tai
    - Regularly reviewing these trends helps you spot patterns and react to potential downward trends promptly. Teams often revisit their DevOps maturity every 1–3 sprints (or monthly) to reflect incremental progress.
 
 7. **Further Reading and Next Steps**  
-   - After you have progressed through these stages and feel comfortable at (or near) the Optimising level, you may wish to explore more advanced team dynamics.  
+   - After you have progressed through these stages and feel comfortable at (or near) the Leading level, you may wish to explore more advanced team dynamics.  
    - **Team Topologies** (by Matthew Skelton and Manuel Pais) is an excellent resource to help you refine the structure and collaboration of your teams at scale.  
    - **Flow Engineering** (by Steve Pereira and Andrew Davis) is a practical guide to using value stream mapping techniques to align teams, unlock innovation, and optimise performance.  
    - Investigate how your results align with the **DORA metrics** (see table below).
