@@ -3,6 +3,10 @@ image: docker:latest
 services:
   - docker:dind
 
+variables:
+  GIT_CONFIG_PARAMETERS: "http.version=HTTP/1.1' 'http.postBuffer=524288000"
+  GIT_DEPTH: "1"
+
 stages:
   - test
   - build_push
