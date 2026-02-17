@@ -68,7 +68,7 @@ Customisability is possible via the `dimensions.json` file, which lets users tai
 
 | **Deployment Frequency** 🚀  **How often new code is deployed to production. Frequent, smaller releases reduce risk.** | **Lead Time for Changes** ⏱️  **Time from commit to production. Shorter lead times mean faster feedback and higher agility.** |
 |:---:|:---:|
-| **Change Failure Rate** ❌ **Percentage of deployments causing production failures or rollbacks. Lower is better.** | **Time to Restore Service** ⏰ **Speed of recovering from incidents or failed deployments. Rapid recovery minimises impact.** |
+| **Change Failure Rate** ❌ **Percentage of deployments causing production failures or rollbacks. Lower is better.** | **Rework Rate** ⏰ **Speed of recovering from incidents or failed deployments. Rapid recovery minimises impact.** |
 
 
 

@@ -28,7 +28,7 @@
       {
         "name": "Deployment Automation & Release Orchestration",
         "description": "Automating the process of packaging, delivering, and releasing software changes.",
-        "improves": ["Deployment Frequency", "Lead Time for Changes", "Time to Restore Service"],
+        "improves": ["Deployment Frequency", "Lead Time for Changes", "Rework Rate"],
         "levels": [
           "Foundational: Deployments are primarily guided by manual instructions or scripts unique to each environment.",
           "Improving: Teams use consistent scripting and partial automation, with some human oversight during releases.",
@@ -67,7 +67,7 @@
       {
         "name": "Cloud & Infrastructure Automation",
         "description": "On-demand, self-service, flexible environments for building, testing, and releasing changes.",
-        "improves": ["Lead Time for Changes", "Time to Restore Service", "Organisational Performance"],
+        "improves": ["Lead Time for Changes", "Rework Rate", "Organisational Performance"],
         "levels": [
           "Foundational: Servers are provisioned using some manual steps, with early exploration of cloud adoption.",
           "Improving: Basic cloud resources and partial infrastructure-as-code are in place, reducing manual efforts.",
@@ -128,13 +128,13 @@
     ]
   },
   {
-    "name": "Observability & Resilience",
+    "name": "Observability & Reliability",
     "description": "Ensuring systems are measurable, monitored, and capable of rapid recovery from potential issues.",
     "subDimensions": [
       {
         "name": "Monitoring & Alerting",
         "description": "Collecting telemetry (logs, metrics, traces) with actionable alerts for system health.",
-        "improves": ["Time to Restore Service", "Change Failure Rate"],
+        "improves": ["Rework Rate", "Change Failure Rate"],
         "levels": [
           "Foundational: Basic monitoring is in place, and teams are refining approaches to address incidents proactively.",
           "Improving: Centralised logging and dashboards provide more thorough visibility, while teams refine alert quality.",
@@ -145,18 +145,18 @@
       {
         "name": "Failure Recovery & Incident Response",
         "description": "How quickly a team detects and restores service after an incident.",
-        "improves": ["Change Failure Rate", "Time to Restore Service"],
+        "improves": ["Change Failure Rate", "Rework Rate"],
         "levels": [
           "Foundational: Issues are addressed as they emerge, with incident response practices evolving.",
           "Improving: On-call rotations and structured post-incident reviews are introduced to enhance response consistency.",
           "Accelerating: Coordinated incident management, real-time collaboration, and systematic retrospectives strengthen recovery.",
-          "Leading: Automated rollback or restore, supported by blameless retrospectives that lead to significant resilience gains."
+          "Leading: Automated rollback or restore, supported by blameless retrospectives that lead to reduction in rework rate."
         ]
       },
       {
         "name": "Chaos Engineering / Proactive Resilience",
         "description": "Introducing controlled experiments to validate system resilience and enhance fault tolerance.",
-        "improves": ["Time to Restore Service", "Organisational Learning"],
+        "improves": ["Rework Rate", "Organisational Learning"],
         "levels": [
           "Foundational: Teams rely on existing tests and are beginning to explore proactive resilience strategies.",
           "Improving: Occasional exercises (e.g. ‘game days’) to examine specific failure scenarios and refine responses.",
@@ -184,7 +184,7 @@
       {
         "name": "Secure Software Supply Chain",
         "description": "Safeguarding dependencies and ensuring code integrity from development through release.",
-        "improves": ["Change Failure Rate", "Time to Restore Service"],
+        "improves": ["Change Failure Rate", "Rework Rate"],
         "levels": [
           "Foundational: Teams begin tracking dependencies and addressing security considerations as they arise.",
           "Improving: Known vulnerabilities are scanned regularly, with enforcement policies in development.",
@@ -212,7 +212,7 @@
       {
         "name": "Westrum Organisational Culture",
         "description": "A generative culture emphasising cooperation, open information sharing, and learning from experiences.",
-        "improves": ["Change Failure Rate", "Time to Restore Service", "Team Performance"],
+        "improves": ["Change Failure Rate", "Rework Rate", "Team Performance"],
         "levels": [
           "Foundational: The organisation is working towards open communication, with efforts to learn from outcomes.",
           "Improving: Processes are in place to encourage collaboration, moving beyond departmental boundaries.",
