@@ -2,10 +2,7 @@ image: docker:latest
 
 services:
   - docker:dind
-variables:
-  GIT_STRATEGY: clone
-  GIT_DEPTH: "1"
-  
+
 stages:
   - test
   - build_push
