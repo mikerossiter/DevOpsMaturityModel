@@ -1,4 +1,4 @@
-# DevOps Maturity Model
+# DevOps Maturity Assessment Tool
 
 A web application for assessing and tracking DevOps maturity.
 
@@ -8,13 +8,13 @@ This project is designed to help all organisations, projects, and teams assess a
 
 The application is built using HTML, CSS, and JavaScript, runs on a Node.js server with a minimal SQLite database, and is intended for local use via the browser using npm or the Docker image stored in Gitlab container registry. It is intended to be an interactive, customisable, and data-driven evaluation of your current DevOps state.
 
-![DevOps Maturity Model Screenshot](assets/DMM.png)
+![DevOps Maturity Assessment Tool Screenshot](assets/DMM.png)
 
 ## Features
 
 Customisability is possible via the `dimensions.json` file, which lets users tailor dimensions and levels to meet their specific organisational needs. An overall "Level" gauge provides an approximate measure of maturity once the model is fully completed. The system persistently saves the current state in the local db, thereby creating a historical record of progress as seen on the multi-dimensional graph. Users can load the most recent saved state or reset the model entirely.  
 
-## How to Use This Maturity Model
+## How to Use This Assessment Tool
 
 1. **Survey Your DevOps Baseline**  
    - It is important to conduct an initial DevOps survey (for example, the DORA Quick Check or similar questionnaire). This will help you understand what DevOps currently looks like within your organisation or team.  
@@ -154,4 +154,4 @@ docker volume rm devops_data
 
 This project is open source and licensed under the [GNU General Public License v3.0](./LICENSE).
 
-© 2025 Mike Rossiter
+© 2026 Mike Rossiter
