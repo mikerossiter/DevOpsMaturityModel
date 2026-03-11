@@ -70,6 +70,30 @@ app.get('/gap-analysis', (req, res) => {
     const savedState = JSON.parse(row.state);
     const selectedLevels = savedState.selectedLevels;
 
+    // Calculate overall level and percentage.
+    let totalLevels = 0;
+    let totalSubdimensions = 0;
+    for (let d in selectedLevels) {
+      for (let s in selectedLevels[d]) {
+        const val = parseInt(selectedLevels[d][s]);
+        if (!isNaN(val) && val > 0) {
+          totalLevels += val;
+          totalSubdimensions++;
+        }
+      }
+    }
+    const averageLevel = totalSubdimensions > 0 ? totalLevels / totalSubdimensions : 0;
+    const roundedLevel = Math.round(averageLevel);
+    const percentage = totalSubdimensions > 0 ? ((averageLevel / 4) * 100).toFixed(1) : 0;
+
+    const levelDescriptions = {
+      1: "Foundational",
+      2: "Improving",
+      3: "Accelerating",
+      4: "Leading"
+    };
+    const levelLabel = levelDescriptions[roundedLevel] || "N/A";
+
     // Begin building the HTML page.
     let html = `
       <!DOCTYPE html>
@@ -86,10 +110,17 @@ app.get('/gap-analysis', (req, res) => {
           textarea { width: 100%; height: 60px; }
           .button-container { margin-top: 20px; }
           button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+          .level-summary { background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 16px 24px; margin-bottom: 20px; display: inline-block; }
+          .level-summary h2 { margin: 0 0 4px; font-size: 22px; }
+          .level-summary p { margin: 0; color: #555; font-size: 15px; }
         </style>
       </head>
       <body>
         <h1>Gap Analysis</h1>
+        <div class="level-summary">
+          <h2>Current Level: ${roundedLevel} &mdash; ${levelLabel}</h2>
+          <p>${percentage}% complete &middot; ${totalSubdimensions} sub-dimensions assessed</p>
+        </div>
         <p>This report lists the current maturity levels along with a gap analysis to help you determine improvements needed to reach the next level. Please review each entry and add your own notes where indicated.</p>
         <div class="button-container">
           <button onclick="window.print()">Print / Save as PDF</button>
