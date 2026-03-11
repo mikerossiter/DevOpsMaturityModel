@@ -1,154 +1,191 @@
+<div align="center">
+
 # DevOps Maturity Assessment Tool
 
-A web application for assessing and tracking DevOps maturity.
+**Assess. Track. Improve.**
 
-## Introduction
+A lightweight, self-hosted tool for measuring and driving DevOps adoption across your organisation.
 
-This project is designed to help all organisations, projects, and teams assess and track their DevOps maturity across multiple dimensions.  
+---
 
-The application is built using HTML, CSS, and JavaScript, runs on a Node.js server with a minimal SQLite database, and is intended for local use via the browser using npm or the Docker image stored in Gitlab container registry. It is intended to be an interactive, customisable, and data-driven evaluation of your current DevOps state.
+[Getting Started](#getting-started) · [Features](#features) · [How It Works](#how-it-works) · [Customisation](#customisation) · [License](#license)
 
-![DevOps Maturity Assessment Tool Screenshot](assets/DMM.png)
+</div>
+
+## Why This Tool?
+
+Most DevOps transformations stall because teams lack a clear picture of where they are and where they need to go. This tool gives you that picture — a structured, data-driven assessment across six integrated dimensions, paired with gap analysis and time-series tracking to keep improvement efforts honest and on course.
+
+It runs locally or in a container, stores everything in a lightweight SQLite database, and requires no external services.
 
 ## Features
 
-Customisability is possible via the `dimensions.json` file, which lets users tailor dimensions and levels to meet their specific organisational needs. An overall "Level" gauge provides an approximate measure of maturity once the model is fully completed. The system persistently saves the current state in the local db, thereby creating a historical record of progress as seen on the multi-dimensional graph. Users can load the most recent saved state or reset the model entirely.  
+| | |
+|---|---|
+| **Multi-Dimensional Assessment** | Evaluate maturity across 6 dimensions and 18 sub-dimensions on a 4-level scale |
+| **Gap Analysis Reports** | Generate printable reports showing current state, target state, and space for action plans |
+| **Time-Series Tracking** | Save snapshots over time and visualise adoption trends on an interactive graph |
+| **Fully Customisable** | Modify `dimensions.json` to tailor dimensions, levels, and descriptions to your context |
+| **Persistent State** | SQLite-backed storage that survives container restarts via Docker volumes |
+| **Zero External Dependencies** | No cloud services, no accounts — runs entirely on your infrastructure |
 
-## How to Use This Assessment Tool
+## Dimensions
 
-1. **Survey Your DevOps Baseline**  
-   - It is important to conduct an initial DevOps survey (for example, the DORA Quick Check or similar questionnaire). This will help you understand what DevOps currently looks like within your organisation or team.  
-   - As recommended by DORA, consider mapping your workflows with [**Value Stream Mapping (VSM)**](https://dora.dev/guides/value-stream-management/). By visualising your end-to-end process, you can pinpoint major bottlenecks or constraints and highlight potential improvement areas.
+The assessment framework covers six areas that collectively represent DevOps capability:
 
-2. **Assign Levels for Each Subdimension**  
-   - For each dimension and subdimension (e.g., “Continuous Delivery & Automation”, “Architecture & Infrastructure”), select the level (Foundational, Improving, Accelerating, or Leading) that most closely matches your current practice. **N.B** Users can adapt the sub-dimensions if, for instance, a particular domain is not applicable to their environment post initial survey.  
-   - These selections will generate an **average maturity level** (ranging from **1** to **4**) and a **percentage** complete to help visualise the journey. This average can serve as a useful snapshot of your overall DevOps posture.
+| Dimension | Sub-Dimensions |
+|---|---|
+| **Continuous Delivery & Automation** | Version Control & Trunk-Based Development · CI & Test Automation · Deployment Automation & Release Orchestration · Database Change Management |
+| **Architecture & Infrastructure** | Loosely Coupled Architecture · Cloud & Infrastructure Automation · Platform Engineering |
+| **Lean Product Management & Process** | Working in Small Batches & Limiting WIP · User-Centric & Hypothesis-Driven Development · Stable, Prioritised Backlog |
+| **Observability & Reliability** | Monitoring & Alerting · Failure Recovery & Incident Response · Chaos Engineering / Proactive Resilience |
+| **Security & Compliance** | Shift-Left Security · Secure Software Supply Chain · Compliance Automation |
+| **Culture & Leadership** | Westrum Organisational Culture · Transformational Leadership · Team Autonomy & Empowerment |
 
-3. **Generate a Gap Analysis Report**  
-   - Once you have saved your state, the application can generate a Gap Analysis Report. This report lists each dimension and sub-dimension, shows your current level description alongside the next target level (if available), and provides text areas for you to input your own gap analysis and action plan. This report is a key tool in your transformation Kata, guiding you through a cycle of Plan, Do, Check, and Act to incrementally improve your DevOps practices.
+Each sub-dimension is rated across four maturity levels:
 
-3. **Plan Your Next Steps with a Kata**  
-   - Once you have established your current level, decide how you would like to move from your present state (e.g., Foundational) to a higher state (e.g., Improving).  
-   - Use a PDCA (Plan, Do, Check, Act) [Shewhart cycle](https://en.wikipedia.org/wiki/PDCA) based on your gap analysis to feed into a [**Kata**](https://dora.dev/guides/devops-culture-transform/) (or similar method) to run iterate over objectives to reach the target level or further improvements.
-
-| **Step**                                     | **Explanation**                                                                     |
-|----------------------------------------------|-------------------------------------------------------------------------------------|
-| **1. Understand the Direction or Challenge** | Define the broader goal or “true north” that your team wants to achieve. Consider what success looks like. 🧭                                 |
-| **2. Grasp the Current Condition**           | Gather data and insights about your current process. Identify key constraints, issues, and blind spots. 🔎                                |
-| **3. Establish the Next Target Condition**   | Set a short-term milestone or goal that will bring you closer to the long-term challenge. 🎯                                             |
-| **4. Iterate Toward the Target Condition**   | Run small experiments, check results frequently (PDCA cycles), and adjust based on learnings. 🔁                                             |
-
-
-   - If you prefer, you can refer to the following example table to see how the levels align across the subdimensions (note that **Foundational, Improving, Accelerating, Leading** are used here rather than other naming conventions).
-
-   | Level                 | Description                                                    |
-   |-----------------------|----------------------------------------------------------------|
-   | **1 - Foundational**  | Processes and practices are being established; initial awareness and adoption efforts are underway.   |
-   | **2 - Improving**     | Greater consistency and automation are being introduced; teams actively refine capabilities.          |
-   | **3 - Accelerating**  | Advanced automation and collaboration are in place; feedback loops and rapid delivery are emphasised. |
-   | **4 - Leading**       | Continuous improvement is cultural; processes are dynamic, data-driven, and deliver high performance. |
-
-   - **Remember** - the levels are guidelines rather than a strict prescription.  
-
-5. **Incorporate into Regular Team Ceremonies**  
-   - Consider revisiting this model and your selected levels in **monthly retrospectives**, **weekly stand-ups**, or other regular meetings.  
-   - By reviewing progress frequently, you can keep your improvement initiatives on track and adapt them in response to changing conditions.
-
-6. **Track Adoption Over Time**  
-   - Each time you update your levels, make sure to save the changes so that you can **load the time series graph**. This historical view will show whether your adoption and maturity are **improving, stagnating, or even regressing**.  
-   - Regularly reviewing these trends helps you spot patterns and react to potential downward trends promptly. Teams often revisit their DevOps maturity every 1–3 sprints (or monthly) to reflect incremental progress.
-
-7. **Further Reading and Next Steps**  
-   - After you have progressed through these stages and feel comfortable at (or near) the Leading level, you may wish to explore more advanced team dynamics.  
-   - **Team Topologies** (by Matthew Skelton and Manuel Pais) is an excellent resource to help you refine the structure and collaboration of your teams at scale.  
-   - **Flow Engineering** (by Steve Pereira and Andrew Davis) is a practical guide to using value stream mapping techniques to align teams, unlock innovation, and optimise performance.  
-   - Investigate how your results align with the **DORA metrics** (see table below).
-   - Use the **DORA capability catalog** (aligns well with the "three ways" outlined in the **DevOps Handbook** by Gene Kim et al) to improve and drive long-term improvements.  
-
-
-| **Deployment Frequency** 🚀  **How often new code is deployed to production. Frequent, smaller releases reduce risk.** | **Lead Time for Changes** ⏱️  **Time from commit to production. Shorter lead times mean faster feedback and higher agility.** |
-|:---:|:---:|
-| **Change Failure Rate** ❌ **Percentage of deployments causing production failures or rollbacks. Lower is better.** | **Rework Rate** ⏰ **Speed of recovering from incidents or failed deployments. Rapid recovery minimises impact.** |
-
-
-
-By following this approach—*surveying, mapping, using the model to obtain an average level, running improvement PDCAs and Katas, plus tracking progress over time*—you will create a continuous improvement culture that systematically drives your teams towards higher levels of DevOps maturity.
-
-
-## Customisation
-
-The application utilises a `dimensions.json` file to define its structure. This file comprises an array of dimension objects, each with two key properties:
-- **name:** The high-level identifier of the dimension (e.g. "Continuous Integration", "Collaboration and Culture").
-- **subDimensions:** An array of sub-dimension objects, each representing a specific aspect or level description.
-
-By modifying this file, users can add, remove, or reorder dimensions and levels, and update the descriptions to reflect their organisation's unique priorities and goals.
+| Level | Description |
+|---|---|
+| **1 — Foundational** | Processes are being established; initial awareness and adoption efforts are underway |
+| **2 — Improving** | Greater consistency and automation; teams actively refine capabilities |
+| **3 — Accelerating** | Advanced automation and collaboration; feedback loops and rapid delivery are emphasised |
+| **4 — Leading** | Continuous improvement is cultural; processes are dynamic, data-driven, and deliver high performance |
 
 ## Getting Started
 
-### Local Deployment
+### Prerequisites
 
-To run the application locally:
+- **Node.js** (for local deployment), or
+- **Docker** (for containerised deployment)
 
-1. Clone the repository to your local machine.
-2. Navigate to the project folder:
-
-```bash
-cd <your-file-path>/devops-maturity-model
-```
-
-Install the dependencies:
+### Option 1 — Run with Node.js
 
 ```bash
+git clone <repository-url>
+cd devops-maturity-model
 npm install
-```
-Start the server:
-```bash
 npm start
 ```
-Open your browser and navigate to [http://localhost:3131](http://localhost:3131) to use the model.
 
-## Docker Deployment
+Open [http://localhost:3131](http://localhost:3131).
 
-Alternatively, you can run the application as a Docker container. Simply execute the following command (Docker will automatically pull the image if it is not available locally):
+### Option 2 — Run with Docker
+
 ```bash
-docker run -d --name devops-maturity-model --restart=always -p 3131:3131 -v devops_data:/app/data registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest                                         
+docker run -d \
+  --name devops-maturity-model \
+  --restart=always \
+  -p 3131:3131 \
+  -v devops_data:/app/data \
+  registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest
 ```
-This command will start the container with a persistent Docker volume (devops_data) mounted to the container's /app/data directory and the `--restart=always` ensures that your SQLite database persists across container restarts.
 
-To update the image run:
+The `-v devops_data:/app/data` flag ensures your SQLite database persists across container restarts.
+
+**To update:**
+
 ```bash
-docker stop <container-id>
-docker rm <container-id>
+docker stop devops-maturity-model
+docker rm devops-maturity-model
 docker pull registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest
 ```
 
-## Requirements
+Then re-run the `docker run` command above.
 
-    Node.js (for local server deployment)
-    Docker (for containerised deployment)
+### Uninstall
 
-## Uninstall
+**Node.js:**
 
-To stop the local server running with node.js simply type:
 ```bash
 npm stop
 ```
 
-To stop and remove the docker container run:
+**Docker:**
+
 ```bash
-docker stop devops-maturity-model &&
-docker rm devops-maturity-model &&
-docker rmi registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest &&
+docker stop devops-maturity-model
+docker rm devops-maturity-model
+docker rmi registry.gitlab.com/devops-maturity-model/devops-maturity-model:latest
 docker volume rm devops_data
 ```
 
+## How It Works
+
+### 1. Survey Your Baseline
+
+Start by understanding your current DevOps state. Consider running the [DORA Quick Check](https://dora.dev/quickcheck/) or a similar questionnaire, and map your workflows using [Value Stream Mapping](https://dora.dev/guides/value-stream-management/) to identify bottlenecks.
+
+### 2. Assess Each Sub-Dimension
+
+For each of the 18 sub-dimensions, select the maturity level that best reflects your current practice. The tool calculates an overall maturity score and percentage to give you a snapshot of your DevOps posture.
+
+### 3. Generate a Gap Analysis
+
+Save your state and open the Gap Analysis report. It shows your current level alongside the next target level for every sub-dimension, with space to document improvement actions — a practical input for your transformation backlog.
+
+### 4. Plan and Iterate
+
+Use a structured improvement approach:
+
+| Step | Action |
+|---|---|
+| **Understand the direction** | Define the broader goal your team is working towards |
+| **Grasp current condition** | Use the assessment data to identify key constraints |
+| **Set a target condition** | Pick a short-term milestone that moves you closer |
+| **Iterate with PDCA cycles** | Run small experiments, check results, adjust |
+
+This aligns with the [Improvement Kata](https://dora.dev/guides/devops-culture-transform/) approach recommended by DORA.
+
+### 5. Track Progress Over Time
+
+Each time you save, a timestamped snapshot is stored. Use the **Time Series Graph** to visualise adoption trends across all dimensions — spot improvements, stagnation, or regression at a glance.
+
+### 6. Align with DORA Metrics
+
+Use your assessment alongside the four key DORA metrics to measure real-world delivery performance:
+
+| Metric | What It Measures |
+|---|---|
+| **Deployment Frequency** | How often code reaches production |
+| **Lead Time for Changes** | Time from commit to production |
+| **Change Failure Rate** | Percentage of deployments causing failures |
+| **Rework Rate** | Speed of recovery from incidents |
+
+### Further Reading
+
+- [**Accelerate**](https://itrevolution.com/product/accelerate/) — Nicole Forsgren, Jez Humble, Gene Kim
+- [**The DevOps Handbook**](https://itrevolution.com/product/the-devops-handbook-second-edition/) — Gene Kim, Jez Humble, Patrick Debois, John Willis, Nicole Forsgren
+- [**Team Topologies**](https://teamtopologies.com/book) — Matthew Skelton, Manuel Pais
+- [**Flow Engineering**](https://flowengineering.io/) — Steve Pereira, Andrew Davis
+- [**DORA Capability Catalog**](https://dora.dev/capabilities/)
+
+## Customisation
+
+The tool's structure is defined in `dimensions.json`. Each dimension has a `name` and an array of `subDimensions`, each containing level descriptions. Modify this file to:
+
+- Add, remove, or reorder dimensions
+- Adjust level descriptions to match your organisation's language
+- Remove sub-dimensions that don't apply to your context
+
+Changes take effect on the next page load — no rebuild required.
+
+## Tech Stack
+
+| Component | Technology |
+|---|---|
+| Frontend | HTML, CSS, JavaScript |
+| Backend | Node.js, Express |
+| Database | SQLite |
+| Charting | Chart.js |
+| Container | Docker (Alpine) |
+
 ## Legal Disclaimer
 
-**Data Privacy and Security:** This tool is designed solely to assess DevOps maturity and does not include built-in encryption for the SQLite database. Users are responsible for ensuring the security and privacy of any data entered.
+**Data Privacy:** This tool does not include built-in encryption for the SQLite database. Users are responsible for securing any data entered.
 
-**Personal Information (PII):** Do not input any PII into the `dimensions.json` file. Incorporating PII may lead to data breaches and legal complications.
+**PII:** Do not input personally identifiable information into `dimensions.json` or assessment notes.
 
-**Liability:** The creators and distributors of this tool are not liable for any data breaches or legal issues arising from its use or from the inclusion of personal data.
+**Liability:** The creators and distributors of this tool are not liable for any data breaches or legal issues arising from its use.
 
 ## License
 

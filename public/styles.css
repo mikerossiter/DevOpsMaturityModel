@@ -1,189 +1,286 @@
+/* === Base & Typography === */
 body {
   font-family: 'Lato', sans-serif;
   margin: 0;
   padding: 0;
-  min-height: 100vh; /* use min-height instead of fixed height */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #1a1d23;
+  color: #e0e0e0;
   text-align: center;
 }
 
-/* Model Container to hold both Table and Buttons */
+h1 {
+  color: #f0f0f0;
+  margin: 30px 0 5px;
+  font-size: 28px;
+  letter-spacing: 0.5px;
+}
+
+sub {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+a {
+  color: #60a5fa;
+}
+a:hover {
+  color: #93c5fd;
+}
+
+/* === Model Container === */
 .model-container {
-    display: flex;  /* Use Flexbox to arrange table and buttons */
-    justify-content: flex-start;
-    align-items: flex-start;
-    width: 90%;
-    max-width: 1200px;
-    margin: 20px auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 90%;
+  max-width: 1200px;
+  margin: 24px auto;
 }
 
-/* Table Styling */
 .table-wrapper {
-    flex: 1; /* Allow the table to take up available space */
-    margin-right: 20px; /* Space between table and buttons */
+  flex: 1;
+  margin-right: 20px;
 }
 
+/* === Table === */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    table-layout: fixed;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #23272f;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  table-layout: fixed;
+  overflow: hidden;
 }
 
 td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-    white-space: nowrap;
+  padding: 14px 16px;
+  border-bottom: 1px solid #2d3240;
+  text-align: center;
+  white-space: nowrap;
+  color: #d1d5db;
 }
 
 .dimension-row td {
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #f4f4f4;
-    cursor: pointer;
-    text-align: center;
+  font-size: 17px;
+  font-weight: bold;
+  background-color: #2a2f3a;
+  cursor: pointer;
+  text-align: center;
+  color: #f3f4f6;
+  transition: background-color 0.2s;
+}
+
+.dimension-row td:hover {
+  background-color: #333a48;
 }
 
 .sub-dimension td {
-    padding-left: 20px;
-    font-size: 16px;
+  padding-left: 20px;
+  font-size: 15px;
 }
 
-/* Average Level Section */
+/* === Dropdown Selectors === */
+select.level-selector {
+  width: 500px;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid #3b4252;
+  border-radius: 6px;
+  background-color: #2e3440;
+  color: #d8dee9;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+select.level-selector:hover {
+  border-color: #5e81ac;
+}
+
+select.level-selector:focus {
+  outline: none;
+  border-color: #81a1c1;
+  box-shadow: 0 0 0 3px rgba(129, 161, 193, 0.25);
+}
+
+select.level-selector option {
+  white-space: normal;
+  word-wrap: break-word;
+  background-color: #2e3440;
+  color: #d8dee9;
+}
+
+/* === Average Level Section === */
 #average-level-container {
   text-align: center;
   margin: 20px auto;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 8px;
+  padding: 20px 32px;
+  background: linear-gradient(135deg, #23272f 0%, #2a2f3a 100%);
+  border-radius: 10px;
+  border: 1px solid #3b4252;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
 #average-level {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;  /* Add this to center-align the text */
-    width: 100%;  /* Ensure it spans the entire width */
-}
-
-/* Level Descriptions Section with Buttons on the Right */
-#level-descriptions-container {
-    display: flex;
-    justify-content: space-between; /* Space between level descriptions and buttons */
-    align-items: flex-start;
-    width: 90%;
-    max-width: 1200px;
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #f4f4f4;
-    border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #81a1c1;
+  text-align: center;
+  width: 100%;
 }
 
 #level-description {
   text-align: center;
   margin-top: 10px;
-  font-size: 16px;
-  color: #333;
+  font-size: 15px;
+  color: #9ca3af;
+}
+
+/* === Level Descriptions Section === */
+#level-descriptions-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 90%;
+  max-width: 1200px;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #23272f;
+  border-radius: 10px;
+  border: 1px solid #3b4252;
 }
 
 #level-descriptions h3 {
-    font-size: 22px;
-    margin-bottom: 10px;
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #f0f0f0;
 }
 
 #level-descriptions p {
-    margin: 5px 0;
+  margin: 5px 0;
+  color: #9ca3af;
 }
 
-/* Buttons Container for level descriptions */
+/* === Buttons === */
 #buttons-container {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin: 20px auto 20px auto; /* top, horizontal, bottom margins */
+  gap: 12px;
+  margin: 24px auto 20px auto;
   flex-wrap: wrap;
 }
 
-/* Progress Bar Styling */
+button {
+  padding: 10px 20px;
+  border: 1px solid #3b4252;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2e3440 0%, #3b4252 100%);
+  color: #d8dee9;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.3px;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #3b4252 0%, #4c566a 100%);
+  border-color: #5e81ac;
+  color: #eceff4;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* === Progress Bars === */
 .progress-container {
-    width: 100%;
-    background-color: #eee;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 10px;
+  width: 100%;
+  background-color: #2d3240;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 10px;
 }
 
 .progress-bar {
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-    width: 0;
-    transition: width 0.5s ease-in-out;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 13px;
+  width: 0;
+  transition: width 0.5s ease-in-out;
+  border-radius: 6px;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .model-container {
-        flex-direction: column; /* Stack table and buttons vertically on smaller screens */
-        align-items: center;
-    }
-
-    table {
-        width: 100%; /* Table should take up full width on small screens */
-    }
-
-    #buttons-container {
-        width: 100%; /* Button container should also take up full width */
-        margin-top: 20px; /* Add margin on top for spacing */
-    }
-}
-
-/* Colour classes for progress bar */
-.progress-bar.colour1 {
-  background-color: #e74c3c; /* Red for low progress */
-}
-
-.progress-bar.colour2 {
-  background-color: #f39c12; /* Orange */
-}
-
-.progress-bar.colour3 {
-  background-color: #f1c40f; /* Yellow */
-}
-
-.progress-bar.colour4 {
-  background-color: #2ecc71; /* Light Green */
-}
-
-.progress-bar.colour5 {
-  background-color: #27ae60; /* Green for complete */
-}
-
-/* Add this to your styles.css */
 .progress-bar-thin {
   height: 5px;
   line-height: 5px;
   font-size: 10px;
   transition: width 0.5s ease-in-out;
+  border-radius: 6px;
 }
 
-/* Standardize the width of all level dropdowns */
-select.level-selector {
-  width: 500px;           /* Fixed width; adjust as needed */
-  max-width: 100%;
-  box-sizing: border-box; /* Ensure padding/border are included in the width */
+/* Progress bar colours - slightly softer for dark theme */
+.progress-bar.colour1 {
+  background: linear-gradient(90deg, #c0392b, #e74c3c);
 }
 
-/* Attempt to wrap long option text */
-select.level-selector option {
-  white-space: normal;
-  word-wrap: break-word;
+.progress-bar.colour2 {
+  background: linear-gradient(90deg, #d68910, #f39c12);
+}
+
+.progress-bar.colour3 {
+  background: linear-gradient(90deg, #d4ac0d, #f1c40f);
+  color: #1a1d23;
+}
+
+.progress-bar.colour4 {
+  background: linear-gradient(90deg, #1e8449, #2ecc71);
+}
+
+.progress-bar.colour5 {
+  background: linear-gradient(90deg, #1e8449, #27ae60);
+}
+
+/* === Footer === */
+p em {
+  color: #6b7280;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .model-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  .table-wrapper {
+    margin-right: 0;
+  }
+
+  #buttons-container {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  select.level-selector {
+    width: 100%;
+  }
 }

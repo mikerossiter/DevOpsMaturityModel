@@ -26,4 +26,5 @@ coverage/
 package-lock.json
 
 # DB files
+data/
 model_state.db
